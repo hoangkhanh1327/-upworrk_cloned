@@ -247,40 +247,42 @@
 }
 
 *{
-    $--ws-heading: 0.5em;
-    $--height-base: 40px;
-    $--height-sm: 32px;
-    $--width-sm: 218px;
-    $--max-width-global-container: 1600px;
-    $--font-family-base: "Neue Montreal";
-    $--font-family-rebrand: Rza,Rza-fallback,Georgia,serif;
-    $--font-size-base: 16px;
-    $--line-height-base: 22px;
-    $--font-size-base-sm: 14px;
-    $--line-height-base-sm: 20px;
-    $--font-size-base-xs: 11px;
-    $--line-height-base-xs: 16px;
-    $--font-size-h1: 48px;
-    $--line-height-h1: 48px;
-    $--font-size-h2: 36px;
-    $--line-height-h2: 40px;
-    $--font-size-h3: 28px;
-    $--line-height-h3: 32px;
-    $--font-size-h4: 24px;
-    $--line-height-h4: 28px;
-    $--font-size-h5: 20px;
-    $--line-height-h5: 24px
+    $ws-heading: 0.5em;
+    $height-base: 40px;
+    $height-sm: 32px;
+    $width-sm: 218px;
+    $max-width-global-container: 1600px;
+    $font-family-base: "Neue Montreal";
+    $font-family-rebrand: Rza,Rza-fallback,Georgia,serif;
+    $font-size-base: 16px;
+    $line-height-base: 22px;
+    $font-size-base-sm: 14px;
+    $line-height-base-sm: 20px;
+    $font-size-base-xs: 11px;
+    $line-height-base-xs: 16px;
+    $font-size-h1: 48px;
+    $line-height-h1: 48px;
+    $font-size-h2: 36px;
+    $line-height-h2: 40px;
+    $font-size-h3: 28px;
+    $line-height-h3: 32px;
+    $font-size-h4: 24px;
+    $line-height-h4: 28px;
+    $font-size-h5: 20px;
+    $line-height-h5: 24px;
+    $nav-container-width: 100%;
+    $nav-max-width: 1600px;
 }
 
 
 @media (max-width: 699px) {
     *{
-        $--font-size-h1:36px;
-        $--line-height-h1: 40px;
-        $--font-size-h2: 32px;
-        $--line-height-h2: 36px;
-        $--font-size-h3: 28px;
-        $--line-height-h3: 32px
+        $font-size-h1:36px;
+        $line-height-h1: 40px;
+        $font-size-h2: 32px;
+        $line-height-h2: 36px;
+        $font-size-h3: 28px;
+        $line-height-h3: 32px
     }
 } 
     

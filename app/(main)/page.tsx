@@ -1,3 +1,9 @@
 export default function Home() {
-    return <main>Main Content</main>;
+    return <div>
+        <p style={{
+            margin: 0
+        }}>
+        Main Content
+        </p>
+    </div>;
 }

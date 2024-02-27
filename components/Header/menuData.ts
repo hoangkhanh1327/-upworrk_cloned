@@ -24,11 +24,26 @@ const menu: MenuType[] = [
     },
 ]
 
-export const subMenuData = [
+const subMenu = [
     {
-        
+        name: 'Development & IT'
+    },
+    {
+        name: 'AI Services'
+    },
+    {
+        name: 'Design & Creative'
+    },
+    {
+        name: 'Sales & Marketing'
+    },
+    {
+        name: 'Admin & Customer Support'
+    },
+    {
+        name: 'More'
     }
 ]
 
 
-export { menu }
+export { menu, subMenu }

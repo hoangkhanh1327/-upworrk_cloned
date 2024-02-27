@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import './styles/app.scss'
 import Header from '@/components/Header';
-const inter = Inter({ subsets: ["latin"] });
+import '@/styles/app.scss'
 
 export const metadata: Metadata = {
   title: "Upwork VN Version",
@@ -16,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <Header />
         {children}
       </body>
