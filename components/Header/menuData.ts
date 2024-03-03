@@ -1,49 +1,44 @@
-import { MenuType } from '@/@types/menu.types';
+import { IMenu } from '@/@types/menu.types';
 
-
-const menu: MenuType[] = [
+const findTalentSubMenu: IMenu[] = [
     {
-        id: 1,
-        name: 'Find Talent',
-        expandable: true
+        title: 'Sub 1',
+        href: '/docs/find-ta;ent/sub-1',
+        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem, omnis?.',
     },
     {
-        id: 2,
-        name: 'Find Work',
-        expandable: true
+        title: 'Sub 2',
+        href: '/docs/find-ta;ent/sub-2',
+        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem, omnis?.',
     },
     {
-        id: 3,
-        name: 'Why Upwork',
-        expandable: true
-    },
-    {
-        id: 4,
-        name: 'Enterprise',
-        expandable: true
+        title: 'Sub 3',
+        href: '/docs/find-ta;ent/sub-3',
+        description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatem, omnis?.',
     },
 ]
 
-const subMenu = [
+const findWorkSubMenu: IMenu[] = [
     {
-        name: 'Development & IT'
+        title: 'Ways to earn',
+        href: '/docs/find-work/way-to-earn',
+        description: 'Learn why Downwork has the right opportunities for you.',
     },
     {
-        name: 'AI Services'
+        title: 'Find work for your skills',
+        href: '/docs/find-work/find-work-for-your-skill',
+        description: 'Explore the kind of work availables in your field.',
     },
     {
-        name: 'Design & Creative'
+        title: 'Win work with ads',
+        href: '/docs/find-work/win-work-with-ads',
+        description: 'Get noticed by the right client.',
     },
     {
-        name: 'Sales & Marketing'
+        title: 'Join Freelancer Plus',
+        href: '/docs/find-work/scroll-area',
+        description: 'Access more Connects, get stragetic insight on competitors, and try out the latest tools.',
     },
-    {
-        name: 'Admin & Customer Support'
-    },
-    {
-        name: 'More'
-    }
-]
+];
 
-
-export { menu, subMenu }
+export { findTalentSubMenu, findWorkSubMenu };

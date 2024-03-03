@@ -1,40 +1,19 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import React from 'react';
 
-import headerStyle from './header.module.scss';
-import NavContent from './NavContent';
-import SecondaryNav from './SecondaryNav';
+import Navbar from './Navbar';
+import Logo from './Logo';
+import Action from './Action';
 
 const Header = () => {
     return (
-        <div className={headerStyle['header-container']}>
-            <div className={headerStyle.header}>
-                <header className={headerStyle['nav-wrapper']}>
-                    <div className={headerStyle['nav-container']}>
-                        <div className={headerStyle['nav-header-wrapper']}>
-                            <div className={headerStyle['nav-header']}>
-                                <Link
-                                    href={'/'}
-                                    className={headerStyle['nav-link']}
-                                >
-                                    <span className={headerStyle['sr-only']}>
-                                        Upwork home
-                                    </span>
-                                    <span className={headerStyle['nav-logo']}>
-                                        <Image
-                                            fill
-                                            src={`/images/logo.svg`}
-                                            alt='upwork'
-                                        />
-                                    </span>
-                                </Link>
-                            </div>
-                        </div>
-                        <NavContent />
-                    </div>
-                </header>
-                <SecondaryNav />
-            </div>
+        <div className='border-b border-stone-300/95 py-4'>
+            <header className='container'>
+                <div className='flex items-center'>
+                    <Logo />
+                    <Navbar />
+					<Action />
+                </div>
+            </header>
         </div>
     );
 };

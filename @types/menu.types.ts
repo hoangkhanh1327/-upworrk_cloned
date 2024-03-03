@@ -1,5 +1,1 @@
-export interface MenuType {
-    id: number
-    name: string
-    expandable: boolean
-}
+export interface IMenu { title: string; href: string; description: string }
