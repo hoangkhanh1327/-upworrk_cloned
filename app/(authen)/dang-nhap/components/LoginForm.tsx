@@ -5,9 +5,9 @@ import Link from 'next/link';
 
 const LoginForm = () => {
     return (
-        <div className='px-12 py-4 min-w-[500px] max-w-[570px] mx-auto border border-solid border-[#d5e0d5] rounded-2xl'>
-            <div>
-                <h4 className='text-[28px] mb-2 leading-8 text-center font-semibold'>
+        <div className='px-12 py-4 mt-8 overflow-x-hidden min-w-[500px] max-w-[570px] mx-auto border border-solid border-[#d5e0d5] rounded-2xl'>
+            <div className='px-8'>
+                <h4 className='text-[28px] mt-6 mb-6 leading-8 text-center font-semibold'>
                     Login to Upwork
                 </h4>
 
@@ -21,7 +21,7 @@ const LoginForm = () => {
                         />
                     </div>
 
-                    <Button className='block'>Continue with Email</Button>
+                    <Button className='block w-full bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] '>Continue with Email</Button>
                 </div>
 
                 <p className='w-full text-center border-b border-solid border-[#e0e0e0] leading-[.1em] font-light my-8'>

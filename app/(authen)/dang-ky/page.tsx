@@ -1,15 +1,15 @@
-import LoginForm from './components/LoginForm';
+import SignUpContainer from './components/SignUpContainer';
 
-const Login = () => {
+const SignUp = () => {
     return (
         <div className='flex-1'>
             <div className='container h-full'>
                 <div className='w-full h-full flex justify-center items-center'>
-                    <LoginForm />
+                    <SignUpContainer />
                 </div>
             </div>
         </div>
     );
 };
 
-export default Login;
+export default SignUp;

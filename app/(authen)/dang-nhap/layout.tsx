@@ -7,9 +7,9 @@ export default function LoginLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className='w-screen h-screen flex flex-col'>
+        <div className='w-screen h-screen overflow-x-hidden flex flex-col'>
             <CommonHeader />
-            {children}
+            <main className='mx-auto px-20 py-5'>{children}</main>
             <CommonFooter />
         </div>
     );
