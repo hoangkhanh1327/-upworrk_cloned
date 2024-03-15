@@ -6,9 +6,9 @@ const __dirname = dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    sassOptions: {
-        includePaths: [path.join(__dirname, 'styles')]
-    }
+    images: {
+        domains: ['res.cloudinary.com'],
+    },
 };
 
 export default nextConfig;

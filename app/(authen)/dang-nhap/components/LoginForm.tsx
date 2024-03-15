@@ -1,9 +1,15 @@
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';    
+import { Input } from '@/components/ui/input';
 import { User } from 'lucide-react';
 import Link from 'next/link';
+import { useRef } from 'react';
 
-const LoginForm = () => {
+interface ILoginForm {
+    setUsername: (data: string) => void;
+}
+
+const LoginForm: React.FC<ILoginForm> = ({ setUsername }) => {
+    const userNameRef = useRef<HTMLInputElement | null>(null);
     return (
         <div className='px-12 py-4 mt-8 overflow-x-hidden min-w-[500px] max-w-[570px] mx-auto border border-solid border-[#d5e0d5] rounded-2xl'>
             <div className='px-8'>
@@ -15,13 +21,22 @@ const LoginForm = () => {
                     <div className='relative border-2 border-solid border-[#e4ebe4] rounded-lg mb-6'>
                         <User className='w-5 h-5 absolute left-2 top-1/2 -translate-y-1/2' />
                         <Input
-                            type='text'
+                            ref={userNameRef}
+                            type='email'
                             placeholder='Username or Email'
                             className='w-full !border-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 '
                         />
                     </div>
 
-                    <Button className='block w-full bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] '>Continue with Email</Button>
+                    <Button
+                        onClick={() => {
+                            userNameRef.current?.value &&
+                                setUsername(userNameRef.current?.value);
+                        }}
+                        className='block w-full bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] '
+                    >
+                        Continue with Email
+                    </Button>
                 </div>
 
                 <p className='w-full text-center border-b border-solid border-[#e0e0e0] leading-[.1em] font-light my-8'>

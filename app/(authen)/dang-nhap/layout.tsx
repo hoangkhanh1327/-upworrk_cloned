@@ -9,7 +9,7 @@ export default function LoginLayout({
     return (
         <div className='w-screen h-screen overflow-x-hidden flex flex-col'>
             <CommonHeader />
-            <main className='mx-auto px-20 py-5'>{children}</main>
+            <main className='mx-auto px-20 py-5 flex-1'>{children}</main>
             <CommonFooter />
         </div>
     );

@@ -1,15 +1,19 @@
 import React, { SetStateAction } from 'react';
 import { cn } from '@/lib/utils';
 import { AccountType } from '@/@types/signup.types';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 interface ISelectAccountType {
     accountType: AccountType | null;
     setAccountType: React.Dispatch<SetStateAction<AccountType | null>>;
+    handleGoToSignUpForm: () => void;
 }
 
 const SelectAccountType: React.FC<ISelectAccountType> = ({
     accountType,
     setAccountType,
+    handleGoToSignUpForm,
 }) => {
     return (
         <div className=''>
@@ -191,6 +195,30 @@ const SelectAccountType: React.FC<ISelectAccountType> = ({
                         </h4>
                     </div>
                 </div>
+            </div>
+
+            <div className='text-center mt-10'>
+                <Button
+                    disabled={accountType === null}
+                    className='bg-button-primary hover:bg-button-primary/80 px-6 border-2 border-solid border-transparent rounded-[10rem] transition-all inline-flex justify-center items-center max-h-10 leading-[calc_2.5rem_-_1px] text-base font-medium disabled:bg-button-disabled disabled:text-[#9aaa97] disabled:!cursor-not-allowed disabled:pointer-events-auto'
+                    onClick={() => handleGoToSignUpForm()}
+                >
+                    {accountType === null
+                        ? 'Create Account'
+                        : accountType === AccountType.client
+                        ? 'Join as a Client'
+                        : 'Apply as a Freelancer'}
+                </Button>
+
+                <p className='text-center text-base leading-[22px] text-input-title tracking-[0.02em] mt-4 mb-6'>
+                    Already have an account?{` `}
+                    <Link
+                        className='text-link hover:text-link/80 underline'
+                        href={`/dang-nhap`}
+                    >
+                        Login
+                    </Link>
+                </p>
             </div>
         </div>
     );
