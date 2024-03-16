@@ -10,7 +10,7 @@ export default function Home() {
         <BannerSection />
         <Introduction />
         <CategoriesSection />
-        <div>
+        <div className='mx-[9px]'>
             <QAEnterpriseSection />
             <QAClientSection />
             <QABussiness />

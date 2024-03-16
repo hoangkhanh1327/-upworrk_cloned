@@ -109,7 +109,7 @@ const footerData: IFooterData[] = [
 
 const Footer = () => {
     return (
-        <footer className='mt-[100px] mb-6 text-white bg-[#001e00] overflow-hidden py-[96px] rounded-[8px] border-t-0'>
+        <footer className='mt-[100px] mx-6 mb-6 text-white bg-[#001e00] overflow-hidden py-[96px] rounded-[8px] border-t-0'>
             <div className='container'>
                 <div className='grid grid-cols-4 gap-4'>
                     {footerData.map((item, index) => (
