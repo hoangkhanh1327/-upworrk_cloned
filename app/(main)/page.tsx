@@ -7,5 +7,8 @@ export default function Home() {
         <BannerSection />
         <Introduction />
         <CategoriesSection />
+        <div>
+            
+        </div>
     </div>;
 }
