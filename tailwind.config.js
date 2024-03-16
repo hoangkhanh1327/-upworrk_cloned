@@ -19,6 +19,7 @@ module.exports = {
         extend: {
             backgroundImage: {
                 google: `url('/images/google.svg')`,
+                'qa-client': `url(https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/c_scale/brontes/delivery-models/find-talent-2x.jpg)`
             },
             colors: {
                 border: 'hsl(var(--border))',

@@ -43,7 +43,7 @@ export const categoriesData: Category[] = [
         skill: 508
     },
     {
-        href: '/admin-customer-support',
+        href: '/finance-accounting',
         title: 'Finance & Accounting',
         star: 4.79,
         skill: 214
