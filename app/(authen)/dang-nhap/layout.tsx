@@ -1,5 +1,5 @@
-import CommonFooter from '@/components/CommonFooter';
-import CommonHeader from '@/components/CommonHeader';
+import CommonHeader from '@/app/components/CommonHeader';
+import CommonFooter from '@/app/components/CommonFooter';
 
 export default function LoginLayout({
     children,

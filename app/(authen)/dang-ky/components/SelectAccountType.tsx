@@ -1,7 +1,7 @@
 import React, { SetStateAction } from 'react';
 import { cn } from '@/lib/utils';
 import { AccountType } from '@/@types/signup.types';
-import { Button } from '@/components/ui/button';
+import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 
 interface ISelectAccountType {

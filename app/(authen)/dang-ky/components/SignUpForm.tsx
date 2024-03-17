@@ -10,7 +10,7 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from '@/components/ui/select';
+} from '@/app/components/ui/select';
 import { cn } from '@/lib/utils';
 
 import {
@@ -20,9 +20,9 @@ import {
     FormItem,
     FormLabel,
     FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from '@/app/components/ui/form';
+import { Input } from '@/app/components/ui/input';
+import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 
 const signUpFormSchema = yup.object({
