@@ -3,8 +3,8 @@ import './global.css';
 import AuthProvider from './context/AuthProvider';
 
 export const metadata: Metadata = {
-    title: 'Upwork VN Version',
-    description: 'Upwork Cloned',
+    title: 'IT WORKS VN Version',
+    description: 'IT WORKS',
 };
 
 export default function RootLayout({
