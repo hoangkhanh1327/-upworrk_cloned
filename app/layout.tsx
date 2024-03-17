@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './global.css';
 
 export const metadata: Metadata = {
-    title: 'Upwork VN Version',
-    description: 'Upwork Cloned',
+    title: 'IT WORKS VN Version',
+    description: 'IT WORKS',
 };
 
 export default function RootLayout({
