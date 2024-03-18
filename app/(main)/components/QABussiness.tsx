@@ -140,7 +140,7 @@ const QABussiness = () => {
                         </div>
                     </div>
                 </div>
-                <div className='flex flex-col items-end justify-end flex-1 bg-[#14a800] rounded-[8px] py-[48px] pr-[30px]'>
+                <div className='flex flex-col items-end justify-end flex-1 bg-[#0cc0df] rounded-[8px] py-[48px] pr-[30px]'>
                     <div className='relative items-end pl-[30px]'>
                         <h3 className='mb-[30px] text-[33px] leading-[100%] text-white'>
                             <span>

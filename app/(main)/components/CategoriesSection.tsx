@@ -11,7 +11,7 @@ const CategoriesSection = () => {
                 <div className='mb-10'>
                     {`Looking for work? `}
                     <Link
-                        className='text-link hover:text-[#14a800] font-medium transition-[color] underline'
+                        className='text-link hover:text-[#0cc0df] font-medium transition-[color] underline'
                         href={`#`}
                     >
                         Browse jobs
@@ -29,7 +29,7 @@ const CategoriesSection = () => {
                                     {cd.title}
                                 </div>
                                 <div className='font-normal mt-3 flex items-center text-[22px] cursor-pointer'>
-                                    <div className='mr-1 inline-flex h-4 w-4 text-[#14a800]'>
+                                    <div className='mr-1 inline-flex h-4 w-4 text-[#0cc0df]'>
                                         <svg
                                             xmlns='http://www.w3.org/2000/svg'
                                             fill='none'
@@ -38,10 +38,10 @@ const CategoriesSection = () => {
                                             role='img'
                                         >
                                             <path
-                                                fill='#14a800'
+                                                fill='#0cc0df'
                                                 fillRule='evenodd'
                                                 vectorEffect='non-scaling-stroke'
-                                                stroke='#14a800'
+                                                stroke='#0cc0df'
                                                 strokeLinecap='round'
                                                 strokeLinejoin='round'
                                                 strokeWidth='1.5'
