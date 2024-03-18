@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AccountType } from '@/@types/signup.types';
+import { AccountType } from '@/app/@types/signup.types';
 import SelectAccountType from './SelectAccountType';
 import SignUpForm, { SignUpSubmitValue } from './SignUpForm';
 

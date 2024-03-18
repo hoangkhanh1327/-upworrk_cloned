@@ -1,4 +1,4 @@
-import CommonHeader from '@/components/CommonHeader';
+import CommonHeader from '@/app/components/CommonHeader';
 
 export default function LoginLayout({
     children,

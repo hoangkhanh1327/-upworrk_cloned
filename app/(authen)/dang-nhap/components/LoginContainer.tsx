@@ -1,18 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import LoginFormStep2 from './LogonFormStep2';
 import LoginForm from './LoginForm';
+import { useAuth } from '@/app/providers/AuthProvider';
 
 const LoginContainer = () => {
-    const [username, setUsername] = useState('');
+    const [username, setUsername] = useState('huyentran');
+    const { login } = useAuth();
 
-    const handleLogin = (password: string) => {
-        const params = {
-            username,
-            password,
-        };
-        // TODO: gắn api ở đây
+    const handleLogin = async (password: string) => {
+        login(username, password);
     };
     return (
         <div>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './global.css';
+import AuthProvider from './providers/AuthProvider';
 
 export const metadata: Metadata = {
     title: 'IT WORKS VN Version',
@@ -14,7 +15,7 @@ export default function RootLayout({
     return (
         <html lang='en'>
             <body>
-                {children}
+                <AuthProvider>{children}</AuthProvider>
             </body>
         </html>
     );

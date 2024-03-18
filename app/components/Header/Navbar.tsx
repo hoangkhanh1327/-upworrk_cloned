@@ -3,7 +3,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 
-import { Icons } from '@/components/icons';
+import { Icons } from '@/app/components/icons';
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -12,7 +12,7 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
-} from '@/components/ui/navigation-menu';
+} from '@/app/components/ui/navigation-menu';
 import ListItem from './ListItem';
 
 import { findTalentSubMenu, findWorkSubMenu } from './menuData';
