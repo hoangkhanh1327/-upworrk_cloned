@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './global.css';
-import AuthProvider from './context/AuthProvider';
+import AuthProvider from './providers/AuthProvider';
 
 export const metadata: Metadata = {
     title: 'IT WORKS VN Version',

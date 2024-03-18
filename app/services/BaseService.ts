@@ -1,5 +1,6 @@
-import axios from 'axios'
-import { appConfig } from '../configs/app.config'
+import axios from 'axios';
+import https from 'https';
+import { appConfig } from '../configs/app.config';
 
 const BaseService = axios.create({
     timeout: 60000,
@@ -9,23 +10,26 @@ const BaseService = axios.create({
         'Access-Control-Allow-Origin': '*',
         withCredentials: true,
     },
-})
+    httpsAgent: new https.Agent({
+        rejectUnauthorized: false,
+    }),
+});
 
 BaseService.interceptors.request.use(
     (config) => {
-        return config
+        return config;
     },
     (error) => {
-        return Promise.reject(error)
-    },
-)
+        return Promise.reject(error);
+    }
+);
 
 BaseService.interceptors.response.use(
     (response) => {
-        return response.data
+        return response.data;
     },
     (error) => {
-        const { response } = error
+        const { response } = error;
 
         if (response) {
             if (response.status === 500) {
@@ -36,14 +40,14 @@ BaseService.interceptors.response.use(
                         ...response,
                         message: 'Đã có lỗi xảy ra phía server!',
                     },
-                })
+                });
             } else {
-                return Promise.reject(response?.data)
+                return Promise.reject(response?.data);
             }
         }
 
-        return Promise.reject(error)
-    },
-)
+        return Promise.reject(error);
+    }
+);
 
-export default BaseService
+export default BaseService;

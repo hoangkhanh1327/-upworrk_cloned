@@ -84,19 +84,19 @@ const QABussinessData: QABussinessDataItem[] = [
                 role='img'
             >
                 <path
-                    vector-effect='non-scaling-stroke'
+                    vectorEffect='non-scaling-stroke'
                     stroke='var(--icon-color, #001e00)'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    stroke-width='1.5'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='1.5'
                     d='M12 21a9 9 0 100-18 9 9 0 000 18z'
                 ></path>
                 <path
-                    vector-effect='non-scaling-stroke'
+                    vectorEffect='non-scaling-stroke'
                     stroke='var(--icon-color, #001e00)'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    stroke-width='1.5'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='1.5'
                     d='M15.5 9.51l-4.98 4.98-2.02-2.01'
                 ></path>
             </svg>
@@ -163,11 +163,11 @@ const QABussiness = () => {
                                     <path
                                         fill='#fff'
                                         fillRule='evenodd'
-                                        vector-effect='non-scaling-stroke'
+                                        vectorEffect='non-scaling-stroke'
                                         stroke='#fff'
-                                        stroke-linecap='round'
-                                        stroke-linejoin='round'
-                                        stroke-width='1.5'
+                                        strokeLinecap='round'
+                                        strokeLinejoin='round'
+                                        strokeWidth='1.5'
                                         d='M13.142 3.813l1.782 4.802 4.927.275c.243.013.477.104.672.26.194.156.338.37.415.615.077.245.082.508.015.756a1.288 1.288 0 01-.391.633L16.726 14.4l1.282 4.993c.06.252.047.517-.038.76a1.285 1.285 0 01-.437.606c-.2.15-.439.234-.684.24a1.174 1.174 0 01-.693-.21L12 17.976 7.854 20.77a1.175 1.175 0 01-.69.214 1.178 1.178 0 01-.684-.233 1.283 1.283 0 01-.441-.599 1.36 1.36 0 01-.047-.757l1.272-4.972-3.826-3.268a1.288 1.288 0 01-.391-.633 1.349 1.349 0 01.015-.756 1.28 1.28 0 01.415-.615c.195-.156.429-.247.672-.26l4.927-.275 1.782-4.802c.092-.24.25-.446.454-.59a1.177 1.177 0 011.376-.001c.204.145.361.35.454.59z'
                                         clipRule='evenodd'
                                     ></path>

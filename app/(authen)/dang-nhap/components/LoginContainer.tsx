@@ -1,30 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import LoginFormStep2 from './LogonFormStep2';
 import LoginForm from './LoginForm';
-import { signIn } from 'next-auth/react';
-import ApiService from '@/app/services/ApiService';
+import { useAuth } from '@/app/providers/AuthProvider';
 
 const LoginContainer = () => {
-    const [username, setUsername] = useState('fakesmil1309@gmail.com');
+    const [username, setUsername] = useState('huyentran');
+    const { login } = useAuth();
 
     const handleLogin = async (password: string) => {
-        const params = {
-            userName : username || 'fakesmil1309@gmail.com',
-            password: password || 'Khanh1309',
-        };
-        signIn('credentials', {
-            username: params.userName,
-            password: params.password,
-            redirect: false,
-            // callbackUrl: 'http://upwork.local:9999/',
-        });
-        
-        // const res = await ApiService.post(`/login`, params)
-        // TODO: gắn api ở đây
-        // console.log('res', res);
-        
+        login(username, password);
     };
     return (
         <div>

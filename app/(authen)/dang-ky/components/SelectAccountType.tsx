@@ -1,6 +1,6 @@
 import React, { SetStateAction } from 'react';
 import { cn } from '@/lib/utils';
-import { AccountType } from '@/@types/signup.types';
+import { AccountType } from '@/app/@types/signup.types';
 import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 
@@ -52,20 +52,20 @@ const SelectAccountType: React.FC<ISelectAccountType> = ({
                         >
                             <path
                                 fill='none'
-                                vector-effect='non-scaling-stroke'
+                                vectorEffect='non-scaling-stroke'
                                 stroke='var(--icon-color, #001e00)'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
-                                stroke-width='1.5'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='1.5'
                                 d='M19.28 21h-6.9a1.6 1.6 0 01-1.73-1.5v-4a1.6 1.6 0 011.73-1.5h6.9A1.59 1.59 0 0121 15.5v4a1.66 1.66 0 01-1.72 1.5z'
                             ></path>
                             <path
                                 fill='none'
-                                vector-effect='non-scaling-stroke'
+                                vectorEffect='non-scaling-stroke'
                                 stroke='var(--icon-color, #001e00)'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
-                                stroke-width='1.5'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='1.5'
                                 d='M16.9 12h-2.15a.65.65 0 00-.72.66V14h3.59v-1.34a.65.65 0 00-.72-.66z'
                             ></path>
                             <line
@@ -74,30 +74,30 @@ const SelectAccountType: React.FC<ISelectAccountType> = ({
                                 y1='17.29'
                                 y2='17.29'
                                 fill='none'
-                                vector-effect='non-scaling-stroke'
+                                vectorEffect='non-scaling-stroke'
                                 stroke='var(--icon-color, #001e00)'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
-                                stroke-width='1.5'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='1.5'
                             ></line>
                             <circle
                                 cx='10.04'
                                 cy='5.73'
                                 r='2.73'
                                 fill='none'
-                                vector-effect='non-scaling-stroke'
+                                vectorEffect='non-scaling-stroke'
                                 stroke='var(--icon-color, #001e00)'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
-                                stroke-width='1.5'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='1.5'
                             ></circle>
                             <path
                                 fill='none'
-                                vector-effect='non-scaling-stroke'
+                                vectorEffect='non-scaling-stroke'
                                 stroke='var(--icon-color, #001e00)'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
-                                stroke-width='1.5'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='1.5'
                                 d='M3 18.45v-.9a7 7 0 017-7h.09a6.73 6.73 0 011.91.27'
                             ></path>
                         </svg>
@@ -139,20 +139,20 @@ const SelectAccountType: React.FC<ISelectAccountType> = ({
                         >
                             <path
                                 fill='none'
-                                vector-effect='non-scaling-stroke'
+                                vectorEffect='non-scaling-stroke'
                                 stroke='var(--icon-color, #001e00)'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
-                                stroke-width='1.5'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='1.5'
                                 d='M19.28 21h-6.9a1.6 1.6 0 01-1.73-1.5v-4a1.6 1.6 0 011.73-1.5h6.9A1.59 1.59 0 0121 15.5v4a1.66 1.66 0 01-1.72 1.5z'
                             ></path>
                             <path
                                 fill='none'
-                                vector-effect='non-scaling-stroke'
+                                vectorEffect='non-scaling-stroke'
                                 stroke='var(--icon-color, #001e00)'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
-                                stroke-width='1.5'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='1.5'
                                 d='M16.9 12h-2.15a.65.65 0 00-.72.66V14h3.59v-1.34a.65.65 0 00-.72-.66z'
                             ></path>
                             <line
@@ -161,30 +161,30 @@ const SelectAccountType: React.FC<ISelectAccountType> = ({
                                 y1='17.29'
                                 y2='17.29'
                                 fill='none'
-                                vector-effect='non-scaling-stroke'
+                                vectorEffect='non-scaling-stroke'
                                 stroke='var(--icon-color, #001e00)'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
-                                stroke-width='1.5'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='1.5'
                             ></line>
                             <circle
                                 cx='10.04'
                                 cy='5.73'
                                 r='2.73'
                                 fill='none'
-                                vector-effect='non-scaling-stroke'
+                                vectorEffect='non-scaling-stroke'
                                 stroke='var(--icon-color, #001e00)'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
-                                stroke-width='1.5'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='1.5'
                             ></circle>
                             <path
                                 fill='none'
-                                vector-effect='non-scaling-stroke'
+                                vectorEffect='non-scaling-stroke'
                                 stroke='var(--icon-color, #001e00)'
-                                stroke-linecap='round'
-                                stroke-linejoin='round'
-                                stroke-width='1.5'
+                                strokeLinecap='round'
+                                strokeLinejoin='round'
+                                strokeWidth='1.5'
                                 d='M3 18.45v-.9a7 7 0 017-7h.09a6.73 6.73 0 011.91.27'
                             ></path>
                         </svg>

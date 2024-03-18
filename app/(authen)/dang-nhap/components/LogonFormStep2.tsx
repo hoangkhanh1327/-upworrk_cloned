@@ -29,7 +29,7 @@ const LoginFormStep2: React.FC<ILoginFormStep2> = ({
                         <LockKeyhole className='w-5 h-5 absolute left-2 top-1/2 -translate-y-1/2' />
                         <Input
                             ref={passwordRef}
-                            defaultValue={'Khanh1309'}
+                            defaultValue={'abc123'}
                             type='password'
                             className='w-full !border-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 '
                         />

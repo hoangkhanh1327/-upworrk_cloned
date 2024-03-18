@@ -1,4 +1,4 @@
-import { IMenu } from '@/@types/menu.types';
+import { IMenu } from '@/app/@types/menu.types';
 
 const findTalentSubMenu: IMenu[] = [
     {
