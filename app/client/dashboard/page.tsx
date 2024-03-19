@@ -1,8 +1,8 @@
 const ClientDashboard = () => {
     return ( 
-        <main>
+        <div className='relative'>
             Client Dashboard
-        </main>
+        </div>
      );
 }
  
