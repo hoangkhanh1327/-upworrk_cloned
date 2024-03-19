@@ -19,7 +19,7 @@ module.exports = {
         extend: {
             backgroundImage: {
                 google: `url('/images/google.svg')`,
-                'qa-client': `url(https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/c_scale/brontes/delivery-models/find-talent-2x.jpg)`
+                'qa-client': `url(https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/c_scale/brontes/delivery-models/find-talent-2x.jpg)`,
             },
             colors: {
                 border: 'hsl(var(--border))',
@@ -66,8 +66,8 @@ module.exports = {
                 },
                 box: {
                     DEFAULT: '#d5e0d5',
-                    active: '#108a00'
-                }
+                    active: '#108a00',
+                },
             },
             borderRadius: {
                 lg: 'var(--radius)',
@@ -93,5 +93,5 @@ module.exports = {
             },
         },
     },
-    plugins: [require('tailwindcss-animate')],
+    plugins: [require('tailwindcss-animate'), require('tailwind-scrollbar')],
 };

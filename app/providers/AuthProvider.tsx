@@ -50,10 +50,14 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
     useEffect(() => {
         console.log("🚀 ~ useEffect ~ user:", user)
         if (user) {
-            // if(user.)
-            router.push(`/client/dashboard`)
+            if (user.user_type === 'client') {
+                router.push(`/client/dashboard`);
+            }
+            if (user.user_type === 'freelancer') {
+                router.push(`/freelancer/dashboard`);
+            }
         } else {
-            router.replace('/')
+            router.replace('/');
         }
     }, [user, router]);
 
