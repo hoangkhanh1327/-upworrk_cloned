@@ -2,7 +2,7 @@
 
 import { FC, createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { UserInfo } from '@/app/@types/authentication.types';
+import { UserInfo } from '@/app/types/authentication.types';
 import BaseService from '@/app/services/BaseService';
 import { loginServices } from '@/app/services/authentication.services';
 import { useRouter } from 'next/navigation';
@@ -48,6 +48,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
     }, []);
 
     useEffect(() => {
+        console.log("🚀 ~ useEffect ~ user:", user)
         if (user) {
             // if(user.)
             router.push(`/client/dashboard`)
