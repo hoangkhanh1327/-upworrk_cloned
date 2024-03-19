@@ -1,7 +1,7 @@
 import { appConfig } from '@/app/configs/app.config';
 import ApiService from './ApiService';
-import { User, UserInfo } from '../@types/authentication.types';
-import { CommonResponse } from '../@types/common.types';
+import { User, UserInfo } from '../types/authentication.types';
+import { CommonResponse } from '../types/common.types';
 
 interface ILoginParams {
     email: string;

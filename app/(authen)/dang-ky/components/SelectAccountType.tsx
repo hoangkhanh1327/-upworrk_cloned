@@ -1,6 +1,6 @@
 import React, { SetStateAction } from 'react';
 import { cn } from '@/lib/utils';
-import { AccountType } from '@/app/@types/signup.types';
+import { AccountType } from '@/app/types/signup.types';
 import { Button } from '@/app/components/ui/button';
 import Link from 'next/link';
 
