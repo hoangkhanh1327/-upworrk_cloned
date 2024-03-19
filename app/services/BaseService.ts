@@ -1,5 +1,6 @@
 import axios from 'axios';
 import https from 'https';
+import Cookies from 'js-cookie';
 import { appConfig } from '../configs/app.config';
 
 const BaseService = axios.create({
@@ -32,6 +33,10 @@ BaseService.interceptors.response.use(
         const { response } = error;
 
         if (response) {
+            if (response.status === 401) {
+                Cookies.remove('token');
+                window.location.replace('/');
+            }
             if (response.status === 500) {
                 return Promise.reject({
                     ...error,

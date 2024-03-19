@@ -1,5 +1,5 @@
-import CommonHeader from '@/app/components/CommonHeader';
-import CommonFooter from '@/app/components/CommonFooter';
+import AuthenHeader from '@/app/components/AuthenHeader';
+import AuthenFooter from '@/app/components/AuthenFooter';
 
 export default function LoginLayout({
     children,
@@ -8,9 +8,9 @@ export default function LoginLayout({
 }>) {
     return (
         <div className='w-screen h-screen overflow-x-hidden flex flex-col'>
-            <CommonHeader />
+            <AuthenHeader />
             <main className='mx-auto px-20 py-5 flex-1'>{children}</main>
-            <CommonFooter />
+            <AuthenFooter />
         </div>
     );
 }
