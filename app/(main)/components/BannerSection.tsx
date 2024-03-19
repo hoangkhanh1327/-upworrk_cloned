@@ -7,7 +7,7 @@ const BannerSection = () => {
             <div className='container'>
                 <div className='grid grid-cols-12 gap-x-8'>
                     <div className='col-start-1 col-end-6'>
-                        <h1 className='text-[80px] leading-[80px] text-[#14a800] font-medium mb-3 -tracking-[2px] font-rza '>
+                        <h1 className='text-[80px] leading-[80px] text-[#0cc0df] font-medium mb-3 -tracking-[2px] font-rza '>
                             <span>How work should work</span>
                         </h1>
                         <p className='text-[22px] leading-8 tracking-[.24px] text-[#5e6d55] mb-8 font-medium'>
