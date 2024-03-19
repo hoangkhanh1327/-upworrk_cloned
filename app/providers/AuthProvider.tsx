@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { UserInfo } from '@/app/@types/authentication.types';
 import BaseService from '@/app/services/BaseService';
 import { loginServices } from '@/app/services/authentication.services';
+import { useRouter } from 'next/navigation';
 
 interface IAuthContext {
     isAuthenticated: boolean;
@@ -29,6 +30,7 @@ export const AuthContext = createContext<IAuthContext>({
 const AuthProvider: FC<IAuthProvider> = ({ children }) => {
     const [user, setUser] = useState<UserInfo | null>(null);
     const [loading, setLoading] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         async function loadUserFromToken() {
@@ -44,6 +46,15 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
         }
         loadUserFromToken();
     }, []);
+
+    useEffect(() => {
+        if (user) {
+            // if(user.)
+            router.push(`/client/dashboard`)
+        } else {
+            router.replace('/')
+        }
+    }, [user, router]);
 
     const login = async (email: string, password: string) => {
         const { data: authenData } = await loginServices.login({
