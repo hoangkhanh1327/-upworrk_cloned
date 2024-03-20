@@ -1,15 +1,21 @@
-import Logo from '../AuthenHeader/Logo';
+import React from 'react';
 
-const CommonHeader = () => {
+import Navbar from './Navbar';
+import Logo from './Logo';
+import Action from './Action';
+
+const Header = () => {
     return (
         <div className=''>
-            <header className='container h-16'>
-                <div className='flex items-center h-full'>
+            <header className='container'>
+                <div className='h-16 flex items-center'>
                     <Logo />
+                    <Navbar />
+                    <Action />
                 </div>
             </header>
         </div>
     );
 };
 
-export default CommonHeader;
+export default Header;

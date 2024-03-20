@@ -6,7 +6,7 @@ import LoginForm from './LoginForm';
 import { useAuth } from '@/app/providers/AuthProvider';
 
 const LoginContainer = () => {
-    const [username, setUsername] = useState('huyentran');
+    const [username, setUsername] = useState('');
     const { login } = useAuth();
 
     const handleLogin = async (password: string) => {
