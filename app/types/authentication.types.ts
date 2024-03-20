@@ -30,5 +30,4 @@ export interface UserInfo {
     bank_account?: string;
     created_at?: string;
     updated_at?: string;
-    user_type: 'client' | 'freelancer'
 }

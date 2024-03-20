@@ -30,6 +30,7 @@ export const AuthContext = createContext<IAuthContext>({
 const AuthProvider: FC<IAuthProvider> = ({ children }) => {
     const [user, setUser] = useState<UserInfo | null>(null);
     const [loading, setLoading] = useState(true);
+    const [accountType, setAccountType] = useState<'client' | 'freelancer' | null>(null)
     const router = useRouter();
 
     useEffect(() => {
@@ -48,17 +49,17 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        if (user) {
-            if (user.user_type === 'client') {
-                router.push(`/client/dashboard`);
-            }
-            if (user.user_type === 'freelancer') {
-                router.push(`/freelancer/dashboard`);
-            }
+        if (accountType) {
+            // if (accountType === 'client') {
+            //     router.push(`/client/dashboard`);
+            // }
+            // if (accountType === 'freelancer') {
+            //     router.push(`/freelancer/dashboard`);
+            // }
         } else {
             router.replace('/');
         }
-    }, [user, router]);
+    }, [accountType, router]);
 
     const login = async (email: string, password: string) => {
         const { data: authenData } = await loginServices.login({
