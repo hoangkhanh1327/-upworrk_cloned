@@ -42,7 +42,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
         email_verified_at: '30/4/1975',
     });
     const [loading, setLoading] = useState(true);
-    const [accountType, setAccountType] = useState<'client' | 'freelancer' | null>(null)
+    const [accountType, setAccountType] = useState<'client' | 'freelancer' | null>('client')
     const router = useRouter();
 
     useEffect(() => {
@@ -62,12 +62,12 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
 
     useEffect(() => {
         if (accountType) {
-            // if (accountType === 'client') {
-            //     router.push(`/client/dashboard`);
-            // }
-            // if (accountType === 'freelancer') {
-            //     router.push(`/freelancer/dashboard`);
-            // }
+            if (accountType === 'client') {
+                router.push(`/client/dashboard`);
+            }
+            if (accountType === 'freelancer') {
+                router.push(`/freelancer/dashboard`);
+            }
         } else {
             router.replace('/');
         }
@@ -85,6 +85,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
             });
             const { data } = await loginServices.getUserInfo();
             setUser(data);
+            setAccountType(authenData.user_type)
         }
     };
 

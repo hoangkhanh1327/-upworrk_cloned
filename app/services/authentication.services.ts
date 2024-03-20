@@ -14,7 +14,7 @@ type ILoginReponse = CommonResponse & {
         access_token: string;
         token_type: string;
         expires_in: number;
-        user_type: string;
+        user_type: 'freelancer' | 'client';
     };
 };
 
