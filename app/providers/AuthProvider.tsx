@@ -28,7 +28,20 @@ export const AuthContext = createContext<IAuthContext>({
 });
 
 const AuthProvider: FC<IAuthProvider> = ({ children }) => {
-    const [user, setUser] = useState<UserInfo | null>(null);
+    const [user, setUser] = useState<UserInfo | null>({
+        id: 1,
+        username: 'Test client',
+        email: 'test@gmail.com',
+        first_name: 'John',
+        last_name: 'Doe',
+        phone_num: '0123456789',
+        address: 'Viet Nam',
+        sex: '0',
+        date_of_birth: '29/04/1999',
+        status: 1,
+        email_verified_at: '30/4/1975',
+        user_type: 'client',
+    });
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
@@ -48,7 +61,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
     }, []);
 
     useEffect(() => {
-        console.log("🚀 ~ useEffect ~ user:", user)
+        console.log('🚀 ~ useEffect ~ user:', user);
         if (user) {
             if (user.user_type === 'client') {
                 router.push(`/client/dashboard`);
