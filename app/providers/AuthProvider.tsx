@@ -30,23 +30,42 @@ export const AuthContext = createContext<IAuthContext>({
 const AuthProvider: FC<IAuthProvider> = ({ children }) => {
     const [user, setUser] = useState<ClientInfo | null>(null);
     const [loading, setLoading] = useState(true);
-    const [accountType, setAccountType] = useState<'client' | 'freelancer' | null>('client')
+    const [accountType, setAccountType] = useState<
+        'client' | 'freelancer' | null
+    >('client');
     const router = useRouter();
 
     useEffect(() => {
         async function loadUserFromToken() {
             const token = Cookies.get('token');
+            const accountType = Cookies.get('account_type');
             if (token) {
                 BaseService.defaults.headers.Authorization = `Bearer ${token}`;
-                const { data } = await loginServices.getUserInfo();
-                if (data) {
-                    setUser(data);
+                if (accountType === 'client') {
+                    const { data } = await loginServices.getUserInfo();
+                    if (data) {
+                        setUser(data);
+                        setAccountType(accountType);
+                    }
+                }
+                if (accountType === 'freelancer') {
+                    const { data } = await loginServices.getFreelancerInfo();
+                    if (data) {
+                        setUser(data);
+                        setAccountType(accountType);
+                    }
                 }
             }
             setLoading(false);
         }
         loadUserFromToken();
     }, []);
+
+    useEffect(() => {
+        if (!user) {
+            delete BaseService.defaults.headers.Authorization;
+        }
+    }, [user]);
 
     useEffect(() => {
         if (accountType) {
@@ -71,9 +90,12 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
             Cookies.set('token', authenData.access_token, {
                 expires: authenData.expires_in || 60,
             });
+            Cookies.set('account_type', authenData.user_type, {
+                expires: authenData.expires_in || 60,
+            });
+            setAccountType(authenData.user_type);
             const { data } = await loginServices.getUserInfo();
             setUser(data);
-            setAccountType(authenData.user_type)
         }
     };
 

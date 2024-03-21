@@ -35,8 +35,6 @@ const FilterSearch: React.FC<IFilterSearch> = ({
                     placeholder='Tìm kiếm'
                     size={20}
                     onChange={(e) => {
-                        console.log('oo');
-                        
                         setSearchDebounce(e.target.value)
                     }}
                 />

@@ -32,7 +32,16 @@ type IGetUserInfoResponse = CommonResponse & {
 const getUserInfo = async () => {
     return ApiService.get<IGetUserInfoResponse>(`/client/info`);
 };
+
+type IGetFreelancerInfoResponse = CommonResponse & {
+    data: ClientInfo;
+};
+const getFreelancerInfo = async () => {
+    return ApiService.get<IGetFreelancerInfoResponse>(`/client/info`);
+};
+
 export const loginServices = {
     login,
     getUserInfo,
+    getFreelancerInfo
 };

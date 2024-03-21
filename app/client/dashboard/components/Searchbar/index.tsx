@@ -18,7 +18,7 @@ interface ISearchBar {
 }
 
 const SearchBar: FC<ISearchBar> = ({ onFilter }) => {
-    const [isFilterPannelOpen, toggleFilterPannel] = useState(true);
+    const [isFilterPannelOpen, toggleFilterPannel] = useState(false);
     const { searchText, status, type, visibility } =
         useContext(SearchBarContext);
 
