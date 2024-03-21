@@ -9,7 +9,7 @@ export interface User {
     updated_at: string;
 }
 
-export interface UserInfo {
+export interface ClientInfo {
     id: number;
     username: string;
     email: string;

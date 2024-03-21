@@ -3,11 +3,11 @@ import { CommonSelectOptions } from '@/app/types/common.types';
 export const PostedOptions: CommonSelectOptions[] = [
     {
         label: 'All coworkers',
-        value: '1',
+        value: '0',
     },
     {
         label: 'Me',
-        value: '0',
+        value: '1',
     },
 ];
 

@@ -1,6 +1,6 @@
 import { appConfig } from '@/app/configs/app.config';
 import ApiService from './ApiService';
-import { User, UserInfo } from '../types/authentication.types';
+import { User, ClientInfo } from '../types/authentication.types';
 import { CommonResponse } from '../types/common.types';
 
 interface ILoginParams {
@@ -26,7 +26,7 @@ const login = async (params: ILoginParams) => {
 };
 
 type IGetUserInfoResponse = CommonResponse & {
-    data: UserInfo;
+    data: ClientInfo;
 };
 
 const getUserInfo = async () => {
