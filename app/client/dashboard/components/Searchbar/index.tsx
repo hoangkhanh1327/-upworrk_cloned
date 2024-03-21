@@ -24,6 +24,7 @@ import {
 
 const SearchBar = () => {
     const [isFilterPannelOpen, toggleFilterPannel] = useState(false);
+    const [visibility]
     const [statusOpts, setStatusOpts] = useState<string[]>([]);
 
     const handleSelectVisibility = (value: string) => {
