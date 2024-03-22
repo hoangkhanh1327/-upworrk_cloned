@@ -22,6 +22,15 @@ const getPosts = async (params: GetClientPostsRequest) => {
     );
 };
 
+type GetPostDetailRequest = string;
+
+type GetPostDetailReponse = {};
+
+const getPost = async (params: GetPostDetailRequest) => {
+    return ApiService.get<GetClientPostsResponse>(`/job/${params}`);
+};
+
 export const clientServices = {
     getPosts,
+    getPost,
 };

@@ -19,6 +19,8 @@ const BaseService = axios.create({
 BaseService.interceptors.request.use(
     (config) => {
         const token = Cookies.get('token');
+        console.log('token', token);
+        
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -40,7 +42,9 @@ BaseService.interceptors.response.use(
             if (response.status === 401) {
                 Cookies.remove('token');
                 Cookies.remove('account_type');
-                window.location.replace('/');
+                if (typeof window !== 'undefined') {
+                    window.location.replace('/');
+                }
             }
             if (response.status === 500) {
                 return Promise.reject({

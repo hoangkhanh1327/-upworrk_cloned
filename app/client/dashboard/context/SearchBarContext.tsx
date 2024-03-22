@@ -22,11 +22,13 @@ interface ISearchBarContext {
     isGettingPosts: boolean;
     total: number;
     page: number;
+    totalPage: number;
     setVisibility?: Dispatch<SetStateAction<string>>;
     setStatus?: Dispatch<SetStateAction<string[]>>;
     setType?: Dispatch<SetStateAction<string>>;
     setPostedBy?: Dispatch<SetStateAction<string>>;
     setSearchText?: Dispatch<SetStateAction<string>>;
+    handleGoPage?: (page: number) => void;
 }
 export const SearchBarContext = createContext<ISearchBarContext>({
     visibility: '0',
@@ -37,6 +39,7 @@ export const SearchBarContext = createContext<ISearchBarContext>({
     page: 1,
     posts: [],
     total: 0,
+    totalPage: 0,
     isGettingPosts: false,
 });
 
@@ -54,6 +57,7 @@ export const SearchBarProvider = ({
     const [isGettingPosts, setIsGettingPosts] = useState(false);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
+    const [totalPage, setTotalPage] = useState(0);
 
     const handleGoPage = (page: number) => {
         setPage(page);
@@ -71,6 +75,7 @@ export const SearchBarProvider = ({
                 if (res.data && !isEmpty(res.data.data)) {
                     setPosts(res.data.data);
                     setTotal(res.data.total);
+                    setTotalPage(res.data.total_page);
                 }
             } catch (error) {
                 console.log('error', error);
@@ -100,11 +105,13 @@ export const SearchBarProvider = ({
                 posts,
                 isGettingPosts,
                 total,
+                totalPage,
                 setVisibility,
                 setStatus: setStatusOpts,
                 setType,
                 setPostedBy,
                 setSearchText,
+                handleGoPage,
             }}
         >
             {children}
