@@ -1,16 +1,19 @@
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { LockKeyhole } from 'lucide-react';
+import { ReloadIcon } from '@radix-ui/react-icons';
 import { useRef } from 'react';
 
 interface ILoginFormStep2 {
     username: string;
     handleLogin: (data: string) => void;
+    loading: boolean;
 }
 
 const LoginFormStep2: React.FC<ILoginFormStep2> = ({
     username,
     handleLogin,
+    loading,
 }) => {
     const passwordRef = useRef<HTMLInputElement | null>(null);
     return (
@@ -32,16 +35,26 @@ const LoginFormStep2: React.FC<ILoginFormStep2> = ({
                             defaultValue={'abc123'}
                             type='password'
                             className='w-full !border-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 '
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.keyCode === 13) {
+                                    passwordRef.current?.value &&
+                                        handleLogin(passwordRef.current?.value);
+                                }
+                            }}
                         />
                     </div>
 
                     <Button
+                        disabled={loading}
                         onClick={() =>
                             passwordRef.current?.value &&
                             handleLogin(passwordRef.current?.value)
                         }
                         className='block w-full bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] '
                     >
+                        {loading && (
+                            <ReloadIcon className='mr-2 h-4 w-4 animate-spin inline-flex' />
+                        )}
                         Login
                     </Button>
                 </div>

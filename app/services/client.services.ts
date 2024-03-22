@@ -8,13 +8,18 @@ type GetClientPostsRequest = {
     status: number;
 };
 
-type GetClientPostsResponse =  CommonResponse & {
+type GetClientPostsResponse = CommonResponse & {
     data: {
-        data: ClientPostList
-    }
-}
+        data: ClientPostList;
+        total: number;
+        total_page: number;
+    };
+};
 const getPosts = async (params: GetClientPostsRequest) => {
-    return ApiService.get<GetClientPostsResponse>(`/client/job/my-jobs`, params);
+    return ApiService.get<GetClientPostsResponse>(
+        `/client/job/my-jobs`,
+        params
+    );
 };
 
 export const clientServices = {

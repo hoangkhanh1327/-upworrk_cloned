@@ -1,20 +1,7 @@
-import BaseService from './BaseService'
-import type { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import BaseService from './BaseService';
+import type { AxiosResponse, AxiosError } from 'axios';
 
 const ApiService = {
-    fetchData<Response = unknown, Request = Record<string, unknown>>(
-        param: AxiosRequestConfig<Request>
-    ) {
-        return new Promise<AxiosResponse<Response>>((resolve, reject) => {
-            BaseService(param)
-                .then((response: AxiosResponse<Response>) => {
-                    resolve(response)
-                })
-                .catch((errors: AxiosError) => {
-                    reject(errors)
-                })
-        })
-    },
     get<Response>(url: string, params?: any, configs?: any) {
         return new Promise<Response>((resolve, reject) => {
             BaseService.get<Response>(url, {
@@ -22,12 +9,12 @@ const ApiService = {
                 headers: { ...configs },
             })
                 .then((response: AxiosResponse<Response>) => {
-                    resolve(response as Response)
+                    resolve(response as Response);
                 })
                 .catch((error: AxiosError) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
     post<Response>(url: string, params?: any, configs?: any) {
         return new Promise<Response>((resolve, reject) => {
@@ -35,12 +22,12 @@ const ApiService = {
                 headers: { ...configs },
             })
                 .then((response: AxiosResponse<Response>) => {
-                    resolve(response as Response)
+                    resolve(response as Response);
                 })
                 .catch((error: AxiosError) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
     put<Response>(url: string, params?: any, configs?: any) {
         return new Promise<Response>((resolve, reject) => {
@@ -48,12 +35,12 @@ const ApiService = {
                 headers: { ...configs },
             })
                 .then((response: AxiosResponse<Response>) => {
-                    resolve(response as Response)
+                    resolve(response as Response);
                 })
                 .catch((error: AxiosError) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
     patch<Response>(url: string, params?: any, configs?: any) {
         return new Promise<Response>((resolve, reject) => {
@@ -61,12 +48,12 @@ const ApiService = {
                 headers: { ...configs },
             })
                 .then((response: AxiosResponse<Response>) => {
-                    resolve(response as Response)
+                    resolve(response as Response);
                 })
                 .catch((error: AxiosError) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
     _delete<Response>(url: string, params?: any, configs?: any) {
         return new Promise<Response>((resolve, reject) => {
@@ -75,12 +62,12 @@ const ApiService = {
                 headers: { ...configs },
             })
                 .then((response: AxiosResponse<Response>) => {
-                    resolve(response as Response)
+                    resolve(response as Response);
                 })
                 .catch((error: AxiosError) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
     postFormData<Response>(url: string, data?: any, configs?: any) {
         return new Promise<Response>((resolve, reject) => {
@@ -91,12 +78,12 @@ const ApiService = {
                 },
             })
                 .then((response: AxiosResponse<Response>) => {
-                    resolve(response as Response)
+                    resolve(response as Response);
                 })
                 .catch((error: AxiosError) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
     putFormData<Response>(url: string, data?: any, configs?: any) {
         return new Promise<Response>((resolve, reject) => {
@@ -107,13 +94,13 @@ const ApiService = {
                 },
             })
                 .then((response: AxiosResponse<Response>) => {
-                    resolve(response as Response)
+                    resolve(response as Response);
                 })
                 .catch((error: AxiosError) => {
-                    reject(error)
-                })
-        })
+                    reject(error);
+                });
+        });
     },
-}
+};
 
-export default ApiService
+export default ApiService;

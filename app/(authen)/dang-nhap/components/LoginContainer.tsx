@@ -7,7 +7,7 @@ import { useAuth } from '@/app/providers/AuthProvider';
 
 const LoginContainer = () => {
     const [username, setUsername] = useState('');
-    const { login } = useAuth();
+    const { login, loading } = useAuth();
 
     const handleLogin = async (password: string) => {
         login(username, password);
@@ -15,7 +15,11 @@ const LoginContainer = () => {
     return (
         <div>
             {username !== '' ? (
-                <LoginFormStep2 username={username} handleLogin={handleLogin} />
+                <LoginFormStep2
+                    username={username}
+                    handleLogin={handleLogin}
+                    loading={loading}
+                />
             ) : (
                 <LoginForm setUsername={setUsername} />
             )}

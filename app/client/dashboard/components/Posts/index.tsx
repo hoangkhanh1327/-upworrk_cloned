@@ -1,11 +1,12 @@
-import { ClientPostList } from '@/app/types/client.types';
-import React from 'react';
+import React, { useContext } from 'react';
 import PostItem from './PostItem';
+import { SearchBarContext } from '../../context/SearchBarContext';
 
-interface IPosts {
-    posts: ClientPostList;
-}
-const Posts: React.FC<IPosts> = ({ posts }) => {
+interface IPosts {}
+const Posts: React.FC<IPosts> = () => {
+    const { posts } = useContext(SearchBarContext);
+    console.log('posts', posts);
+    
     return (
         <section className='py-6 border-b border-solid border-[#d5e0d5]'>
             <div className='flex flex-col'>

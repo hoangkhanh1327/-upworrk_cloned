@@ -24,6 +24,12 @@ const LoginForm: React.FC<ILoginForm> = ({ setUsername }) => {
                             ref={userNameRef}
                             type='email'
                             placeholder='Username or Email'
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.keyCode === 13) {
+                                    userNameRef.current?.value &&
+                                        setUsername(userNameRef.current?.value);
+                                }
+                            }}
                             className='w-full !border-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 '
                         />
                     </div>

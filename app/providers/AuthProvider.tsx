@@ -32,7 +32,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [accountType, setAccountType] = useState<
         'client' | 'freelancer' | null
-    >('client');
+    >(null);
     const router = useRouter();
 
     useEffect(() => {
@@ -81,6 +81,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
     }, [accountType, router]);
 
     const login = async (email: string, password: string) => {
+        setLoading(true);
         const { data: authenData } = await loginServices.login({
             email,
             password,
@@ -96,6 +97,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
             setAccountType(authenData.user_type);
             const { data } = await loginServices.getUserInfo();
             setUser(data);
+            setLoading(false);
         }
     };
 
