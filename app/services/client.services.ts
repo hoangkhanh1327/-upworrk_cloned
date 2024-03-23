@@ -1,4 +1,4 @@
-import { ClientPostList } from '../types/client.types';
+import { ClientPostList, DetailClientPost } from '../types/client.types';
 import { CommonResponse } from '../types/common.types';
 import ApiService from './ApiService';
 
@@ -24,10 +24,12 @@ const getPosts = async (params: GetClientPostsRequest) => {
 
 type GetPostDetailRequest = string;
 
-type GetPostDetailReponse = {};
+type GetPostDetailReponse =  CommonResponse & {
+    data: DetailClientPost
+};
 
 const getPost = async (params: GetPostDetailRequest) => {
-    return ApiService.get<GetClientPostsResponse>(`/job/${params}`);
+    return ApiService.get<GetPostDetailReponse>(`/job/${params}`);
 };
 
 export const clientServices = {
