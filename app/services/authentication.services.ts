@@ -37,7 +37,7 @@ type IGetFreelancerInfoResponse = CommonResponse & {
     data: ClientInfo;
 };
 const getFreelancerInfo = async () => {
-    return ApiService.get<IGetFreelancerInfoResponse>(`/client/info`);
+    return ApiService.get<IGetFreelancerInfoResponse>(`/freelancer/info`);
 };
 
 export const loginServices = {

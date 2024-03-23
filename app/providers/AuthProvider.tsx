@@ -48,6 +48,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                     }
                 }
                 if (accountType === 'freelancer') {
+                    debugger;
                     const { data } = await loginServices.getFreelancerInfo();
                     if (data) {
                         setUser(data);
@@ -76,8 +77,17 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
             Cookies.set('account_type', authenData.user_type, {
                 expires: authenData.expires_in || 60,
             });
-            const { data } = await loginServices.getUserInfo();
-            setUser(data);
+            
+            if (authenData.user_type === 'client') {
+                const { data } = await loginServices.getUserInfo();
+                setUser(data);
+                router.push('/dashboard/client');
+            }else if(authenData.user_type === 'freelancer'){
+                const { data } = await loginServices.getFreelancerInfo();
+                setUser(data);
+                router.push('/dashboard/freelancer');
+            }
+
             setLoading(false);
         }
     };
