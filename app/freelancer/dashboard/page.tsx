@@ -7,7 +7,7 @@ import { SearchBarProvider } from './context/SearchBarContext';
 import Posts from './components/Posts';
 import Pagiantion from './components/Pagination';
 
-const ClientDashboard = () => {
+const FreelancerDashboard = () => {
     return (
         <SearchBarProvider>
             <div className='relative'>
@@ -20,4 +20,4 @@ const ClientDashboard = () => {
     );
 };
 
-export default ClientDashboard;
+export default FreelancerDashboard;
