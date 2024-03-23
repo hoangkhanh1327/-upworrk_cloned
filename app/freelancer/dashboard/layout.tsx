@@ -1,4 +1,5 @@
 import SubNav from './components/SubNav';
+import UserProfile from './components/UserProfile';
 
 const FreelancerDashboardLayout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -10,8 +11,8 @@ const FreelancerDashboardLayout = ({ children }: { children: React.ReactNode }) 
                     </div>
                     {children}
                 </div>
-                <div  className='col-span-2 bg-slate-500' >
-                    RIght COntent
+                <div  className='col-span-2 ' >
+                    <UserProfile/>
                 </div>
             </div>
         </>
