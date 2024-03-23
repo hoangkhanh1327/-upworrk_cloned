@@ -14,3 +14,17 @@ export type ClientPost = {
 };
 
 export type ClientPostList = ClientPost[];
+
+export type DetailClientPost = {
+    id: number,
+    client_id: number,
+    title: string,
+    desc: string,
+    content: string,
+    thumbnail: string,
+    bids: number,
+    status: number,
+    deadling: string,
+    created_at: string,
+    updated_at: string
+}

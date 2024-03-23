@@ -317,8 +317,6 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                             <Button
                                 className='bg-button-primary hover:bg-button-primary/80 px-6 border-2 border-solid border-transparent rounded-[10rem] transition-all inline-flex justify-center items-center max-h-10 leading-[calc_2.5rem_-_1px] text-base font-medium disabled:bg-button-disabled disabled:text-[#9aaa97] disabled:!cursor-not-allowed disabled:pointer-events-auto'
                                 onClick={() => {
-                                    console.log('form', form);
-
                                     form.handleSubmit(onSubmit, onError);
                                 }}
                             >

@@ -37,14 +37,12 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
         async function loadUserFromToken() {
             const token = Cookies.get('token');
             const accountType = Cookies.get('account_type');
-            const currentPath = pathname;
             if (token) {
                 BaseService.defaults.headers.Authorization = `Bearer ${token}`;
                 if (accountType === 'client') {
                     const { data } = await loginServices.getUserInfo();
                     if (data) {
                         setUser(data);
-                        router.push(currentPath);
                     }
                 }
                 if (accountType === 'freelancer') {
@@ -52,7 +50,6 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                     const { data } = await loginServices.getFreelancerInfo();
                     if (data) {
                         setUser(data);
-                        router.push(currentPath);
                     }
                 }
             } else {

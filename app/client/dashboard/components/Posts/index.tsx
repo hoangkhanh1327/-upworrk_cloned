@@ -5,7 +5,6 @@ import { SearchBarContext } from '../../context/SearchBarContext';
 interface IPosts {}
 const Posts: React.FC<IPosts> = () => {
     const { posts } = useContext(SearchBarContext);
-    console.log('posts', posts);
     
     return (
         <section className='py-6 border-b border-solid border-[#d5e0d5]'>

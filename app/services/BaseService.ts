@@ -19,8 +19,6 @@ const BaseService = axios.create({
 BaseService.interceptors.request.use(
     (config) => {
         const token = Cookies.get('token');
-        console.log('token', token);
-        
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
