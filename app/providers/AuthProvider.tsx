@@ -78,7 +78,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
             if (authenData.user_type === 'client') {
                 const { data } = await loginServices.getUserInfo();
                 setUser(data);
-                router.push('/dashboard/client');
+                router.push('/client/dashboard');
             }else if(authenData.user_type === 'freelancer'){
                 const { data } = await loginServices.getFreelancerInfo();
                 setUser(data);

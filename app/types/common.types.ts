@@ -10,3 +10,11 @@ export type CommonSelectOptions = {
     label: string;
     value: string | number;
 };
+
+export type  Skill = {
+    id: number,
+    name: string
+    desc: string
+    created_at: string
+    updated_at: string
+}

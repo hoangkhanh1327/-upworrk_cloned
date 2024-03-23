@@ -1,3 +1,5 @@
+import { Skill } from './common.types';
+
 export type ClientPost = {
     bids: string;
     client_id: string;
@@ -15,6 +17,13 @@ export type ClientPost = {
 
 export type ClientPostList = ClientPost[];
 
+
+
+type Task = {
+    id: number
+    name: string
+}
+
 export type DetailClientPost = {
     id: number,
     client_id: number,
@@ -23,8 +32,13 @@ export type DetailClientPost = {
     content: string,
     thumbnail: string,
     bids: number,
-    status: number,
+    status: number | string,
     deadling: string,
     created_at: string,
-    updated_at: string
+    updated_at: string,
+    min_proposals: string | number
+    nominee?: string | number
+    skills: Skill[],
+    statusText: string 
+    task: Task[]
 }

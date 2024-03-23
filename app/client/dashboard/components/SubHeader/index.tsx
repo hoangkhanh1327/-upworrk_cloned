@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/app/components/ui/button';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 const SubHeader = () => {
@@ -11,8 +12,11 @@ const SubHeader = () => {
                 All job posts
             </h2>
             <div>
-                <Button className='block px-6 w-full bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] '>
-                    Post a new job
+                <Button
+                    asChild
+                    className='block px-6 w-full bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] '
+                >
+                    <Link href={'/client/post/create'}>Post a new job</Link>
                 </Button>
             </div>
         </div>
