@@ -19,7 +19,10 @@ export default function RootLayout({
       <body>
         {/* Wrap AuthProvider with ThirdWebProvider */}
         <AuthProvider>
-          <AppThirdwebProvider>{children}</AppThirdwebProvider>
+          
+          <AppThirdwebProvider>
+            {children}
+            </AppThirdwebProvider>
         </AuthProvider>
       </body>
     </html>

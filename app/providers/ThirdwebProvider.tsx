@@ -1,9 +1,14 @@
-'use client';
+"use client";
 
-import { ThirdwebProvider, metamaskWallet } from '@thirdweb-dev/react';
+import { StateContextProvider } from "@/context";
+import { ThirdwebProvider, metamaskWallet } from "@thirdweb-dev/react";
 
 const AppThirdwebProvider = ({ children }: { children: React.ReactNode }) => {
-    return <ThirdwebProvider>{children}</ThirdwebProvider>;
+  return (
+    <ThirdwebProvider>
+      <StateContextProvider>{children}</StateContextProvider>
+    </ThirdwebProvider>
+  );
 };
 
 export default AppThirdwebProvider;
