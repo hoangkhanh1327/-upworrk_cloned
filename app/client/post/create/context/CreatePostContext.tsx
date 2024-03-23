@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, SetStateAction, createContext, useState } from 'react';
+import { createContext, useState } from 'react';
 
 interface ICreatePostContex {
     step: number;
@@ -26,7 +26,7 @@ export const CreatePostProvider = ({
     };
 
     const handleGoPreviousStep = () => {
-        if (step >= 1) {
+        if (step > 1) {
             setStep((prevStep) => prevStep - 1);
         }
     };
