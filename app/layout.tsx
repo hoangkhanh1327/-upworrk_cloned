@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./global.css";
 import AuthProvider from "./providers/AuthProvider";
-import { ThirdwebProvider } from "@thirdweb-dev/react";
+import AppThirdwebProvider from './providers/ThirdwebProvider';
 
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function RootLayout({
       <body>
         {/* Wrap AuthProvider with ThirdWebProvider */}
         <AuthProvider>
-          <ThirdwebProvider>{children}</ThirdwebProvider>
+          <AppThirdwebProvider>{children}</AppThirdwebProvider>
         </AuthProvider>
       </body>
     </html>
