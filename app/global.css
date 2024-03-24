@@ -1,6 +1,9 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import "./styles/_upload.css";
 
 @font-face {
     font-family: 'Neue Montreal';

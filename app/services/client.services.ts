@@ -32,7 +32,16 @@ const getPost = async (params: GetPostDetailRequest) => {
     return ApiService.get<GetPostDetailReponse>(`/job/${params}`);
 };
 
+type CreatePostRequest = any
+
+type CreatePostResponse = any
+
+const createPost = async (params: CreatePostRequest) => {
+    return ApiService.postFormData<CommonResponse>(`/client/job/create-job`, params)
+}
+
 export const clientServices = {
     getPosts,
     getPost,
+    createPost
 };
