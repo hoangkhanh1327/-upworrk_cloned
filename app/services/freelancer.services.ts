@@ -21,7 +21,6 @@ const getPosts = async (params: GetFreelancerPostsRequest) => {
         params
     );
 };
-
 export const freelancerServices = {
     getPosts,
   };

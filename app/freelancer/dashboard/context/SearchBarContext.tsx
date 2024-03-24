@@ -66,7 +66,6 @@ export const SearchBarProvider = ({
 
     useEffect(() => {
         const fecthPosts = async (data: any) => {
-            debugger
             try {
                 setIsGettingPosts(true);
                 const res = await freelancerServices.getPosts({
