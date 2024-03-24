@@ -18,3 +18,4 @@ export type  Skill = {
     created_at: string
     updated_at: string
 }
+

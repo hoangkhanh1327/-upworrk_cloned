@@ -27,6 +27,8 @@ import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 import { useAddress, useMetamask, useContract } from "@thirdweb-dev/react";
 import { useStateContext } from "@/context";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { commonServices } from "@/app/services/common.services";
 // import Link from "next/link";
 
 const CreateFormContractSchema = yup.object({
@@ -46,10 +48,12 @@ interface ICreateFormContract {
 }
 
 const CreateFormContract = () => {
-  // const [startDate, setStartDate] = useState(new Date());
+  const [loading, setLoading] = useState(false);
   // const address = useAddress();
   // const connect = useMetamask();
-  const { contract } = useContract('0x72c09FC8D70f28299E07ab9dEacE79BA4727aBe0');
+  const { contract } = useContract(
+    "0x5B549B6308dD5048564297e0546c17d1889CbF0C"
+  );
   const { address, connect } = useStateContext();
   const form = useForm({
     resolver: yupResolver(CreateFormContractSchema),
@@ -62,26 +66,42 @@ const CreateFormContract = () => {
   });
   // const data = await
   //  contract?.call('createContract', ["aaaa","desc","6",proposal,41,32,6], { value: (proposal).toString() });
-
+  const sendNotification = async (data: any) => {
+    
+      try {
+          // setIsGettingPosts(true);
+          const res = await commonServices.sendNotication(data);
+          if(res.status === 200) {
+              console.log('send notification success', res);
+          }
+      } catch (error) {
+          console.log('error', error);
+      } finally {
+          // setIsGettingPosts(false);
+      }
+  };
+  
   const onSubmit: SubmitHandler<any> = async (data) => {
     if (address) {
       try {
-        const test = await contract?.call(
+        setLoading(true);
+        const responseContract = await contract?.call(
           "createContract",
-          [
-            data.title,
-            data.description,
-            data.deadline,
-            data.bids,
-        
-            61,
-            4,
-            9,
-          ],
+          [data.title, data.description, data.deadline, data.bids, 61, 4, 9],
           { value: data.bids.toString() }
         );
-
-        console.log("contract call successs", test);
+        setLoading(false);
+        //send notification
+          // await notiRes = 
+          sendNotification({
+            title: `Create contract ${data.title} success`,
+            message: `${data.description}`,
+            linkable: '/contract',
+            smail: 1,
+            imagefile: null,
+            user_type: 'freelancer',
+            user_id: 4
+          });
       } catch (err) {
         console.error("contract call failure", err);
       }
@@ -180,14 +200,18 @@ const CreateFormContract = () => {
                 </FormItem>
               )}
             />
-        
+
             <div className="text-center mt-10">
               <Button
+                disabled={loading}
                 className="bg-button-primary hover:bg-button-primary/80 px-6 border-2 border-solid border-transparent rounded-[10rem] transition-all inline-flex justify-center items-center max-h-10 leading-[calc_2.5rem_-_1px] text-base font-medium disabled:bg-button-disabled disabled:text-[#9aaa97] disabled:!cursor-not-allowed disabled:pointer-events-auto"
                 onClick={() => {
                   form.handleSubmit(onSubmit, onError);
                 }}
               >
+                {loading && (
+                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+                )}
                 {address ? "Create contract" : "Connect wallet"}
                 {/* {" Already create contract"} */}
               </Button>
