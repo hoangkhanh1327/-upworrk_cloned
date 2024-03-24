@@ -45,16 +45,16 @@ const LoginFormStep2: React.FC<ILoginFormStep2> = ({
                     </div>
 
                     <Button
-                        disabled={loading}
+                        // disabled={loading}
                         onClick={() =>
                             passwordRef.current?.value &&
                             handleLogin(passwordRef.current?.value)
                         }
                         className='block w-full bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] '
                     >
-                        {loading && (
-                            <ReloadIcon className='mr-2 h-4 w-4 animate-spin inline-flex' />
-                        )}
+                        {/* {loading && ( */}
+                            {/* <ReloadIcon className='mr-2 h-4 w-4 animate-spin inline-flex' /> */}
+                        {/* )} */}
                         Login
                     </Button>
                 </div>
