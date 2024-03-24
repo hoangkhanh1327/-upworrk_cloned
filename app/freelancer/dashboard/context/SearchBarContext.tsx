@@ -1,5 +1,6 @@
-import { clientServices } from '@/app/services/client.services';
+import { freelancerServices } from '@/app/services/freelancer.services';
 import { ClientPostList } from '@/app/types/client.types';
+import { DetailJobPost } from '@/app/types/freelancer.type';
 import { isEmpty } from 'lodash';
 import {
     Dispatch,
@@ -18,7 +19,7 @@ interface ISearchBarContext {
     type: string;
     postedBy: string;
     searchText: string;
-    posts: ClientPostList;
+    posts: DetailJobPost[];
     isGettingPosts: boolean;
     total: number;
     page: number;
@@ -53,7 +54,7 @@ export const SearchBarProvider = ({
     const [type, setType] = useState('0');
     const [postedBy, setPostedBy] = useState('0');
     const [searchText, setSearchText] = useState('');
-    const [posts, setPosts] = useState<ClientPostList>([]);
+    const [posts, setPosts] = useState<DetailJobPost[]>([]);
     const [isGettingPosts, setIsGettingPosts] = useState(false);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
@@ -65,9 +66,10 @@ export const SearchBarProvider = ({
 
     useEffect(() => {
         const fecthPosts = async (data: any) => {
+            debugger
             try {
                 setIsGettingPosts(true);
-                const res = await clientServices.getPosts({
+                const res = await freelancerServices.getPosts({
                     page: data?.page || 1,
                     num: 999,
                     status: 1,

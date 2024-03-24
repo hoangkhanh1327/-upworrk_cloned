@@ -34,7 +34,7 @@ const CreateFormContractSchema = yup.object({
   description: yup.string().required(),
   deadline: yup.date().required(),
   bids: yup.number().required(),
-  status: yup.number().required(),
+  // status: yup.number().required(),
 
   // allowSendMail: yup.bool(),
 });
@@ -58,7 +58,6 @@ const CreateFormContract = () => {
       description: "",
       deadline: new Date(),
       bids: 0,
-      status: 0,
     },
   });
   // const data = await
@@ -70,22 +69,19 @@ const CreateFormContract = () => {
         const test = await contract?.call(
           "createContract",
           [
-            // data.title,
-            // data.description,
-            // data.deadline,
-            // data.bids,
-            'aaaa',
-            'aaaaaaaaa',
-            '2024-12-12',
-            3,
+            data.title,
+            data.description,
+            data.deadline,
+            data.bids,
+        
             61,
-            5,
+            4,
             9,
           ],
-          { value: '3' }
+          { value: data.bids.toString() }
         );
 
-        console.info("contract call successs", test);
+        console.log("contract call successs", test);
       } catch (err) {
         console.error("contract call failure", err);
       }
@@ -184,30 +180,7 @@ const CreateFormContract = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="status"
-              render={({ field }) => (
-                <FormItem className="mt-6">
-                  <FormLabel>Status</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value?.toString()}
-                    defaultValue={field.value.toString()}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline">
-                        <SelectValue placeholder="Viet Nam" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <FormMessage />
-                    <SelectContent className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline">
-                      <SelectItem value="1">Chuẩn bị chuyển</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
+        
             <div className="text-center mt-10">
               <Button
                 className="bg-button-primary hover:bg-button-primary/80 px-6 border-2 border-solid border-transparent rounded-[10rem] transition-all inline-flex justify-center items-center max-h-10 leading-[calc_2.5rem_-_1px] text-base font-medium disabled:bg-button-disabled disabled:text-[#9aaa97] disabled:!cursor-not-allowed disabled:pointer-events-auto"

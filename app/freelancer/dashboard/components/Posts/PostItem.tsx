@@ -3,11 +3,12 @@ import dayjs from 'dayjs';
 import { ClientPost } from '@/app/types/client.types';
 import Link from 'next/link';
 import { BadgeCheck } from 'lucide-react';
+import { DetailJobPost } from '@/app/types/freelancer.type';
 
 dayjs.extend(relativeTime).locale('vi');
 
 interface IPostItem {
-    post: ClientPost;
+    post: DetailJobPost;
 }
 const PostItem: React.FC<IPostItem> = ({ post }) => {
     return (
