@@ -15,7 +15,9 @@ const ClientLayout = ({ children }: { children: React.ReactNode }) => {
             ) : (
                 <>
                     <main className='container py-8'>{children}</main>
-                    <ProtectedFooter />
+                    {pathname.includes('/client/post') ? null : (
+                        <ProtectedFooter />
+                    )}
                 </>
             )}
         </>

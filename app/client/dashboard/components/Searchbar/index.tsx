@@ -26,7 +26,7 @@ const SearchBar: FC<ISearchBar> = () => {
                 )}
             >
                 <FilterPannel />
-                <FilterTags />
+                {/* <FilterTags /> */}
             </div>
         </div>
     );

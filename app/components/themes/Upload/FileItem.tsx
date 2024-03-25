@@ -48,7 +48,6 @@ const FileItem = (props: FileItemProps) => {
                 </FileIcon>
             );
         }
-        console.log('vo day chu ha');
 
         return (
             <FileIcon>
@@ -56,7 +55,6 @@ const FileItem = (props: FileItemProps) => {
             </FileIcon>
         );
     };
-    console.log('render file item');
 
     return (
         <div className='upload-file'>

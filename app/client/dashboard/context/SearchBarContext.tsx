@@ -3,18 +3,15 @@ import { ClientPostList } from '@/app/types/client.types';
 import { isEmpty } from 'lodash';
 import {
     Dispatch,
-    MutableRefObject,
     SetStateAction,
     createContext,
-    useCallback,
     useEffect,
-    useRef,
     useState,
 } from 'react';
 
 interface ISearchBarContext {
     visibility: string;
-    status: string[];
+    status: string;
     type: string;
     postedBy: string;
     searchText: string;
@@ -24,7 +21,7 @@ interface ISearchBarContext {
     page: number;
     totalPage: number;
     setVisibility?: Dispatch<SetStateAction<string>>;
-    setStatus?: Dispatch<SetStateAction<string[]>>;
+    setStatus?: Dispatch<SetStateAction<string>>;
     setType?: Dispatch<SetStateAction<string>>;
     setPostedBy?: Dispatch<SetStateAction<string>>;
     setSearchText?: Dispatch<SetStateAction<string>>;
@@ -32,7 +29,7 @@ interface ISearchBarContext {
 }
 export const SearchBarContext = createContext<ISearchBarContext>({
     visibility: '0',
-    status: ['0'],
+    status: '-1',
     type: '0',
     postedBy: '0',
     searchText: '',
@@ -49,7 +46,7 @@ export const SearchBarProvider = ({
     children: React.ReactNode;
 }) => {
     const [visibility, setVisibility] = useState('0');
-    const [statusOpts, setStatusOpts] = useState<string[]>(['0']);
+    const [statusOpts, setStatusOpts] = useState<string>('-1');
     const [type, setType] = useState('0');
     const [postedBy, setPostedBy] = useState('0');
     const [searchText, setSearchText] = useState('');
@@ -70,7 +67,8 @@ export const SearchBarProvider = ({
                 const res = await clientServices.getPosts({
                     page: data?.page || 1,
                     num: 999,
-                    status: 1,
+                    status:
+                        data?.statusOpts === '-1' ? undefined : data.statusOpts,
                 });
                 if (res.data && !isEmpty(res.data.data)) {
                     setPosts(res.data.data);
@@ -86,12 +84,13 @@ export const SearchBarProvider = ({
         if (type && postedBy && statusOpts && visibility && page)
             fecthPosts({
                 page,
-                type,
-                visibility,
+                // type,
+                // visibility,
                 statusOpts,
-                postedBy,
+                searchText,
+                // postedBy,
             });
-    }, [postedBy, statusOpts, type, visibility, page]);
+    }, [postedBy, statusOpts, type, visibility, page, searchText]);
 
     return (
         <SearchBarContext.Provider

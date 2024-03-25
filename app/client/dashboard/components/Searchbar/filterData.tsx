@@ -28,25 +28,26 @@ export const VisibilityOptions: CommonSelectOptions[] = [
 
 export const StatusOptions: CommonSelectOptions[] = [
     {
-        label: 'All',
+        label: 'Tất cả',
+        value: '-1',
+    },
+    {
+        label: 'Ẩn',
         value: '0',
     },
     {
-        label: 'Draft',
+        label: 'Mở ứng tuyển',
         value: '1',
     },
     {
-        label: 'Open',
+        label: 'Đóng ứng tuyển',
         value: '2',
     },
     {
-        label: 'Filled',
+        label: 'Đang được thực hiện',
         value: '3',
     },
-    {
-        label: 'Closed',
-        value: '4',
-    },
+   
 ];
 
 export const TypeOptions: CommonSelectOptions[] = [
