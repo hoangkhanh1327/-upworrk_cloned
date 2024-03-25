@@ -35,7 +35,9 @@ const signUpFormSchema = yup.object({
     allowSendMail: yup.bool(),
 });
 
-export interface SignUpSubmitValue {}
+export interface SignUpSubmitValue {
+    [key: string]: string | number
+}
 
 interface ISignUpForm {
     handleCreateAccount: (data: SignUpSubmitValue) => void;
@@ -55,9 +57,9 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
     });
     const watchAllowSendMail = form.watch('allowSendMail');
     const watchAllowPolicy = form.watch('allowPolicy');
-    const onSubmit: SubmitHandler<SignUpSubmitValue> = (data) =>
+    const onSubmit: SubmitHandler<SignUpSubmitValue | any> = (data) =>
         handleCreateAccount(data);
-    const onError: SubmitErrorHandler<SignUpSubmitValue> = (errors) => {
+    const onError: SubmitErrorHandler<SignUpSubmitValue | any> = (errors) => {
         console.log('error', errors);
     };
 
