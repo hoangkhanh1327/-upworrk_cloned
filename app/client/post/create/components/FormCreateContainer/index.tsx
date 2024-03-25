@@ -35,6 +35,9 @@ import {
     SelectValue,
 } from '@/app/components/ui/select';
 import { clientServices } from '@/app/services/client.services';
+import SingleImageUpload from '@/app/components/themes/ImageUpload/SingleImageUpload';
+import { useRouter } from 'next/navigation';
+import { ReloadIcon } from '@radix-ui/react-icons';
 
 const createPostSchema = yup.object({
     title: yup
@@ -61,10 +64,14 @@ const createPostSchema = yup.object({
         .required('Vui lòng chọn ít nhất 1 skill'),
 });
 
-interface ICreatePostData {}
+interface ICreatePostData {
+    deadline: string;
+}
 
 const FormCreateContainer = () => {
     const { step, goPreviousStep } = useContext(CreatePostContext);
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
 
     const form = useForm({
         resolver: yupResolver(createPostSchema),
@@ -81,8 +88,6 @@ const FormCreateContainer = () => {
 
     const skills = form.watch('skill');
     const fileContent = form.watch('content_file');
-    const thumbnail = form.watch('thumbnail');
-    const errors = form.formState.errors;
 
     const onSubmit: SubmitHandler<ICreatePostData> = (data) =>
         handleCreatePost(data);
@@ -92,29 +97,39 @@ const FormCreateContainer = () => {
     };
 
     const handleCreatePost = async (data: ICreatePostData) => {
-        console.log('data', data);
-        const res = await clientServices.createPost(data);
-        console.log('res', res);
+        try {
+            setLoading(true);
+            const res = await clientServices.createPost({
+                ...data,
+                deadline: format(data.deadline, 'yyyy-MM-dd'),
+            });
+            if (res.status === 200) {
+                router.push('/client/dashboard');
+            }
+        } catch (error) {
+            console.log('error', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
-        if (step === 5) {
-        } else {
-            form.trigger();
-        }
-    }, [step, form]);
+        const handleValidate = async () => {
+            let isValid = true;
+            if (step === 2) {
+                isValid = await form.trigger(['title', 'desc']);
+            } else if (step === 3) {
+                isValid = await form.trigger(['skill', 'bids']);
+            } else if (step === 4) {
+                isValid = await form.trigger('content');
+            }
 
-    useEffect(() => {
-        if (errors) {
-            if (
-                (step === 2 && errors.title && errors.desc) ||
-                (step === 3 && errors.skill) ||
-                (step === 4 && errors.content)
-            ) {
+            if (!isValid) {
                 goPreviousStep?.();
             }
-        }
-    }, [errors, goPreviousStep, step]);
+        };
+        // handleValidate();
+    }, [step, form, goPreviousStep]);
 
     return (
         <section className='container px-20 py-8'>
@@ -188,7 +203,7 @@ const FormCreateContainer = () => {
                                     name='skill'
                                     render={({ field }) => (
                                         <>
-                                            <FormItem className='mb-6'>
+                                            <FormItem className='mb-2'>
                                                 <FormLabel className='block font-medium text-base leading-[22px] mb-3'>
                                                     Select 3 - 5 skills for your
                                                     post
@@ -241,7 +256,7 @@ const FormCreateContainer = () => {
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
-                                            <div className='flex items-center mt-3 gap-x-4'>
+                                            <div className='flex items-center mt-3 gap-x-4 mb-6'>
                                                 <span className='w-4 h-4'>
                                                     <svg
                                                         xmlns='http://www.w3.org/2000/svg'
@@ -281,7 +296,7 @@ const FormCreateContainer = () => {
                                 />
                                 {skills.length ? (
                                     <Fragment>
-                                        <h5 className='text-base font-medium mb-2'>
+                                        <h5 className='text-base font-medium my-3'>
                                             Selected skills:{' '}
                                         </h5>
                                         <div className='flex gap-x-1 gap-y-2'>
@@ -311,6 +326,24 @@ const FormCreateContainer = () => {
                                         </div>
                                     </Fragment>
                                 ) : null}
+                                <FormField
+                                    control={form.control}
+                                    name='bids'
+                                    render={({ field }) => (
+                                        <FormItem className='mt-6'>
+                                            <FormLabel className='block font-medium text-base leading-[22px] mb-3'>
+                                                Enter bids
+                                            </FormLabel>
+                                            <FormControl>
+                                                <Input
+                                                    type='number'
+                                                    {...field}
+                                                />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
                             </div>
                         </div>
                     )}
@@ -348,12 +381,9 @@ const FormCreateContainer = () => {
                                     name='desc'
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>
-                                                Upload file description about
-                                                your job
-                                            </FormLabel>
+                                            <FormLabel>{`Upload file description about your job`}</FormLabel>
                                             <Upload
-                                                className='h-[30vh]'
+                                                className='h-[66px]'
                                                 multiple={false}
                                                 disabled={
                                                     fileContent ? true : false
@@ -419,7 +449,7 @@ const FormCreateContainer = () => {
                                                             {field.value ? (
                                                                 format(
                                                                     field.value,
-                                                                    'PPP'
+                                                                    'dd-MM-yyyy'
                                                                 )
                                                             ) : (
                                                                 <span>
@@ -443,11 +473,10 @@ const FormCreateContainer = () => {
                                                             field.onChange
                                                         }
                                                         disabled={(date) =>
-                                                            
                                                             date <
-                                                                new Date(
-                                                                    '1900-01-01'
-                                                                )
+                                                            new Date(
+                                                                '1900-01-01'
+                                                            )
                                                         }
                                                         initialFocus
                                                     />
@@ -497,26 +526,14 @@ const FormCreateContainer = () => {
                                     render={({ field }) => (
                                         <FormItem className='mb-6'>
                                             <FormLabel>Job Thumbnail</FormLabel>
-                                            <Upload
-                                                className='h-[30vh]'
-                                                multiple={false}
-                                                disabled={
-                                                    thumbnail ? true : false
-                                                }
-                                                showList={true}
-                                                fileList={
-                                                    thumbnail
-                                                        ? [thumbnail as File]
-                                                        : []
-                                                }
-                                                draggable={true}
-                                                onChange={(file) => {
+                                            <SingleImageUpload
+                                                onFileUpload={(file) => {
                                                     form.setValue(
                                                         'thumbnail',
-                                                        file[0]
+                                                        file
                                                     );
                                                 }}
-                                                onFileRemove={() => {
+                                                onDeleteImage={() => {
                                                     form.setValue(
                                                         'thumbnail',
                                                         null
@@ -526,84 +543,19 @@ const FormCreateContainer = () => {
                                         </FormItem>
                                     )}
                                 />
-                                <Button type='submit'>
+                                <Button
+                                    disabled={loading}
+                                    className='block bg-[#108a00] hover:bg-[#14a800]'
+                                    type='submit'
+                                >
+                                    {loading && (
+                                        <ReloadIcon className='mr-2 h-4 w-4 animate-spin inline-flex' />
+                                    )}
                                     Create your post now!
                                 </Button>
                             </div>
                         </div>
                     )}
-                    {/* {step === 5 && (
-                        <div className='grid grid-cols-2 gap-x-8 px-12 mx-12'>
-                            <div>
-                                <small className='mb-6 inline-block text-sm'>
-                                    {`4/5`}{' '}
-                                    <span className='ml-6'>Job post</span>
-                                </small>
-                                <h2 className='mb-6 text-4xl leading-8 -tracking-[0.25px] font-rza'>{`Let's setup your job status and deadline!.`}</h2>
-                                <p className='text-sm leading-5 mb-8'>
-                                    {`Now setup your job status and deadline!`}
-                                </p>
-                            </div>
-                            <div>
-                                <FormField
-                                    control={form.control}
-                                    name='thumbnail'
-                                    render={({ field }) => (
-                                        <FormItem className='mb-6'>
-                                            <FormLabel className='mr-3 block'>
-                                                Job Thumbnail{' '}
-                                            </FormLabel>
-                                            <FormField
-                                                control={form.control}
-                                                name='desc'
-                                                render={({ field }) => (
-                                                    <FormItem>
-                                                        <FormLabel>
-                                                            Upload file
-                                                            description about
-                                                            your job
-                                                        </FormLabel>
-                                                        <Upload
-                                                            className='h-[30vh]'
-                                                            multiple={false}
-                                                            disabled={
-                                                                fileContent
-                                                                    ? true
-                                                                    : false
-                                                            }
-                                                            showList={true}
-                                                            fileList={
-                                                                fileContent
-                                                                    ? [
-                                                                          fileContent as File,
-                                                                      ]
-                                                                    : []
-                                                            }
-                                                            draggable={true}
-                                                            onChange={(
-                                                                file
-                                                            ) => {
-                                                                form.setValue(
-                                                                    'thumbnail',
-                                                                    file[0]
-                                                                );
-                                                            }}
-                                                            onFileRemove={() => {
-                                                                form.setValue(
-                                                                    'thumbnail',
-                                                                    null
-                                                                );
-                                                            }}
-                                                        />
-                                                    </FormItem>
-                                                )}
-                                            />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        </div>
-                    )} */}
                 </form>
             </Form>
         </section>

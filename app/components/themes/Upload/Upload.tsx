@@ -95,12 +95,10 @@ const Upload = forwardRef<HTMLDivElement, UploadProps>((props, ref) => {
             result = beforeUpload(newFiles, files);
 
             if (result === false) {
-
                 return;
             }
 
             if (typeof result === 'string' && result.length > 0) {
-
                 return;
             }
         }
@@ -180,27 +178,32 @@ const Upload = forwardRef<HTMLDivElement, UploadProps>((props, ref) => {
 
     return (
         <>
-            <div
-                ref={ref}
-                className={uploadClass}
-                {...(draggable ? draggableProp : { onClick: triggerUpload })}
-                {...rest}
-            >
-                <input
-                    ref={fileInputField}
-                    className={uploadInputClass}
-                    type='file'
-                    disabled={disabled}
-                    multiple={multiple}
-                    accept={accept}
-                    title=''
-                    value=''
-                    onChange={onNewFileUpload}
-                    {...field}
+            {disabled ? null : (
+                <div
+                    ref={ref}
+                    className={uploadClass}
+                    {...(draggable
+                        ? draggableProp
+                        : { onClick: triggerUpload })}
                     {...rest}
-                ></input>
-                {renderChildren()}
-            </div>
+                >
+                    <input
+                        ref={fileInputField}
+                        className={uploadInputClass}
+                        type='file'
+                        disabled={disabled}
+                        multiple={multiple}
+                        accept={accept}
+                        title=''
+                        value=''
+                        onChange={onNewFileUpload}
+                        {...field}
+                        {...rest}
+                    ></input>
+                    {renderChildren()}
+                </div>
+            )}
+
             {tip}
             {showList && (
                 <div className='upload-file-list'>

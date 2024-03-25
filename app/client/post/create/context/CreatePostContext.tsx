@@ -17,7 +17,7 @@ export const CreatePostProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [step, setStep] = useState(4);
+    const [step, setStep] = useState(1);
 
     const handleGoNextStep = () => {
         if (step <= 5) {
