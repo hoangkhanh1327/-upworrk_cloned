@@ -87,7 +87,7 @@ const CreateFormContract = () => {
         setLoading(true);
         const responseContract = await contract?.call(
           "createContract",
-          [data.title, data.description, data.deadline, data.bids, 61, 4, 9],
+          [data.title, data.description, data.deadline, data.bids, 62, 4, 9],
           { value: data.bids.toString() }
         );
         setLoading(false);

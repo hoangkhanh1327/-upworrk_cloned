@@ -287,7 +287,7 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                                     </div>
                                 </span>
                                 <span className='text-base font-normal'>
-                                    Yes, I understand and agree to the Upwork
+                                    Yes, I understand and agree to the ITWork
                                     <Link
                                         className='text-link font-medium underline transition-[color]'
                                         href={'/docs/terms-of-use'}

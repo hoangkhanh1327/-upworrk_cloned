@@ -54,7 +54,7 @@ const footerData: IFooterData[] = [
                 title: 'Success Stories',
             },
             {
-                title: 'Upwork Reviews',
+                title: 'ITWork Reviews',
             },
             {
                 title: 'Resources',

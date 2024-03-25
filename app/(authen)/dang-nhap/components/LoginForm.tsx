@@ -14,7 +14,7 @@ const LoginForm: React.FC<ILoginForm> = ({ setUsername }) => {
         <div className='px-12 py-4 mt-8 overflow-x-hidden min-w-[500px] max-w-[570px] mx-auto border border-solid border-[#d5e0d5] rounded-2xl'>
             <div className='px-8'>
                 <h4 className='text-[28px] mt-6 mb-6 leading-8 text-center font-semibold'>
-                    Login to Upwork
+                    Login to ITWork
                 </h4>
 
                 <div>
@@ -60,7 +60,7 @@ const LoginForm: React.FC<ILoginForm> = ({ setUsername }) => {
                 <div className='mb-10 pb-10 pt-3'></div>
 
                 <div className='w-full bg-white text-[#5e6d55] overflow-hidden text-center font-light my-3 pb-3 before:relative before:right-2.5 before:-ml-[50%] before:bg-[#8f8e8e] before:content-[""] before:inline-block before:h-[1px] before:align-middle before:w-1/2 after:content-[""] after:left-[10px] after:-mr-[50%] after:bg-[#8f8e8e] after:inline-block after:h-[1px] after:relative after:align-middle after:w-1/2'>
-                    {`Don't have an Upwork account?`}
+                    {`Don't have an ITWork account?`}
                 </div>
 
                 <div className='text-center'>

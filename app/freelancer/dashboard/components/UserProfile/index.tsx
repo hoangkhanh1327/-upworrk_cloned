@@ -12,7 +12,7 @@ const UserProfile = () => {
             <a>
               <img
                 className="w-12 h-12 rounded-full"
-                src="https://www.upwork.com/profile-portraits/c1WjIAHWPpCJFA-G_3trnlXAR-AShN84GTHJ59Ll-tte4aKLFALVnt39kYKf82JnWc"
+                src="https://www.ITWork.com/profile-portraits/c1WjIAHWPpCJFA-G_3trnlXAR-AShN84GTHJ59Ll-tte4aKLFALVnt39kYKf82JnWc"
               />
             </a>
           </div>

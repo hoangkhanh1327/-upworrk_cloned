@@ -20,7 +20,7 @@ const QAEnterpriseSection = () => {
                             </span>
                         </h2>
                         <span className='text-lg leading-[130%] tracking-[.6px] text-white'>
-                            Access the top 1% of talent on Upwork, and a full
+                            Access the top 1% of talent on ITWork, and a full
                             suite of hybrid workforce management tools. This is
                             how innovation works now.
                         </span>
@@ -32,7 +32,7 @@ const QAEnterpriseSection = () => {
                                     className='mr-3 align-middle'
                                     width={20}
                                     height={20}
-                                    src={`https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/f_auto,q_auto/brontes/for-enterprise/Skills.svg`}
+                                    src={`https://res.cloudinary.com/ITWork-cloud-acquisition-prod/image/upload/f_auto,q_auto/brontes/for-enterprise/Skills.svg`}
                                     alt=''
                                 />
                                 {`Access expert talent to fill your skill gaps`}
@@ -42,7 +42,7 @@ const QAEnterpriseSection = () => {
                                     className='mr-3 align-middle'
                                     width={20}
                                     height={20}
-                                    src={`https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/f_auto,q_auto/brontes/for-enterprise/Briefcase.svg`}
+                                    src={`https://res.cloudinary.com/ITWork-cloud-acquisition-prod/image/upload/f_auto,q_auto/brontes/for-enterprise/Briefcase.svg`}
                                     alt=''
                                 />
                                 {`A Control your workflow: hire, classify and pay your talent`}
@@ -52,10 +52,10 @@ const QAEnterpriseSection = () => {
                                     className='mr-3 align-middle'
                                     width={20}
                                     height={20}
-                                    src={`https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/f_auto,q_auto/brontes/for-enterprise/Support.svg`}
+                                    src={`https://res.cloudinary.com/ITWork-cloud-acquisition-prod/image/upload/f_auto,q_auto/brontes/for-enterprise/Support.svg`}
                                     alt=''
                                 />
-                                {`Partner with Upwork for end-to-end support`}
+                                {`Partner with ITWork for end-to-end support`}
                             </div>
                         </div>
                         <div>
@@ -72,7 +72,7 @@ const QAEnterpriseSection = () => {
                     <Image
                         fill
                         alt='qa-enterprise'
-                        src={`https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/f_auto,q_auto/brontes/for-enterprise/enterprise-2023.jpg`}
+                        src={`https://res.cloudinary.com/ITWork-cloud-acquisition-prod/image/upload/f_auto,q_auto/brontes/for-enterprise/enterprise-2023.jpg`}
                     />
                 </div>
             </div>

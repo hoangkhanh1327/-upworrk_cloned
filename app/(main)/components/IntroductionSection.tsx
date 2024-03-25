@@ -126,7 +126,7 @@ const Introduction = () => {
                                     Work with the best—without breaking the bank
                                 </h5>
                                 <p className='mt-1 text-sm mb-0'>
-                                    Upwork makes it affordable to up your work
+                                    ITWork makes it affordable to up your work
                                     and take advantage of low transaction rates.
                                 </p>
                             </div>

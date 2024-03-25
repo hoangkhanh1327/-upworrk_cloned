@@ -113,7 +113,7 @@ const QABussiness = () => {
                             <span>
                                 Why businesses
                                 <br />
-                                turn to Upwork
+                                turn to ITWork
                             </span>
                         </h2>
                         <div className='pr-[285px]'>
@@ -177,7 +177,7 @@ const QABussiness = () => {
                                 <h3 className='mb-2.5 text-[33px] leading-[100%] text-white'>
                                     {`4.9/5`}
                                 </h3>
-                                <p className='p-0 text-base leading-[22px] text-white'>{`Clients rate professionals on Upwork`}</p>
+                                <p className='p-0 text-base leading-[22px] text-white'>{`Clients rate professionals on ITWork`}</p>
                             </div>
                         </div>
                         <div className='flex'>

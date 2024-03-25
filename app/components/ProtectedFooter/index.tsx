@@ -24,7 +24,7 @@ const footerData: IFooterData[] = [
                 title: 'Help & Support',
             },
             {
-                title: 'Upwork Foundation',
+                title: 'ITWork Foundation',
             },
         ],
     },

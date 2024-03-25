@@ -28,7 +28,7 @@ const BannerSection = () => {
                         <Image
                             fill
                             alt='banner'
-                            src={`https://res.cloudinary.com/upwork-cloud-acquisition-prod/image/upload/c_scale,w_440,h_300,f_auto,q_auto,dpr_2.0/brontes/hero/searching-talent@2x.png`}
+                            src={`https://res.cloudinary.com/ITWork-cloud-acquisition-prod/image/upload/c_scale,w_440,h_300,f_auto,q_auto,dpr_2.0/brontes/hero/searching-talent@2x.png`}
                         />
                     </div>
                 </div>

@@ -6,7 +6,7 @@ const CommonFooter = () => {
             <footer className='container bg-[#001e00] py-12 rounded-lg mb-3'>
                 <p className='text-center'>
                     <small className='text-white text-[11px]'>
-                        © 2015 - 2024 Upwork® Global Inc.
+                        © 2015 - 2024 ITWork® Global Inc.
                     </small>
                     <small className='text-white text-[11px] leading-[1.454]'>•</small>
                     <Link
