@@ -25,6 +25,18 @@ const login = async (params: ILoginParams) => {
     });
 };
 
+type ISignUpRequest = {
+    [key: string]: string | number
+}
+
+type ISIgnUpResponse = CommonResponse & {
+    data: any
+}
+
+const signup = async (params: ISignUpRequest) => {
+    return ApiService.post<ISIgnUpResponse>(`${appConfig.apiUrl}/register`, params)
+}
+
 type IGetUserInfoResponse = CommonResponse & {
     data: ClientInfo;
 };
@@ -42,6 +54,7 @@ const getFreelancerInfo = async () => {
 
 export const loginServices = {
     login,
+    signup,
     getUserInfo,
     getFreelancerInfo
 };

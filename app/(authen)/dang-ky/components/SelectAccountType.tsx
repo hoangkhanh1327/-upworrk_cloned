@@ -191,7 +191,7 @@ const SelectAccountType: React.FC<ISelectAccountType> = ({
                     </div>
                     <div className='pr-3'>
                         <h4 className='mt-4 mb-3 text-2xl'>
-                            {`I’m a client, hiring for a project`}
+                            {`I’m a freelancer, looking for work`}
                         </h4>
                     </div>
                 </div>
