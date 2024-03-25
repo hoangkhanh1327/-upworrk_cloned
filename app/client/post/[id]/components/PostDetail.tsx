@@ -201,6 +201,8 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                             </div>
                         </div>
                     </div>
+
+                    <footer></footer>
                 </article>
             </div>
         </section>
