@@ -4,6 +4,8 @@ import ProtectedHeader from '../components/ProtectedHeader';
 import ProtectedFooter from '../components/ProtectedFooter';
 import { usePathname } from 'next/navigation';
 
+const hiddenFooterPaths = ['/']
+
 // Layout se dung de tao giao dien chung cho cac trang trong cung folder
 const FreelancerLayout = ({ children }: { children: React.ReactNode }) => {
     const pathname = usePathname();

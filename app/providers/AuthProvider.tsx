@@ -2,14 +2,14 @@
 
 import { FC, createContext, useContext, useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
-import { ClientInfo } from '@/app/types/authentication.types';
+import { ClientInfo, FreelancerInfo } from '@/app/types/authentication.types';
 import BaseService from '@/app/services/BaseService';
 import { loginServices } from '@/app/services/authentication.services';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface IAuthContext {
     isAuthenticated: boolean;
-    user: ClientInfo | null;
+    user: ClientInfo | FreelancerInfo | null;
     login: (email: string, password: string) => void;
     logout: () => void;
     loading: boolean;
@@ -77,10 +77,14 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                 const { data } = await loginServices.getUserInfo();
                 setUser(data);
                 router.push('/client/dashboard');
-            }else if(authenData.user_type === 'freelancer'){
+            } else if (authenData.user_type === 'freelancer') {
                 const { data } = await loginServices.getFreelancerInfo();
                 setUser(data);
-                router.push('/freelancer/dashboard');
+                if (data.is_completed_profile) {
+                    router.push('/freelancer/dashboard');
+                } else {
+                    router.push('/freelancer/profile/edit')
+                }
             }
             setLoading(false);
         }

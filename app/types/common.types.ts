@@ -19,3 +19,10 @@ export type  Skill = {
     updated_at: string
 }
 
+
+export type SkillInProfile = {
+    skill_id: number,
+    skill_desc: string,
+    skill_name: string,
+    skill_point: number
+}
