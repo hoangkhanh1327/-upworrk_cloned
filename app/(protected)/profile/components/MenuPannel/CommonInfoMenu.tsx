@@ -16,15 +16,17 @@ import {
 import { AuthContext } from '@/app/providers/AuthProvider';
 import { Building2, CircleUserRound, Pencil } from 'lucide-react';
 import Image from 'next/image';
-import { useContext } from 'react';
+import { Fragment, useContext } from 'react';
 import Cookies from 'js-cookie';
 import { format } from 'date-fns';
 import { ProfileContext } from '../../context/ProfileContext';
+import { FreelancerInfo } from '@/app/types/authentication.types';
 
 const CommonInfo = () => {
     const { user } = useContext(AuthContext);
     const { onOpenModal } = useContext(ProfileContext);
     const accoutType = Cookies.get('account_type');
+    const skills = (user as FreelancerInfo).skills || [];
     return (
         <>
             <Card className='rounded-2xl mb-8'>
@@ -95,10 +97,10 @@ const CommonInfo = () => {
                 </CardContent>
             </Card>
 
-            <Card className='rounded-2xl'>
+            <Card className='rounded-2xl mb-8'>
                 <CardHeader>
                     <CardTitle className='flex items-start justify-between'>
-                        Thông tin cá nhân
+                        Kỹ năng
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
@@ -166,6 +168,50 @@ const CommonInfo = () => {
                     </div>
                 </CardContent>
             </Card>
+            {accoutType !== 'freelancer' && (
+                <Card className='rounded-2xl'>
+                    <CardHeader>
+                        <CardTitle className='flex items-start justify-between'>
+                            Kỹ năng
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            onClick={() =>
+                                                onOpenModal?.(
+                                                    'edit-personal-info'
+                                                )
+                                            }
+                                            className='bg-transparent hover:bg-transparent border-2 border-solid border-primary-color rounded-full px-1.5'
+                                        >
+                                            <Pencil fill='#108a00' />
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Nhấn để chỉnh sửa</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className='flex gap-x-8 gap-y-1'>
+                            {skills.length ? (
+                                <Fragment>
+                                    {skills.map((s) => (
+                                        <div
+                                            key={`selected-skill-${s.skill_id}`}
+                                            className='cursor-pointer flex items-center gap-x-1 border-2 border-solid border-transparent px-3 rounded-2xl h-8 text-sm font-medium leading-[31px] bg-[#108a00] hover:bg-[#14a800] text-white'
+                                        >
+                                            {s.skill_name}
+                                        </div>
+                                    ))}
+                                </Fragment>
+                            ) : null}
+                        </div>
+                    </CardContent>
+                </Card>
+            )}
         </>
     );
 };
