@@ -44,12 +44,18 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                     const { data } = await loginServices.getUserInfo();
                     if (data) {
                         setUser(data);
+                        if (data.is_completed_profile?.toString() === '0') {
+                            router.replace('/profile/remind');
+                        }
                     }
                 }
                 if (accountType === 'freelancer') {
                     const { data } = await loginServices.getFreelancerInfo();
                     if (data) {
                         setUser(data);
+                        if (data.is_completed_profile?.toString() === '0') {
+                            router.replace('/profile/remind');
+                        }
                     }
                 }
             } else {
@@ -59,6 +65,17 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
         }
         loadUserFromToken();
     }, []);
+
+    useEffect(() => {
+        if (pathname === '/' && user) {
+            const accountType = Cookies.get('account_type');
+            router.replace(
+                accountType === 'client'
+                    ? '/client/dashboard'
+                    : '/freelancer/dashboard'
+            );
+        }
+    }, [pathname, user, router]);
 
     const login = async (email: string, password: string) => {
         setLoading(true);
@@ -77,14 +94,19 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
             if (authenData.user_type === 'client') {
                 const { data } = await loginServices.getUserInfo();
                 setUser(data);
-                router.push('/client/dashboard');
+                if (data.is_completed_profile?.toString() === '0') {
+                    router.replace('/profile/remind');
+                } else {
+                    router.push('/client/dashboard');
+                }
             } else if (authenData.user_type === 'freelancer') {
                 const { data } = await loginServices.getFreelancerInfo();
                 setUser(data);
-                if (data.is_completed_profile) {
-                    router.push('/freelancer/dashboard');
+
+                if (data.is_completed_profile?.toString() === '0') {
+                    router.push('/profile/remind');
                 } else {
-                    router.push('/freelancer/profile/edit');
+                    router.push('/freelancer/dashboard');
                 }
             }
             setLoading(false);
