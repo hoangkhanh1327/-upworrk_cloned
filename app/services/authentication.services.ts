@@ -80,7 +80,7 @@ type IUpdateFreelancerInfoReponse = CommonResponse & {
 
 const updateFreelancerInfo = async (params: IUpdateFreelancerInfoRequest) => {
     return ApiService.postFormData<IUpdateFreelancerInfoReponse>(
-        `/client/info/update`,
+        `/freelancer/info/update`,
         params
     );
 };
