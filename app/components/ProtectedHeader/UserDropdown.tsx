@@ -6,12 +6,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
-import { CircleUserRound, LogOut } from 'lucide-react';
+import { CircleUser, CircleUserRound, LogOut } from 'lucide-react';
 import { useAuth } from '@/app/providers/AuthProvider';
 import { Button } from '../ui/button';
+import { useRouter } from 'next/navigation';
 
 const UserDropdown = () => {
     const { user, logout } = useAuth();
+    const router = useRouter()
 
     return (
         <DropdownMenu>
@@ -31,14 +33,25 @@ const UserDropdown = () => {
                     </div>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => router.push('/profile')}>
+                    <DropdownMenuLabel asChild>
+                        <Button
+                            className='w-full border-none bg-transparent text-left justify-between'
+                            variant='outline'
+                        >
+                            <CircleUser />
+                            <span>Thông tin tài khoản</span>
+                        </Button>
+                    </DropdownMenuLabel>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={logout}>
                     <DropdownMenuLabel asChild>
                         <Button
                             className='w-full border-none bg-transparent text-left justify-between'
                             variant='outline'
                         >
-                            <span>Đăng Xuất</span>
                             <LogOut />
+                            <span>Đăng Xuất</span>
                         </Button>
                     </DropdownMenuLabel>
                 </DropdownMenuItem>

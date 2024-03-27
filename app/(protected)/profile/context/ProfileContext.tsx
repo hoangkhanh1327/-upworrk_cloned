@@ -14,7 +14,7 @@ type modalType = 'edit-common-info' | 'edit-personal-info' | 'change-password';
 interface IProfileContext {
     menu: string;
     isModalOpen: boolean;
-    modalType: string | null;
+    modalType: modalType | null;
     setMenu?: Dispatch<SetStateAction<string>>;
     onOpenModal?: (data: modalType) => void
     onCloseModal?: () => void
@@ -23,7 +23,7 @@ interface IProfileContext {
 export const ProfileContext = createContext<IProfileContext>({
     menu: 'info',
     isModalOpen: false,
-    modalType: '11',
+    modalType: null,
 });
 
 const ProfileProvider = ({ children }: { children: React.ReactNode }) => {

@@ -69,7 +69,7 @@ const CommonInfo = () => {
                                     {accoutType}
                                 </small>
                                 <p className='text-base font-semibold'>
-                                    {user?.first_name} {user?.last_name}
+                                    {user?.last_name} {user?.first_name}
                                 </p>
                             </div>
 

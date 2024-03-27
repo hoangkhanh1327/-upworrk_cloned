@@ -12,6 +12,7 @@ interface IAuthContext {
     user: ClientInfo | FreelancerInfo | null;
     login: (email: string, password: string) => void;
     logout: () => void;
+    setUser?: (data: ClientInfo | FreelancerInfo) => void;
     loading: boolean;
 }
 
@@ -28,7 +29,7 @@ export const AuthContext = createContext<IAuthContext>({
 });
 
 const AuthProvider: FC<IAuthProvider> = ({ children }) => {
-    const [user, setUser] = useState<ClientInfo | null>(null);
+    const [user, setUser] = useState<ClientInfo | FreelancerInfo | null>(null);
     const [loading, setLoading] = useState(true);
     const router = useRouter();
     const pathname = usePathname();
@@ -83,7 +84,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                 if (data.is_completed_profile) {
                     router.push('/freelancer/dashboard');
                 } else {
-                    router.push('/freelancer/profile/edit')
+                    router.push('/freelancer/profile/edit');
                 }
             }
             setLoading(false);
@@ -105,6 +106,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                 login,
                 logout,
                 isAuthenticated: !!user,
+                setUser,
             }}
         >
             {children}

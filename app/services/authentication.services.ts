@@ -1,6 +1,10 @@
 import { appConfig } from '@/app/configs/app.config';
 import ApiService from './ApiService';
-import { User, ClientInfo, FreelancerInfo } from '../types/authentication.types';
+import {
+    User,
+    ClientInfo,
+    FreelancerInfo,
+} from '../types/authentication.types';
 import { CommonResponse } from '../types/common.types';
 
 interface ILoginParams {
@@ -26,16 +30,19 @@ const login = async (params: ILoginParams) => {
 };
 
 type ISignUpRequest = {
-    [key: string]: string | number
-}
+    [key: string]: string | number;
+};
 
 type ISIgnUpResponse = CommonResponse & {
-    data: any
-}
+    data: any;
+};
 
 const signup = async (params: ISignUpRequest) => {
-    return ApiService.post<ISIgnUpResponse>(`${appConfig.apiUrl}/register`, params)
-}
+    return ApiService.post<ISIgnUpResponse>(
+        `${appConfig.apiUrl}/register`,
+        params
+    );
+};
 
 type IGetUserInfoResponse = CommonResponse & {
     data: ClientInfo;
@@ -45,6 +52,19 @@ const getUserInfo = async () => {
     return ApiService.get<IGetUserInfoResponse>(`/client/info`);
 };
 
+type IUpdateUserInfoRequest = Partial<ClientInfo>;
+
+type IUpdateUserInfoReponse = CommonResponse & {
+    data: ClientInfo;
+};
+
+const updateUserInfo = async (params: IUpdateUserInfoRequest) => {
+    return ApiService.postFormData<IUpdateUserInfoReponse>(
+        `/client/info/update`,
+        params
+    );
+};
+
 type IGetFreelancerInfoResponse = CommonResponse & {
     data: FreelancerInfo;
 };
@@ -52,9 +72,24 @@ const getFreelancerInfo = async () => {
     return ApiService.get<IGetFreelancerInfoResponse>(`/freelancer/info`);
 };
 
+type IUpdateFreelancerInfoRequest = Partial<FreelancerInfo>;
+
+type IUpdateFreelancerInfoReponse = CommonResponse & {
+    data: ClientInfo;
+};
+
+const updateFreelancerInfo = async (params: IUpdateFreelancerInfoRequest) => {
+    return ApiService.postFormData<IUpdateFreelancerInfoReponse>(
+        `/client/info/update`,
+        params
+    );
+};
+
 export const loginServices = {
     login,
     signup,
     getUserInfo,
-    getFreelancerInfo
+    getFreelancerInfo,
+    updateUserInfo,
+    updateFreelancerInfo,
 };
