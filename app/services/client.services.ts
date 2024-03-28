@@ -24,24 +24,40 @@ const getPosts = async (params: GetClientPostsRequest) => {
 
 type GetPostDetailRequest = string;
 
-type GetPostDetailReponse =  CommonResponse & {
-    data: DetailClientPost
+type GetPostDetailReponse = CommonResponse & {
+    data: DetailClientPost;
 };
 
 const getPost = async (params: GetPostDetailRequest) => {
     return ApiService.get<GetPostDetailReponse>(`/job/${params}`);
 };
 
-type CreatePostRequest = any
+type CreatePostRequest = any;
 
-type CreatePostResponse = CommonResponse
+type CreatePostResponse = CommonResponse;
 
 const createPost = async (params: CreatePostRequest) => {
-    return ApiService.postFormData<CreatePostResponse>(`/client/job/create-job`, params)
-}
+    return ApiService.postFormData<CreatePostResponse>(
+        `/client/job/create-job`,
+        params
+    );
+};
+
+type UpdatePostRequest = any;
+
+type UpdatePostResponse = CommonResponse;
+
+const updatePost = async (params: UpdatePostRequest) => {
+    const { id, ...rest } = params;
+    return ApiService.postFormData<UpdatePostResponse>(
+        `/client/job/update-jobs/${id}`,
+        rest
+    );
+};
 
 export const clientServices = {
     getPosts,
     getPost,
-    createPost
+    createPost,
+    updatePost,
 };

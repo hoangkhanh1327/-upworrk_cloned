@@ -2,37 +2,25 @@
 
 import { Button } from '@/app/components/ui/button';
 import { Skeleton } from '@/app/components/ui/skeleton';
-import { clientServices } from '@/app/services/client.services';
-import { DetailClientPost } from '@/app/types/client.types';
 import { format } from 'date-fns';
 import { FileIcon, SquarePen } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { VscFile } from 'react-icons/vsc';
+import { EditPostContext } from '../context/EditPostContext';
 
-interface IPostDetail {
+interface IEditPostDetail {
     postId: string;
 }
 
-const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
-    const [loading, setLoading] = useState(false);
-    const [post, setPost] = useState<DetailClientPost | null>(null);
+const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
+    const { post, loading, handleGetPostDetail, onOpenModal } =
+        useContext(EditPostContext);
+
     useEffect(() => {
-        const fetchPostData = async (postId: string) => {
-            try {
-                setLoading(true);
-                const res = await clientServices.getPost(postId);
-                if (res.data) {
-                    setPost(res.data);
-                }
-            } catch (error) {
-            } finally {
-                setLoading(false);
-            }
-        };
         if (postId) {
-            fetchPostData(postId);
+            handleGetPostDetail?.(postId);
         }
     }, [postId]);
 
@@ -40,7 +28,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
         <section className='px-20'>
             <div>
                 <h2 className='text-4xl font-semibold -tracking-[1px]'>
-                    Chi tiết công việc
+                    Chỉnh sửa công việc
                 </h2>
             </div>
             <div className='my-8 border border-solid border-[#d5e0d5] rounded-[16px]'>
@@ -54,15 +42,15 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                     {post?.title || ''}
                                 </h3>
                                 <Button
-                                    asChild
+                                    onClick={() =>
+                                        onOpenModal?.('edit-post-title')
+                                    }
                                     className='rounded-full p-2 bg-transparent hover:bg-transparent'
                                 >
-                                    <Link href={`/client/post/${postId}/edit`}>
-                                        <SquarePen
-                                            color='#000'
-                                            className='w-5 h-5'
-                                        />
-                                    </Link>
+                                    <SquarePen
+                                        color='#000'
+                                        className='w-5 h-5'
+                                    />
                                 </Button>
                             </>
                         )}
@@ -76,6 +64,12 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                             ) : (
                                 <>
                                     <p>{post?.desc}</p>
+                                    <Button className='rounded-full p-2 bg-transparent hover:bg-transparent'>
+                                        <SquarePen
+                                            color='#000'
+                                            className='w-5 h-5'
+                                        />
+                                    </Button>
                                 </>
                             )}
                         </div>
@@ -89,6 +83,12 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                             ) : (
                                 <>
                                     <p>{post?.content}</p>
+                                    <Button className='rounded-full p-2 bg-transparent hover:bg-transparent'>
+                                        <SquarePen
+                                            color='#000'
+                                            className='w-5 h-5'
+                                        />
+                                    </Button>
                                 </>
                             )}
                         </div>
@@ -201,4 +201,4 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
     );
 };
 
-export default PostDetail;
+export default EditPostDetail;

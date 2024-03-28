@@ -5,9 +5,11 @@ import { BookOpenText } from 'lucide-react';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const Remind = () => {
     const [accountType, setAccountType] = useState('');
+    const router = useRouter();
 
     useEffect(() => {
         const accountType = Cookies.get('account_type');
@@ -25,18 +27,10 @@ const Remind = () => {
             </div>
             <div className='flex items-center justify-end mt-40 gap-x-4'>
                 <Button
-                    asChild
                     className='rounded-[16rem] bg-white hover:bg-white text-black border border-solid border-stone-600'
+                    onClick={() => router.back()}
                 >
-                    <Link
-                        href={
-                            accountType === 'client'
-                                ? `/client/dashboard`
-                                : '/freelancer/dashboard'
-                        }
-                    >
-                        Bỏ qua
-                    </Link>
+                    Bỏ qua
                 </Button>
                 <Button
                     asChild

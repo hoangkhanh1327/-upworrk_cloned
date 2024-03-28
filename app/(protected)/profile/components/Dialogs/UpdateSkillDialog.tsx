@@ -32,8 +32,12 @@ const UpdateSkillDialog = () => {
 
     const handleSubmit = async () => {
         try {
+            const convertParams = skills?.map((s) => ({
+                skill_id: s.skill_id,
+                point: 100
+            }))
             const res = await loginServices.updateFreelancerInfo({
-                skills: skills,
+                skills: convertParams as any
             });
             if (res.data) {
                 toast({

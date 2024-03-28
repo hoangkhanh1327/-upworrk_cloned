@@ -45,7 +45,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                     if (data) {
                         setUser(data);
                         if (data.is_completed_profile?.toString() === '0') {
-                            router.replace('/profile/remind');
+                            router.push('/profile/remind');
                         }
                     }
                 }
@@ -54,7 +54,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                     if (data) {
                         setUser(data);
                         if (data.is_completed_profile?.toString() === '0') {
-                            router.replace('/profile/remind');
+                            router.push('/profile/remind');
                         }
                     }
                 }
@@ -98,7 +98,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                 const { data } = await loginServices.getUserInfo();
                 setUser(data);
                 if (data.is_completed_profile?.toString() === '0') {
-                    router.replace('/profile/remind');
+                    router.push('/profile/remind');
                 } else {
                     router.push('/client/dashboard');
                 }

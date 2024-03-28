@@ -72,7 +72,12 @@ const getFreelancerInfo = async () => {
     return ApiService.get<IGetFreelancerInfoResponse>(`/freelancer/info`);
 };
 
-type IUpdateFreelancerInfoRequest = Partial<FreelancerInfo>;
+type IUpdateFreelancerInfoRequest = Partial<FreelancerInfo> & {
+    skills: {
+        skill_id: string | number,
+        point: string | number
+    }[]
+};
 
 type IUpdateFreelancerInfoReponse = CommonResponse & {
     data: ClientInfo;
