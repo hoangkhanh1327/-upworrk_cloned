@@ -59,7 +59,10 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                     }
                 }
             } else {
-                router.push('/');
+                if (pathname.includes('/dang-nhap')) {
+                } else {
+                    router.push('/');
+                }
             }
             setLoading(false);
         }

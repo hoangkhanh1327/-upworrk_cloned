@@ -26,7 +26,7 @@ const CommonInfo = () => {
     const { user } = useContext(AuthContext);
     const { onOpenModal } = useContext(ProfileContext);
     const accoutType = Cookies.get('account_type');
-    const skills = (user as FreelancerInfo).skills || [];
+    const skills = (user as FreelancerInfo)?.skills || [];
     return (
         <>
             <Card className='rounded-2xl mb-8'>
@@ -100,7 +100,7 @@ const CommonInfo = () => {
             <Card className='rounded-2xl mb-8'>
                 <CardHeader>
                     <CardTitle className='flex items-start justify-between'>
-                        Kỹ năng
+                        Thông tin cá nhân
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger asChild>
@@ -168,7 +168,7 @@ const CommonInfo = () => {
                     </div>
                 </CardContent>
             </Card>
-            {accoutType !== 'freelancer' && (
+            {accoutType === 'freelancer' && (
                 <Card className='rounded-2xl'>
                     <CardHeader>
                         <CardTitle className='flex items-start justify-between'>
@@ -179,7 +179,7 @@ const CommonInfo = () => {
                                         <Button
                                             onClick={() =>
                                                 onOpenModal?.(
-                                                    'edit-personal-info'
+                                                    'edit-skill-info'
                                                 )
                                             }
                                             className='bg-transparent hover:bg-transparent border-2 border-solid border-primary-color rounded-full px-1.5'

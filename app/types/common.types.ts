@@ -22,7 +22,7 @@ export type  Skill = {
 
 export type SkillInProfile = {
     skill_id: number,
-    skill_desc: string,
+    skill_desc?: string,
     skill_name: string,
-    skill_point: number
+    skill_point?: number
 }

@@ -9,15 +9,19 @@ import {
 } from 'react';
 import { menuData } from '../configs/menuData';
 
-type modalType = 'edit-common-info' | 'edit-personal-info' | 'change-password';
+type modalType =
+    | 'edit-common-info'
+    | 'edit-personal-info'
+    | 'edit-skill-info'
+    | 'change-password';
 
 interface IProfileContext {
     menu: string;
     isModalOpen: boolean;
     modalType: modalType | null;
     setMenu?: Dispatch<SetStateAction<string>>;
-    onOpenModal?: (data: modalType) => void
-    onCloseModal?: () => void
+    onOpenModal?: (data: modalType) => void;
+    onCloseModal?: () => void;
 }
 
 export const ProfileContext = createContext<IProfileContext>({
@@ -49,7 +53,7 @@ const ProfileProvider = ({ children }: { children: React.ReactNode }) => {
                 modalType,
                 setMenu,
                 onCloseModal,
-                onOpenModal
+                onOpenModal,
             }}
         >
             {children}
