@@ -8,7 +8,23 @@ const __dirname = dirname(__filename);
 const nextConfig = {
     reactStrictMode: false,
     images: {
-        domains: ['res.cloudinary.com', 'timviecits.id.vn'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'res.cloudinary.com',
+                pathname: '/**',
+            },
+            {
+                protocol: 'https',
+                hostname: 'timviecits.id.vn',
+                pathname: '/**',
+            },
+            {
+                protocol: 'http',
+                hostname: 'timviecits.id.vn',
+                pathname: '/**',
+            },
+        ],
     },
 };
 
