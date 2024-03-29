@@ -8,47 +8,59 @@ import {
     DialogTitle,
 } from '@/app/components/ui/dialog';
 import { Label } from '@/app/components/ui/label';
-import { Fragment, useContext, useEffect, useState } from 'react';
-import { ProfileContext } from '../../context/ProfileContext';
-import { AuthContext } from '@/app/providers/AuthProvider';
-import { loginServices } from '@/app/services/authentication.services';
+import { useContext, useEffect, useState } from 'react';
 import { useToast } from '@/app/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import MultiSkillSelect from '@/app/components/Selects/SkillSelect';
-import { FreelancerInfo } from '@/app/types/authentication.types';
 import { Skill, SkillInProfile } from '@/app/types/common.types';
+import { EditPostContext } from '../context/EditPostContext';
+import { clientServices } from '@/app/services/client.services';
 
-const UpdateSkillDialog = () => {
-    const { onCloseModal } = useContext(ProfileContext);
-    const { user, setUser } = useContext(AuthContext);
+const UpdatePostSkillDialog = () => {
+    const { onCloseModal, post, handleGetPostDetail } =
+        useContext(EditPostContext);
     const { toast } = useToast();
-    const [skills, setSkills] = useState<SkillInProfile[]>([]);
+    const [skills, setSkills] = useState<
+        {
+            skill_id: string | number;
+            skill_name: string;
+            point: string | number;
+        }[]
+    >([]);
 
     useEffect(() => {
-        if ((user as FreelancerInfo)?.skills) {
-            setSkills((user as FreelancerInfo)?.skills);
+        if (post?.skills) {
+            setSkills(
+                post?.skills?.map((s) => ({
+                    skill_id: s.skill_id,
+                    skill_name: s.skill_name,
+                    point: 100,
+                }))
+            );
         }
-    }, [user]);
+    }, [post]);
 
     const handleSubmit = async () => {
         try {
+            if (!post) return;
             const convertParams = skills?.map((s) => ({
                 skill_id: s.skill_id,
-                point: 100
-            }))
-            const res = await loginServices.updateFreelancerInfo({
-                skills: convertParams as any
+                point: 100,
+            }));
+            const res = await clientServices.updatePost({
+                id: post.id,
+                skills: convertParams as any,
             });
             if (res.data) {
                 toast({
                     title: 'Cập nhật thành công',
-                    description: 'Thông tin tài khoản đã được cập nhật',
+                    description: 'Thông tin bài viết đã được cập nhật',
                     className: cn(
                         'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
                     ),
                     duration: 1000,
                 });
-                setUser?.(res.data);
+                handleGetPostDetail?.(post?.id?.toString());
                 onCloseModal?.();
             }
         } catch (error) {
@@ -105,6 +117,7 @@ const UpdateSkillDialog = () => {
                                                     skill_name:
                                                         i.name || i.skill_name,
                                                     skill_id: i.skill_id,
+                                                    point: 100,
                                                 };
                                             });
                                         setSkills(selectedSkills);
@@ -144,4 +157,4 @@ const UpdateSkillDialog = () => {
     );
 };
 
-export default UpdateSkillDialog;
+export default UpdatePostSkillDialog;

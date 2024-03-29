@@ -5,9 +5,11 @@ import { createContext, useCallback, useState } from 'react';
 
 type modalType =
     | 'edit-post-title'
-    | 'edit-personal-info'
-    | 'edit-skill-info'
-    | 'change-password';
+    | 'edit-post-desc'
+    | 'edit-post-content'
+    | 'edit-post-content-file'
+    | 'edit-post-skill'
+    | 'edit-post-thumbnail';
 
 interface IEditPostContext {
     post: DetailClientPost | null;

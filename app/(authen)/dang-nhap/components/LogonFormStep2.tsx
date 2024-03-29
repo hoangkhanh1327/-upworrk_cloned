@@ -31,6 +31,7 @@ const LoginFormStep2: React.FC<ILoginFormStep2> = ({
                     <div className='relative border-2 border-solid border-[#e4ebe4] rounded-lg mb-6'>
                         <LockKeyhole className='w-5 h-5 absolute left-2 top-1/2 -translate-y-1/2' />
                         <Input
+                            autoFocus
                             ref={passwordRef}
                             defaultValue={'abc123'}
                             type='password'

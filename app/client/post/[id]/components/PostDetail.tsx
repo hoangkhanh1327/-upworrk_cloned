@@ -177,7 +177,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 <p>
                                     {!loading && post?.thumbnail && (
                                         <Link
-                                            href={post?.content_file}
+                                            href={post?.thumbnail}
                                             target='_blank'
                                         >
                                             <div className='w-[120px] h-[120px] relative'>

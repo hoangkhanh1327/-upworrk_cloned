@@ -12,20 +12,20 @@ import { useToast } from '@/app/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import { EditPostContext } from '../context/EditPostContext';
 import { clientServices } from '@/app/services/client.services';
-import { Input } from '@/app/components/ui/input';
+import { Textarea } from '@/app/components/ui/textarea';
 
-const UpdatePostTitleDialog = () => {
+const UpdatePostContentDialog = () => {
     const { onCloseModal, post, handleGetPostDetail } =
         useContext(EditPostContext);
     const { toast } = useToast();
-    const titleRef = useRef<HTMLInputElement | null>(null);
+    const contentRef = useRef<HTMLTextAreaElement | null>(null);
 
     const handleSubmit = async () => {
         if (!post) return;
         try {
             const res = await clientServices.updatePost({
                 id: post.id,
-                title: titleRef.current?.value || post.title || '',
+                content: contentRef.current?.value || post.content || '',
             });
             if (res.data) {
                 toast({
@@ -54,17 +54,17 @@ const UpdatePostTitleDialog = () => {
 
     return (
         <Dialog open={true} onOpenChange={() => onCloseModal?.()}>
-            <DialogContent>
+            <DialogContent className='max-w-[50vw]'>
                 <DialogHeader>
                     <DialogTitle>Cập nhật thông tin bài viết</DialogTitle>
                 </DialogHeader>
                 <div className='grid gap-4 py-4'>
                     <div className='grid grid-cols-4 items-center gap-4'>
-                        <Label className='text-right'>Tiêu đề công việc</Label>
-                        <Input
+                        <Label className='text-right'>Nội dung công việc</Label>
+                        <Textarea
                             className='col-span-3'
-                            ref={titleRef}
-                            defaultValue={post?.title}
+                            ref={contentRef}
+                            defaultValue={post?.content}
                         />
                     </div>
                 </div>
@@ -81,4 +81,4 @@ const UpdatePostTitleDialog = () => {
     );
 };
 
-export default UpdatePostTitleDialog;
+export default UpdatePostContentDialog;

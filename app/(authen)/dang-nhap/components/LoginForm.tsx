@@ -21,6 +21,7 @@ const LoginForm: React.FC<ILoginForm> = ({ setUsername }) => {
                     <div className='relative border-2 border-solid border-[#e4ebe4] rounded-lg mb-6'>
                         <User className='w-5 h-5 absolute left-2 top-1/2 -translate-y-1/2' />
                         <Input
+                            autoFocus
                             ref={userNameRef}
                             type='email'
                             placeholder='Username or Email'

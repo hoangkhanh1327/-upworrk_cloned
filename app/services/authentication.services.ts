@@ -73,7 +73,7 @@ const getFreelancerInfo = async () => {
 };
 
 type IUpdateFreelancerInfoRequest = Partial<FreelancerInfo> & {
-    skills: {
+    skills?: {
         skill_id: string | number,
         point: string | number
     }[]

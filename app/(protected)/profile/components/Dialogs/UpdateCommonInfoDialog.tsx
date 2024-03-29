@@ -59,7 +59,7 @@ const UpdateCommonInfoDialog = () => {
                             className: cn(
                                 'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
                             ),
-                            duration: 1000
+                            duration: 1000,
                         });
                         setUser?.(res.data);
                         onCloseModal?.();
@@ -79,7 +79,7 @@ const UpdateCommonInfoDialog = () => {
                             className: cn(
                                 'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
                             ),
-                            duration: 1000
+                            duration: 1000,
                         });
                         setUser?.(res.data);
                         onCloseModal?.();
@@ -100,7 +100,7 @@ const UpdateCommonInfoDialog = () => {
     };
 
     return (
-        <Dialog open={true}>
+        <Dialog open={true} onOpenChange={() => onCloseModal?.()}>
             <DialogContent className='sm:max-w-[425px]'>
                 <DialogHeader>
                     <DialogTitle>Cập nhật thông tin</DialogTitle>

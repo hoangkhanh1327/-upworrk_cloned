@@ -64,7 +64,12 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
                             ) : (
                                 <>
                                     <p>{post?.desc}</p>
-                                    <Button className='rounded-full p-2 bg-transparent hover:bg-transparent'>
+                                    <Button
+                                        onClick={() =>
+                                            onOpenModal?.('edit-post-desc')
+                                        }
+                                        className='rounded-full p-2 bg-transparent hover:bg-transparent'
+                                    >
                                         <SquarePen
                                             color='#000'
                                             className='w-5 h-5'
@@ -83,7 +88,12 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
                             ) : (
                                 <>
                                     <p>{post?.content}</p>
-                                    <Button className='rounded-full p-2 bg-transparent hover:bg-transparent'>
+                                    <Button
+                                        onClick={() =>
+                                            onOpenModal?.('edit-post-content')
+                                        }
+                                        className='rounded-full p-2 bg-transparent hover:bg-transparent'
+                                    >
                                         <SquarePen
                                             color='#000'
                                             className='w-5 h-5'
@@ -99,7 +109,7 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
                             <h3 className='text-lg font-medium mb-2'>
                                 Kỹ năng
                             </h3>
-                            <div className='flex items-center gap-x-3'>
+                            <div className='flex items-center justify-between gap-x-3'>
                                 {loading ? (
                                     <>
                                         <Skeleton className='w-20 h-7' />
@@ -107,15 +117,30 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
                                         <Skeleton className='w-20 h-7' />
                                     </>
                                 ) : (
-                                    post?.skills.map((s) => (
-                                        <div
-                                            key={`selected-skill-${s.skill_id}`}
-                                            className='cursor-pointer flex items-center gap-x-1 border-2 border-solid border-transparent px-3 rounded-2xl h-8 text-sm font-medium leading-[31px] bg-[#108a00] hover:bg-[#14a800] text-white'
-                                            onClick={() => {}}
-                                        >
-                                            {s.skill_name}
+                                    <>
+                                        <div className='flex items-center gap-x-3'>
+                                            {post?.skills.map((s) => (
+                                                <div
+                                                    key={`selected-skill-${s.skill_id}`}
+                                                    className='cursor-pointer flex items-center gap-x-1 border-2 border-solid border-transparent px-3 rounded-2xl h-8 text-sm font-medium leading-[31px] bg-[#108a00] hover:bg-[#14a800] text-white'
+                                                    onClick={() => {}}
+                                                >
+                                                    {s.skill_name}
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))
+                                        <Button
+                                            onClick={() =>
+                                                onOpenModal?.('edit-post-skill')
+                                            }
+                                            className='rounded-full p-2 bg-transparent hover:bg-transparent'
+                                        >
+                                            <SquarePen
+                                                color='#000'
+                                                className='w-5 h-5'
+                                            />
+                                        </Button>
+                                    </>
                                 )}
                             </div>
                         </div>
@@ -123,25 +148,40 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
                             <h3 className='text-lg font-medium '>
                                 Thời hạn công việc
                             </h3>
-                            <div className='flex items-center gap-x-3 pl-3'>
+                            <div className='flex items-center justify-between gap-x-3 pl-3'>
                                 {loading ? (
                                     <Skeleton className='h-[20px] w-[250px]' />
                                 ) : (
-                                    <p>
-                                        {post?.deadline &&
-                                            format(
-                                                post.deadline || '',
-                                                'dd-MM-yyyy'
-                                            )}
-                                    </p>
+                                    <>
+                                        <p>
+                                            {post?.deadline &&
+                                                format(
+                                                    post.deadline || '',
+                                                    'dd-MM-yyyy'
+                                                )}
+                                        </p>
+                                        <Button
+                                            onClick={() =>
+                                                onOpenModal?.(
+                                                    'edit-post-thumbnail'
+                                                )
+                                            }
+                                            className='rounded-full p-2 bg-transparent hover:bg-transparent'
+                                        >
+                                            <SquarePen
+                                                color='#000'
+                                                className='w-5 h-5'
+                                            />
+                                        </Button>
+                                    </>
                                 )}
                             </div>
                         </div>
-                        <div className='mb-6 flex items-center'>
+                        <div className='mb-6 flex items-center justify-between'>
                             <h3 className='text-lg font-medium min-w-[130px]'>
                                 File đính kèm
                             </h3>
-                            <div className='flex items-center gap-x-3 pl-3'>
+                            <div className='flex-1 flex items-center justify-between gap-x-3 pl-3'>
                                 <p>
                                     {!loading && post?.content_file && (
                                         <Link
@@ -167,17 +207,28 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
                                         </Link>
                                     )}
                                 </p>
+                                <Button
+                                    onClick={() =>
+                                        onOpenModal?.('edit-post-content-file')
+                                    }
+                                    className='rounded-full p-2 bg-transparent hover:bg-transparent'
+                                >
+                                    <SquarePen
+                                        color='#000'
+                                        className='w-5 h-5'
+                                    />
+                                </Button>
                             </div>
                         </div>
                         <div className='mb-6 flex items-start'>
                             <h3 className='text-lg font-medium mb-2 min-w-[130px]'>
                                 Hình ảnh
                             </h3>
-                            <div className='flex items-center gap-x-3 pl-3'>
+                            <div className='flex-1 flex items-center justify-between gap-x-3 pl-3'>
                                 <p>
                                     {!loading && post?.thumbnail && (
                                         <Link
-                                            href={post?.content_file}
+                                            href={post?.thumbnail}
                                             target='_blank'
                                         >
                                             <div className='w-[120px] h-[120px] relative'>
@@ -190,11 +241,20 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
                                         </Link>
                                     )}
                                 </p>
+                                <Button
+                                    onClick={() =>
+                                        onOpenModal?.('edit-post-thumbnail')
+                                    }
+                                    className='rounded-full p-2 bg-transparent hover:bg-transparent'
+                                >
+                                    <SquarePen
+                                        color='#000'
+                                        className='w-5 h-5'
+                                    />
+                                </Button>
                             </div>
                         </div>
                     </div>
-
-                    <footer></footer>
                 </article>
             </div>
         </section>

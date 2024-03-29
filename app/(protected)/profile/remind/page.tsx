@@ -28,7 +28,7 @@ const Remind = () => {
             <div className='flex items-center justify-end mt-40 gap-x-4'>
                 <Button
                     className='rounded-[16rem] bg-white hover:bg-white text-black border border-solid border-stone-600'
-                    onClick={() => router.back()}
+                    onClick={() => router.push(`/${accountType}/dashboard`)}
                 >
                     Bỏ qua
                 </Button>

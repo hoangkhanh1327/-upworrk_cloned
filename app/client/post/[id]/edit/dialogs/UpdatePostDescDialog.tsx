@@ -14,18 +14,18 @@ import { EditPostContext } from '../context/EditPostContext';
 import { clientServices } from '@/app/services/client.services';
 import { Input } from '@/app/components/ui/input';
 
-const UpdatePostTitleDialog = () => {
+const UpdatePostDescDialog = () => {
     const { onCloseModal, post, handleGetPostDetail } =
         useContext(EditPostContext);
     const { toast } = useToast();
-    const titleRef = useRef<HTMLInputElement | null>(null);
+    const descRef = useRef<HTMLInputElement | null>(null);
 
     const handleSubmit = async () => {
         if (!post) return;
         try {
             const res = await clientServices.updatePost({
                 id: post.id,
-                title: titleRef.current?.value || post.title || '',
+                desc: descRef.current?.value || post.desc || '',
             });
             if (res.data) {
                 toast({
@@ -60,11 +60,11 @@ const UpdatePostTitleDialog = () => {
                 </DialogHeader>
                 <div className='grid gap-4 py-4'>
                     <div className='grid grid-cols-4 items-center gap-4'>
-                        <Label className='text-right'>Tiêu đề công việc</Label>
+                        <Label className='text-right'>Mô tả ngắn</Label>
                         <Input
                             className='col-span-3'
-                            ref={titleRef}
-                            defaultValue={post?.title}
+                            ref={descRef}
+                            defaultValue={post?.desc}
                         />
                     </div>
                 </div>
@@ -81,4 +81,4 @@ const UpdatePostTitleDialog = () => {
     );
 };
 
-export default UpdatePostTitleDialog;
+export default UpdatePostDescDialog;

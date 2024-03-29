@@ -45,7 +45,11 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                     if (data) {
                         setUser(data);
                         if (data.is_completed_profile?.toString() === '0') {
-                            router.push('/profile/remind');
+                            if (pathname === '/dang-nhap') {
+                                router.replace('/profile/remind');
+                            } else {
+                                router.push('/profile/remind');
+                            }
                         }
                     }
                 }
@@ -54,7 +58,11 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                     if (data) {
                         setUser(data);
                         if (data.is_completed_profile?.toString() === '0') {
-                            router.push('/profile/remind');
+                            if (pathname === '/dang-nhap') {
+                                router.replace('/profile/remind');
+                            } else {
+                                router.push('/profile/remind');
+                            }
                         }
                     }
                 }
@@ -98,7 +106,11 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                 const { data } = await loginServices.getUserInfo();
                 setUser(data);
                 if (data.is_completed_profile?.toString() === '0') {
-                    router.push('/profile/remind');
+                    if (pathname === '/dang-nhap') {
+                        router.replace('/profile/remind');
+                    } else {
+                        router.push('/profile/remind');
+                    }
                 } else {
                     router.push('/client/dashboard');
                 }
@@ -107,7 +119,11 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
                 setUser(data);
 
                 if (data.is_completed_profile?.toString() === '0') {
-                    router.push('/profile/remind');
+                    if (pathname === '/dang-nhap') {
+                        router.replace('/profile/remind');
+                    } else {
+                        router.push('/profile/remind');
+                    }
                 } else {
                     router.push('/freelancer/dashboard');
                 }

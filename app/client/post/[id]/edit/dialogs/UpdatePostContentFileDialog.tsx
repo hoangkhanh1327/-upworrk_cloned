@@ -7,25 +7,25 @@ import {
     DialogTitle,
 } from '@/app/components/ui/dialog';
 import { Label } from '@/app/components/ui/label';
-import { useContext, useRef } from 'react';
+import { useContext, useState } from 'react';
 import { useToast } from '@/app/components/ui/use-toast';
 import { cn } from '@/lib/utils';
 import { EditPostContext } from '../context/EditPostContext';
 import { clientServices } from '@/app/services/client.services';
-import { Input } from '@/app/components/ui/input';
+import Upload from '@/app/components/themes/Upload';
 
-const UpdatePostTitleDialog = () => {
+const UpdatePostContentFileDialog = () => {
     const { onCloseModal, post, handleGetPostDetail } =
         useContext(EditPostContext);
     const { toast } = useToast();
-    const titleRef = useRef<HTMLInputElement | null>(null);
+    const [file, setFile] = useState<File | null>(null);
 
     const handleSubmit = async () => {
-        if (!post) return;
+        if (!post || !file) return;
         try {
             const res = await clientServices.updatePost({
                 id: post.id,
-                title: titleRef.current?.value || post.title || '',
+                content_file: file,
             });
             if (res.data) {
                 toast({
@@ -60,12 +60,23 @@ const UpdatePostTitleDialog = () => {
                 </DialogHeader>
                 <div className='grid gap-4 py-4'>
                     <div className='grid grid-cols-4 items-center gap-4'>
-                        <Label className='text-right'>Tiêu đề công việc</Label>
-                        <Input
-                            className='col-span-3'
-                            ref={titleRef}
-                            defaultValue={post?.title}
-                        />
+                        <Label className='text-right'>Hình ảnh tiêu đề</Label>
+                        <div className='col-span-3'>
+                            <Upload
+                                className='h-[66px]'
+                                multiple={false}
+                                disabled={file ? true : false}
+                                showList={true}
+                                fileList={file ? [file as File] : []}
+                                draggable={true}
+                                onChange={(file) => {
+                                    setFile(file[0]);
+                                }}
+                                onFileRemove={() => {
+                                    setFile(null);
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
                 <DialogFooter>
@@ -81,4 +92,4 @@ const UpdatePostTitleDialog = () => {
     );
 };
 
-export default UpdatePostTitleDialog;
+export default UpdatePostContentFileDialog;

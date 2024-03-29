@@ -100,7 +100,7 @@ const UpdatePersonalInfoDialog = () => {
     };
 
     return (
-        <Dialog open={true}>
+        <Dialog open={true} onOpenChange={() => onCloseModal?.()}>
             <DialogContent className='sm:max-w-[425px]'>
                 <DialogHeader>
                     <DialogTitle>Cập nhật thông tin</DialogTitle>
