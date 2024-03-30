@@ -13,7 +13,7 @@ interface IPostItem {
 const PostItem: React.FC<IPostItem> = ({ post }) => {
     return (
         <Link
-            href={`/freelancer/post/${post.id}`}
+            href={`/freelancer/job/${post.id}`}
             className='block p-6 group border-b border-solid border-[#d5e0d5] hover:bg-[#f2f7f2] last-of-type:border-transparent'
         >
             <small className='text-sm mb-3 font-normal text-[#5e6d55]'>
