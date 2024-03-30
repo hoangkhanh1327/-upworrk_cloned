@@ -2,13 +2,25 @@
 
 import { Button } from '@/app/components/ui/button';
 import { Skeleton } from '@/app/components/ui/skeleton';
-import { format } from 'date-fns';
+import { format, setWeek } from 'date-fns';
 import { FileIcon, SquarePen } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { VscFile } from 'react-icons/vsc';
 import { EditPostContext } from '../context/EditPostContext';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuLabel,
+    DropdownMenuRadioGroup,
+    DropdownMenuRadioItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from '@/app/components/ui/dropdown-menu';
+import { useToast } from '@/app/components/ui/use-toast';
+import { cn } from '@/lib/utils';
+import { clientServices } from '@/app/services/client.services';
 
 interface IEditPostDetail {
     postId: string;
@@ -17,12 +29,48 @@ interface IEditPostDetail {
 const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
     const { post, loading, handleGetPostDetail, onOpenModal } =
         useContext(EditPostContext);
+    const { toast } = useToast();
+    const [updateLoading, setLoading] = useState(false);
 
     useEffect(() => {
         if (postId) {
             handleGetPostDetail?.(postId);
         }
     }, [postId]);
+
+    const handleChangePostStatus = async (value: string) => {
+        if (!post) return;
+
+        try {
+            setLoading(true);
+            const res = await clientServices.updatePost({
+                id: post.id,
+                status: value,
+            });
+            if (res.data) {
+                toast({
+                    title: 'Cập nhật thành công',
+                    description: 'Thông tin bài viết đã được cập nhật',
+                    className: cn(
+                        'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
+                    ),
+                    duration: 1000,
+                });
+                handleGetPostDetail?.(post.id?.toString());
+            }
+        } catch (error) {
+            toast({
+                title: 'Đã có lỗi xảy ra',
+                description: (error as Error)?.message,
+                variant: 'destructive',
+                className: cn(
+                    'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
+                ),
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <section className='px-20'>
@@ -255,6 +303,41 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
                             </div>
                         </div>
                     </div>
+
+                    <footer className='p-8 border-t border-solid border-[#d5e0d5] flex items-center justify-end'>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    disabled={updateLoading || loading}
+                                    variant='outline'
+                                >
+                                    Thay đổi trạng thái
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent className='w-56'>
+                                <DropdownMenuLabel>
+                                    Trạng thái bài đăng
+                                </DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuRadioGroup
+                                    value={post?.status?.toString()}
+                                    onValueChange={(value) =>
+                                        handleChangePostStatus(value)
+                                    }
+                                >
+                                    <DropdownMenuRadioItem value='0'>
+                                        Ẩn
+                                    </DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value='1'>
+                                        Mở ứng tuyển
+                                    </DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value='2'>
+                                        Đóng ứng tuyển
+                                    </DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </footer>
                 </article>
             </div>
         </section>

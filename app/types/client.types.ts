@@ -22,6 +22,19 @@ type Task = {
     name: string;
 };
 
+export type Applied = {
+    attachment_url: string;
+    cover_letter: string;
+    created_at: string;
+    email: string;
+    freelancer_id: string;
+    id: number;
+    job_id: string;
+    proposal: string;
+    updated_at: string;
+    username: string;
+};
+
 export type DetailClientPost = {
     id: number;
     client_id: number;
@@ -33,7 +46,7 @@ export type DetailClientPost = {
     status: number | string;
     deadline: string;
     created_at: string;
-    content_file: string,
+    content_file: string;
     updated_at: string;
     min_proposals: string | number;
     nominee?: string | number;
@@ -43,6 +56,7 @@ export type DetailClientPost = {
         skill_name: string;
         skill_points: string;
     }[];
+    applied: Applied[];
     statusText: string;
     task: Task[];
 };

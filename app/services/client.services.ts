@@ -55,6 +55,16 @@ const updatePost = async (params: UpdatePostRequest) => {
     );
 };
 
+type GetFreelancerInfoRequest = string;
+
+type GetFreelancerInfoResponse = CommonResponse & {
+    data: any
+}
+
+const getDetailFreelancersInfo = (freelancerId: GetFreelancerInfoRequest) => {
+    return ApiService.get<GetFreelancerInfoResponse>(`/${freelancerId}`)
+}
+
 export const clientServices = {
     getPosts,
     getPost,
