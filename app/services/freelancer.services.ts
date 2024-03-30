@@ -1,3 +1,4 @@
+import { DetailClientPost } from '../types/client.types';
 import { CommonResponse } from '../types/common.types';
 import { DetailJobPost } from '../types/freelancer.type';
 import ApiService from './ApiService';
@@ -6,6 +7,12 @@ type GetFreelancerPostsRequest = {
     page: number;
     num: number;
     status: number;
+};
+
+type GetJobDetailRequest = string;
+
+type GetPostDetailReponse = CommonResponse & {
+    data: DetailClientPost;
 };
 
 type GetFreelancerPostsResponse = CommonResponse & {
@@ -21,6 +28,10 @@ const getPosts = async (params: GetFreelancerPostsRequest) => {
         params
     );
 };
+const getPost = async (params: GetJobDetailRequest) => {
+    return ApiService.get<GetPostDetailReponse>(`/job/${params}`);
+};
 export const freelancerServices = {
     getPosts,
+    getPost
   };

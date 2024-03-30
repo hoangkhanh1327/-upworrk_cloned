@@ -1,4 +1,4 @@
-import JobDetail from "./components/JobDetail";
+import PostDetail from './components/PostDetail';
 
 interface IPostPage {
     params: {
@@ -7,8 +7,7 @@ interface IPostPage {
 }
 
 const PostPage: React.FC<IPostPage> = ({ params }) => {
-    // return <JobDetail postId={params.id} />;
-    return <div>PostPage</div>;
+    return <PostDetail postId={params.id} />;
 };
 
 export default PostPage;
