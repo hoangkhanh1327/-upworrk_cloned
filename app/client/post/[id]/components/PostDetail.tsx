@@ -10,6 +10,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { VscFile } from 'react-icons/vsc';
+import AppliedTable from './AppliedTable';
 
 interface IPostDetail {
     postId: string;
@@ -35,7 +36,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
             fetchPostData(postId);
         }
     }, [postId]);
-
+    
     return (
         <section className='px-20'>
             <div>
@@ -53,17 +54,21 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 <h3 className='text-2xl font-medium'>
                                     {post?.title || ''}
                                 </h3>
-                                <Button
-                                    asChild
-                                    className='rounded-full p-2 bg-transparent hover:bg-transparent'
-                                >
-                                    <Link href={`/client/post/${postId}/edit`}>
-                                        <SquarePen
-                                            color='#000'
-                                            className='w-5 h-5'
-                                        />
-                                    </Link>
-                                </Button>
+                                {post?.status?.toString() !== '3' && (
+                                    <Button
+                                        asChild
+                                        className='rounded-full p-2 bg-transparent hover:bg-transparent'
+                                    >
+                                        <Link
+                                            href={`/client/post/${postId}/edit`}
+                                        >
+                                            <SquarePen
+                                                color='#000'
+                                                className='w-5 h-5'
+                                            />
+                                        </Link>
+                                    </Button>
+                                )}
                             </>
                         )}
                     </header>
@@ -142,31 +147,29 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 File đính kèm
                             </h3>
                             <div className='flex items-center gap-x-3 pl-3'>
-                                <p>
-                                    {!loading && post?.content_file && (
-                                        <Link
-                                            href={post?.content_file}
-                                            target='_blank'
-                                        >
-                                            <div className='upload-file'>
-                                                <div className='flex px-3 py-3'>
-                                                    <div className='upload-file-thumbnail !p-0 w-8 h-8'>
-                                                        {
-                                                            <FileIcon>
-                                                                <VscFile />
-                                                            </FileIcon>
-                                                        }
-                                                    </div>
-                                                    <div className='upload-file-info min-h-[2rem]'>
-                                                        <h6 className='upload-file-name'>
-                                                            {`${post?.title}`}
-                                                        </h6>
-                                                    </div>
+                                {!loading && post?.content_file && (
+                                    <Link
+                                        href={post?.content_file}
+                                        target='_blank'
+                                    >
+                                        <div className='upload-file'>
+                                            <div className='flex px-3 py-3'>
+                                                <div className='upload-file-thumbnail !p-0 w-8 h-8'>
+                                                    {
+                                                        <FileIcon>
+                                                            <VscFile />
+                                                        </FileIcon>
+                                                    }
+                                                </div>
+                                                <div className='upload-file-info min-h-[2rem]'>
+                                                    <h6 className='upload-file-name'>
+                                                        {`${post?.title}`}
+                                                    </h6>
                                                 </div>
                                             </div>
-                                        </Link>
-                                    )}
-                                </p>
+                                        </div>
+                                    </Link>
+                                )}
                             </div>
                         </div>
                         <div className='mb-6 flex items-start'>
@@ -192,9 +195,21 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 </p>
                             </div>
                         </div>
-                    </div>
 
-                    <footer></footer>
+                        {(post?.status?.toString() === '1' || post?.status?.toString() === '2') && (
+                                <div className='mb-6 flex flex-col items-start'>
+                                    <h3 className='text-lg font-medium mb-2 min-w-[130px]'>
+                                        Số lượng ứng viên:{' '}
+                                        {post?.applied?.length || 0}
+                                    </h3>
+                                    <div className='flex items-center gap-x-3 pl-3'>
+                                        <AppliedTable
+                                            appliedList={post?.applied || []}
+                                        />
+                                    </div>
+                                </div>
+                            )}
+                    </div>
                 </article>
             </div>
         </section>

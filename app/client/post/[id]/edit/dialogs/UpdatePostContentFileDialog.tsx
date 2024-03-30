@@ -60,7 +60,7 @@ const UpdatePostContentFileDialog = () => {
                 </DialogHeader>
                 <div className='grid gap-4 py-4'>
                     <div className='grid grid-cols-4 items-center gap-4'>
-                        <Label className='text-right'>Hình ảnh tiêu đề</Label>
+                        <Label className='text-right'>File nội dung công việc</Label>
                         <div className='col-span-3'>
                             <Upload
                                 className='h-[66px]'
