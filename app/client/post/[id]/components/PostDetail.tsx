@@ -36,7 +36,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
             fetchPostData(postId);
         }
     }, [postId]);
-    
+
     return (
         <section className='px-20'>
             <div>
@@ -177,38 +177,37 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 Hình ảnh
                             </h3>
                             <div className='flex items-center gap-x-3 pl-3'>
-                                <p>
-                                    {!loading && post?.thumbnail && (
-                                        <Link
-                                            href={post?.thumbnail}
-                                            target='_blank'
-                                        >
-                                            <div className='w-[120px] h-[120px] relative'>
-                                                <Image
-                                                    src={post?.thumbnail}
-                                                    alt=''
-                                                    fill
-                                                />
-                                            </div>
-                                        </Link>
-                                    )}
-                                </p>
+                                {!loading && post?.thumbnail && (
+                                    <Link
+                                        href={post?.thumbnail}
+                                        target='_blank'
+                                    >
+                                        <div className='w-[120px] h-[120px] relative'>
+                                            <Image
+                                                src={post?.thumbnail}
+                                                alt=''
+                                                fill
+                                            />
+                                        </div>
+                                    </Link>
+                                )}
                             </div>
                         </div>
 
-                        {(post?.status?.toString() === '1' || post?.status?.toString() === '2') && (
-                                <div className='mb-6 flex flex-col items-start'>
-                                    <h3 className='text-lg font-medium mb-2 min-w-[130px]'>
-                                        Số lượng ứng viên:{' '}
-                                        {post?.applied?.length || 0}
-                                    </h3>
-                                    <div className='flex items-center gap-x-3 pl-3'>
-                                        <AppliedTable
-                                            appliedList={post?.applied || []}
-                                        />
-                                    </div>
+                        {(post?.status?.toString() === '1' ||
+                            post?.status?.toString() === '2') && (
+                            <div className='mb-6 flex flex-col items-start'>
+                                <h3 className='text-lg font-medium mb-2 min-w-[130px]'>
+                                    Số lượng ứng viên:{' '}
+                                    {post?.applied?.length || 0}
+                                </h3>
+                                <div className='flex items-center gap-x-3 pl-3'>
+                                    <AppliedTable
+                                        appliedList={post?.applied || []}
+                                    />
                                 </div>
-                            )}
+                            </div>
+                        )}
                     </div>
                 </article>
             </div>

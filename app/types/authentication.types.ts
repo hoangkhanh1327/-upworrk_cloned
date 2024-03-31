@@ -62,3 +62,46 @@ export interface FreelancerInfo {
     skills: SkillInProfile[];
     is_completed_profile: number | string;
 }
+
+type BaseInfo = {
+    id: number;
+    username: string;
+    email: string;
+    address: string;
+    available_proposal?: string | number;
+    avatar_url: string;
+    bank_account: null;
+    created_at: string;
+    date_of_birth: string;
+    expected_salary?: number | string;
+    first_name: string;
+    intro?: string;
+    last_name: string;
+    phone_num: string;
+    position?: string;
+    sex: string;
+    updated_at: string;
+};
+
+type Experience = {
+    id: number;
+    name: string;
+};
+
+export type Job = {
+    bids: string | number;
+    created_at: string;
+    deadline: string;
+    desc: string;
+    min_proposals: string | number;
+    status_apply: string;
+    thumbnail: string;
+    title:  string;
+    updated_at: string;
+};
+
+export type FreelancerPreviewInfo = {
+    base_info: BaseInfo,
+    experience: Experience[]
+    job: Job[]
+}

@@ -34,6 +34,7 @@ const NotificationProvider: FC<INotificationProvider> = ({ children }) => {
     if (user.isAuthenticated) {
       const fetchData = async () => {
         const data = await getNotification({ user_id: 9 });
+        
         return setNotifications(data);
         // console.log('notifications ------------->', notifications)
       };
