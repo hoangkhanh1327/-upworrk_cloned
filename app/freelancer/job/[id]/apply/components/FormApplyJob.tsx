@@ -109,8 +109,8 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
             linkable: '/contract',
             smail: 1,
             imagefile: null,
-            user_type: 'client',
-            user_id: job.client_id
+            user_type: 'client', //type cua nguoi nhan
+            user_id: job.client_id // id cua nguoi nhan
         })
       }
     } catch (error) {

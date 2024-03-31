@@ -2,6 +2,7 @@
 import { StateContextProvider } from "@/context";
 import { FC, createContext, useContext, useEffect, useState } from "react";
 import Pusher from "pusher-js";
+import Cookies from 'js-cookie';
 import { commonServices } from "../services/common.services";
 import { AuthContext } from "./AuthProvider";
 
@@ -50,8 +51,8 @@ const NotificationProvider: FC<INotificationProvider> = ({ children }) => {
       cluster: "ap1",
       //   secret: '15836c8f7dc20e6e411e',
     });
-    const user_type = "freelancer";
-    const user_id = 9;
+    const user_type = Cookies.get('account_type');;
+    const user_id = user.user?.id;
     const channel = pusher.subscribe(`notify.${user_type}.${user_id}`);
     //Truyền dô mỗi tài khoản sẽ có 1 kênh lắng nghe
 
@@ -67,7 +68,9 @@ const NotificationProvider: FC<INotificationProvider> = ({ children }) => {
       channel.unsubscribe();
     };
   };
-  handelPusher();
+  if(user.isAuthenticated){
+    handelPusher();
+  }
 
   return (
     <NotificationContext.Provider value={{ notifications }}>

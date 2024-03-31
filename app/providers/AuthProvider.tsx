@@ -11,6 +11,7 @@ interface IAuthContext {
     isAuthenticated: boolean;
     user: ClientInfo | FreelancerInfo | null;
     login: (email: string, password: string) => void;
+
     logout: () => void;
     setUser?: (data: ClientInfo | FreelancerInfo) => void;
     loading: boolean;
@@ -24,6 +25,7 @@ export const AuthContext = createContext<IAuthContext>({
     isAuthenticated: false,
     loading: false,
     user: null,
+  
     login: (email, password) => {},
     logout: () => {},
 });

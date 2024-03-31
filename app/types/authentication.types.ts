@@ -26,6 +26,7 @@ export interface ClientInfo {
     avatar_url?: string;
     status: number;
     email_verified_at: string;
+
     google_id?: string;
     otp?: string;
     otp_exp?: string;
