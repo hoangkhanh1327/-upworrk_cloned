@@ -1,6 +1,6 @@
 'use client';
 
-import EditPostDetail from './components/EditPostDetail';
+import ApplyJob from './components/ApplyJob';
 import EditPostProvider from './context/ApplyPostContext';
 // import EditPostModalProvider from './provider/EditPostModalProvider';
 
@@ -14,7 +14,7 @@ const EditPostPage: React.FC<IEditPostPage> = ({ params }) => {
     return (
         <main>
             <EditPostProvider>
-                <EditPostDetail postId={params.id} />
+                <ApplyJob postId={params.id}/>
                 {/* <EditPostModalProvider /> */}
             </EditPostProvider>
         </main>

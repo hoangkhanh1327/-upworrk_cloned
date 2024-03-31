@@ -34,16 +34,6 @@ const EditPostProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState(false);
     const [post, setPost] = useState<DetailClientPost | null>(null);
 
-    // const onCloseModal = useCallback(() => {
-    //     toggleModalOpen(false);
-    //     setModalType(null);
-    // }, []);
-
-    // const onOpenModal = useCallback((type: modalType) => {
-    //     toggleModalOpen(true);
-    //     setModalType(type);
-    // }, []);
-
     const handleGetPostDetail = useCallback(async (postId: string) => {
         try {
             setLoading(true);

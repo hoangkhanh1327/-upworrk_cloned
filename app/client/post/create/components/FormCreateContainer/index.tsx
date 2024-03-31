@@ -551,7 +551,7 @@ const FormCreateContainer = () => {
                                     {loading && (
                                         <ReloadIcon className='mr-2 h-4 w-4 animate-spin inline-flex' />
                                     )}
-                                    Create your post now!
+                                    Tạo 1 công việc mới
                                 </Button>
                             </div>
                         </div>

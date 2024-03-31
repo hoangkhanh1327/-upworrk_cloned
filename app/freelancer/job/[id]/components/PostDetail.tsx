@@ -177,21 +177,21 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
         </article>
       </div>
       <div className="flex justify-center items-center gap-x-1 ">
-        <Button
-          className="cursor-pointer flex items-center border-solid border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4 "
-        >
-          <Link href={`/freelancer/job/${postId}/apply`}>Ứng tuyển ngay</Link>
-          {/* <Link href={`/client/post/${postId}/edit`}> */}
+        <Button className="cursor-pointer flex items-center border-solid border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4 ">
+          <Link
+            href={{
+              pathname: `/freelancer/job/${postId}/apply`,
+              query: { post: JSON.stringify(post) },
+            }}
+          >
+            Ứng tuyển ngay
+          </Link>
         </Button>
-        <Button
-          className="cursor-pointer flex items-center border-2 border-solid-[#14a800] border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4"
-        >
+        <Button className="cursor-pointer flex items-center border-2 border-solid-[#14a800] border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4">
           <Link href={`/freelancer/apply/${postId}`}>
-          <SquarePen color="#fff" className="w-5 h-5" />
-          <span>
-            Lưu công việc
-          </span>
-            </Link>
+            <SquarePen color="#fff" className="w-5 h-5" />
+            <span>Lưu công việc</span>
+          </Link>
         </Button>
       </div>
     </section>

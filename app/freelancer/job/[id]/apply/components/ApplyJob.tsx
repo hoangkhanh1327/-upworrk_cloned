@@ -10,12 +10,14 @@ import { useContext, useEffect } from "react";
 import { VscFile } from "react-icons/vsc";
 import { EditPostContext } from "../context/ApplyPostContext";
 import FormApplyJob from "./FormApplyJob";
+import { DetailClientPost } from "@/app/types/client.types";
 
 interface IEditPostDetail {
-  postId: string;
+  // post: DetailClientPost
+  postId: string
 }
 
-const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
+const ApplyJob: React.FC<IEditPostDetail> = ({postId}) => {
   const { post, loading, handleGetPostDetail } =
     useContext(EditPostContext);
 
@@ -23,9 +25,9 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
     if (postId) {
       handleGetPostDetail?.(postId);
     }
-  }, [postId]);
+  }, [post?.id]);
   const handleApplyJob = () => {
-    console.log("appp job");
+     
   };
 
   return (
@@ -62,7 +64,7 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
               </div>
             </div>
 
-            <div className="p-8 pb-0">
+            <div className="p-8 pb-10">
               <h3 className="text-lg font-medium mb-2">Nội dung</h3>
               <div className="flex items-center justify-between">
                 {loading ? (
@@ -79,10 +81,10 @@ const EditPostDetail: React.FC<IEditPostDetail> = ({ postId }) => {
         </div>
       </section>
       <section className="px-20">
-        <FormApplyJob handleApplyJob={handleApplyJob} />
+        {post && <FormApplyJob job={post} handleApplyJob={handleApplyJob} />}
       </section>
     </>
   );
 };
 
-export default EditPostDetail;
+export default ApplyJob;
