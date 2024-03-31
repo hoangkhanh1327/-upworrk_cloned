@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-
+import Pusher from 'pusher-js';
 import { Icons } from '@/app/components/icons';
 import {
     NavigationMenu,
@@ -18,6 +18,7 @@ import ListItem from './ListItem';
 import { findTalentSubMenu, findWorkSubMenu } from './menuData';
 
 const Navbar = () => {
+
     return (
         <NavigationMenu className='tww-full'>
             <NavigationMenuList>
@@ -78,6 +79,7 @@ const Navbar = () => {
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
+          
             </NavigationMenuList>
         </NavigationMenu>
     );

@@ -1,28 +1,31 @@
-import type { Metadata } from 'next';
-import './global.css';
-import AuthProvider from './providers/AuthProvider';
-import AppThirdwebProvider from './providers/ThirdwebProvider';
-import { Toaster } from './components/ui/toaster';
+import type { Metadata } from "next";
+import "./global.css";
+import AuthProvider from "./providers/AuthProvider";
+import AppThirdwebProvider from "./providers/ThirdwebProvider";
+import { Toaster } from "./components/ui/toaster";
+import NotificationProvider from "./providers/NotificationProvider";
 
 export const metadata: Metadata = {
-    title: 'IT WORKS VN Version',
-    description: 'IT WORKS',
+  title: "IT WORKS VN Version",
+  description: "IT WORKS",
 };
 
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang='en'>
-            <body>
-                {/* Wrap AuthProvider with ThirdWebProvider */}
-                <AuthProvider>
-                    <Toaster />
-                    <AppThirdwebProvider>{children}</AppThirdwebProvider>
-                </AuthProvider>
-            </body>
-        </html>
-    );
+  return (
+    <html lang="en">
+      <body>
+        {/* Wrap AuthProvider with ThirdWebProvider */}
+        <AuthProvider>
+          <NotificationProvider>
+            <Toaster />
+            <AppThirdwebProvider>{children}</AppThirdwebProvider>
+          </NotificationProvider>
+        </AuthProvider>
+      </body>
+    </html>
+  );
 }

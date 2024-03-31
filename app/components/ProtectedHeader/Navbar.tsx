@@ -14,10 +14,13 @@ import {
     navigationMenuTriggerStyle,
 } from '@/app/components/ui/navigation-menu';
 import ListItem from './ListItem';
-
+import { NotificationContext } from '@/app/providers/NotificationProvider';
+import { FiBell } from 'react-icons/fi';
 import { findTalentSubMenu, findWorkSubMenu } from './menuData';
 
 const Navbar = () => {
+    const notifications = React.useContext(NotificationContext);
+    console.log('notifications', notifications);
     return (
         <NavigationMenu className='tww-full'>
             <NavigationMenuList>
@@ -78,6 +81,26 @@ const Navbar = () => {
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
+                <NavigationMenuItem>
+          <div style={{ position: 'relative' }}>
+            <FiBell size={24} /> {/* Notification icon */}
+            {notifications.length > 0 && (
+              <span
+                style={{
+                  position: 'absolute',
+                  top: '-10px',
+                  right: '-10px',
+                  padding: '5px 10px',
+                  borderRadius: '50%',
+                  background: 'red',
+                  color: 'white',
+                }}
+              >
+                {notifications.length} {/* Number of notifications */}
+              </span>
+            )}
+          </div>
+        </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     );
