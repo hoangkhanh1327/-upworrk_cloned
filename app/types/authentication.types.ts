@@ -87,7 +87,7 @@ type Experience = {
     name: string;
 };
 
-type Job = {
+export type Job = {
     bids: string | number;
     created_at: string;
     deadline: string;

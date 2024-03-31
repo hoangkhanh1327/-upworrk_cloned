@@ -22,7 +22,7 @@ const AppliedInfoDialog: React.FC<IAppliedInfoDialog> = ({ info, onClose }) => {
 
     return (
         <Dialog open={true} onOpenChange={() => onClose()}>
-            <DialogContent >
+            <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Thông tin ứng viên</DialogTitle>
                     <DialogDescription>
@@ -47,11 +47,16 @@ const AppliedInfoDialog: React.FC<IAppliedInfoDialog> = ({ info, onClose }) => {
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button type='button' variant='outline' onClick={() => onClose()}>
+                    <Button
+                        type='button'
+                        variant='outline'
+                        onClick={() => onClose()}
+                    >
                         Đóng
                     </Button>
                     <Button asChild variant='default'>
                         <Link
+                            target='_blank'
                             href={`/client/show-freelancer-info/${info.freelancer_id}`}
                         >
                             Xem thông tin chi tiết
