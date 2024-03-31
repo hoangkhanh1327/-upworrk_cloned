@@ -5,17 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/app/components/ui/select";
-import { cn } from "@/lib/utils";
-import dayjs from "dayjs";
-// import DatePicker from "react-datepicker";
-
-import {
   Form,
   FormControl,
   FormField,
@@ -87,7 +76,7 @@ const CreateFormContract = () => {
         setLoading(true);
         const responseContract = await contract?.call(
           "createContract",
-          [data.title, data.description, data.deadline, data.bids, 62, 4, 9],
+          [data.title, data.description, data.deadline, data.bids, 66, 9, 9],
           { value: data.bids.toString() }
         );
         setLoading(false);
@@ -100,7 +89,7 @@ const CreateFormContract = () => {
             smail: 1,
             imagefile: null,
             user_type: 'freelancer',
-            user_id: 4
+            user_id: 9
           });
       } catch (err) {
         console.error("contract call failure", err);

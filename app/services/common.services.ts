@@ -1,48 +1,74 @@
-import { appConfig } from '../configs/app.config';
-import { CommonResponse, Skill } from '../types/common.types';
-import ApiService from './ApiService';
+import { appConfig } from "../configs/app.config";
+import { CommonResponse, Skill } from "../types/common.types";
+import ApiService from "./ApiService";
 
 type GetSkillRequest = {
-    page: number,
-    num: number,
-    search?: string
-}
+  page: number;
+  num: number;
+  search?: string;
+};
 
-type GetSkillResponse =  CommonResponse & {
-    data: {
-        data: Skill[],
-        total: number,
-        total_page: number,
-    }
-}
+type GetSkillResponse = CommonResponse & {
+  data: {
+    data: Skill[];
+    total: number;
+    total_page: number;
+  };
+};
 const getSkill = (params: GetSkillRequest) => {
-    return ApiService.get<GetSkillResponse>(`/administrator/skill`, params);
-}
+  return ApiService.get<GetSkillResponse>(`/administrator/skill`, params);
+};
 const sendNotication = async (params: INotiParams) => {
-    return ApiService.postFormData<any>(`/notifications`, {
-        title: params.title,
-        message: params.message,
-        linkable: params.linkable,
-        smail: params.smail,
-        imagefile: params.imagefile,
-        user_type: params.user_type,
-        user_id: params.user_id,
-    });
+  return ApiService.postFormData<any>(`/notifications`, {
+    title: params.title,
+    message: params.message,
+    linkable: params.linkable,
+    smail: params.smail,
+    imagefile: params.imagefile,
+    user_type: params.user_type,
+    user_id: params.user_id,
+  });
+};
+
+//api get notification
+const getNotification = async (params: any) => {
+  return ApiService.get<GetNotificationResponse>(`/notifications`);
+};
+
+export type INotiParams = {
+  title: string;
+  message: string;
+  linkable: string;
+  smail: number;
+  imagefile: File;
+  user_type?: string;
+  user_id?: number;
+};
+export type INoti = {
+  id: number;
+  user_id: number;
+  type_user: string;
+  noti_type: string;
+  title: string;
+  message: string;
+  time_push: string;
+  image: string;
+  linkable: string;
+  is_read: string;
+  created_at: string;
+  updated_at: string;
+};
+
+export type GetNotificationResponse = CommonResponse & {
+  data: {
+    data: INoti[];
+    total: number;
+    total_page: number;
+  };
 };
 
 export const commonServices = {
-    getSkill,
-    sendNotication
-}
-
-export type INotiParams = {
-    title: string;
-    message: string;
-    linkable: string;
-    smail: number;
-    imagefile: File;
-    user_type?: string;
-    user_id?: number;
-}
-
-
+  getSkill,
+  sendNotication,
+  getNotification,
+};

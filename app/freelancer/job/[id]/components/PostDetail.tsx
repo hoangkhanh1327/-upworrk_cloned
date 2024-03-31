@@ -52,14 +52,14 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
             ) : (
               <>
                 <h3 className="text-2xl font-medium">{post?.title || ""}</h3>
-                <Button
+                {/* <Button
                   asChild
                   className="rounded-full p-2 bg-transparent hover:bg-transparent"
                 >
                   <Link href={`/client/post/${postId}/edit`}>
                     <SquarePen color="#000" className="w-5 h-5" />
                   </Link>
-                </Button>
+                </Button> */}
               </>
             )}
           </header>
@@ -175,6 +175,24 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
 
           <footer></footer>
         </article>
+      </div>
+      <div className="flex justify-center items-center gap-x-1 ">
+        <Button className="cursor-pointer flex items-center border-solid border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4 ">
+          <Link
+            href={{
+              pathname: `/freelancer/job/${postId}/apply`,
+              query: { post: JSON.stringify(post) },
+            }}
+          >
+            Ứng tuyển ngay
+          </Link>
+        </Button>
+        <Button className="cursor-pointer flex items-center border-2 border-solid-[#14a800] border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4">
+          <Link href={`/freelancer/apply/${postId}`}>
+            <SquarePen color="#fff" className="w-5 h-5" />
+            <span>Lưu công việc</span>
+          </Link>
+        </Button>
       </div>
     </section>
   );
