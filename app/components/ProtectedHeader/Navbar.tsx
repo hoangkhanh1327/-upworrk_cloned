@@ -17,24 +17,37 @@ import ListItem from './ListItem';
 import { NotificationContext } from '@/app/providers/NotificationProvider';
 import { FiBell } from 'react-icons/fi';
 import { findTalentSubMenu, findWorkSubMenu } from './menuData';
+import ListNoti from './ListNoti';
 
 const Navbar = () => {
     const { notifications } = useContext(NotificationContext);
-    const [isLoading, setIsLoading] = useState(true);
+    //const [isLoading, setIsLoading] = useState(true);
     const [noties, setNoties] = useState<any>([]);
+
+    const [unread, setUnread] = useState<number>(0);
+
 
     useEffect(() => {
         if (notifications) {
             setNoties(notifications);
-            setIsLoading(false);
+            setUnread(0);
+            notifications.map(i => {
+                console.log("TS READ:",i.is_read);
+                
+                if (i.is_read == 0) {
+                    setUnread(pre => pre + 1);
+                }
+            })
         }
+        console.log(notifications);
+        
     }, [notifications]);
 
     const bellElement = React.useMemo(() => {
         return (
             <div style={{ position: 'relative' }}>
                 <FiBell size={24} /> {/* Notification icon */}
-                {!isLoading && noties && noties.length > 0 && (
+                {noties && noties.length > 0 && (
                     <span
                         className='text-xs w-5 h-5 absolute flex items-center justify-center'
                         style={{
@@ -45,13 +58,13 @@ const Navbar = () => {
                             color: 'white',
                         }}
                     >
-                        {noties.length} {/* Number of notifications */}
+                       {unread} {/* {noties.length} Number of notifications */}
                     </span>
                 )}
-                {isLoading && <span>Loading...</span>}
+               
             </div>
         );
-    }, [isLoading, noties]);
+    }, [ noties]);
 
     return (
         <NavigationMenu className='tww-full'>
@@ -117,7 +130,29 @@ const Navbar = () => {
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
-                <NavigationMenuItem>{bellElement}</NavigationMenuItem>
+                <NavigationMenuItem>
+                <NavigationMenuTrigger
+                        >
+                    {bellElement}</NavigationMenuTrigger>
+                    <NavigationMenuContent className='pt-4'>
+
+                        <div className='overflow-y-auto' style={{ maxHeight: 400 }}>
+                        <div style={{marginTop:15, marginLeft:13, fontWeight:700,fontSize:27}}>Thông Báo</div>
+                            <ul >
+                                {notifications.map((noti) => (
+                                    <ListNoti
+                                        key={noti.title}
+                                        title={noti.title}
+                                        href={noti.href}
+                                        isRead={noti.is_read}
+                                    >
+                                        {noti.message}
+                                    </ListNoti>
+                                ))}
+                            </ul>
+                        </div>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     );

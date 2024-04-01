@@ -45,6 +45,9 @@ const NotificationProvider: FC<INotificationProvider> = ({ children }) => {
         setNotifications([]);
       };
     }
+    if(user.isAuthenticated){
+      handelPusher();
+    }
   }, [user.isAuthenticated]);
 
   const handelPusher = async () => {
@@ -56,11 +59,14 @@ const NotificationProvider: FC<INotificationProvider> = ({ children }) => {
     const user_id = user.user?.id;
     const channel = pusher.subscribe(`notify.${user_type}.${user_id}`);
     //Truyền dô mỗi tài khoản sẽ có 1 kênh lắng nghe
+console.log(`notify.${user_type}.${user_id}`);
 
     channel.bind("notify.new", function (data: any) {
+      console.log(`notify.${user_type}.${user_id}`,data);
+      
       setNotifications((prevNotifications: any) => [
-        ...prevNotifications,
-        data,
+        data.noti_new,...prevNotifications,
+        
       ]);
     });
 
@@ -69,9 +75,7 @@ const NotificationProvider: FC<INotificationProvider> = ({ children }) => {
       channel.unsubscribe();
     };
   };
-  if(user.isAuthenticated){
-    handelPusher();
-  }
+  
 
   return (
     <NotificationContext.Provider value={{ notifications }}>
