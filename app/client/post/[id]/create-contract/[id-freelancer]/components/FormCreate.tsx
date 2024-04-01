@@ -74,9 +74,10 @@ const CreateFormContract = () => {
     if (address) {
       try {
         setLoading(true);
+        const job_id = 6;
         const responseContract = await contract?.call(
           "createContract",
-          [data.title, data.description, data.deadline, data.bids, 66, 9, 9],
+          [data.title, data.description, data.deadline, data.bids, job_id, 9, 9],
           { value: data.bids.toString() }
         );
         setLoading(false);
@@ -85,7 +86,7 @@ const CreateFormContract = () => {
           sendNotification({
             title: `Create contract ${data.title} success`,
             message: `${data.description}`,
-            linkable: '/contract',
+            linkable: '/info-contract/'+job_id,
             smail: 1,
             imagefile: null,
             user_type: 'freelancer',
