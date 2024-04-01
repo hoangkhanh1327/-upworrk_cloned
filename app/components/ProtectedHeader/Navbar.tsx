@@ -143,7 +143,7 @@ const Navbar = () => {
                                     <ListNoti
                                         key={noti.title}
                                         title={noti.title}
-                                        href={noti.href}
+                                        linkable={noti.linkable}
                                         isRead={noti.is_read}
                                     >
                                         {noti.message}
