@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useRouter } from 'next/router';
 
 import {
   Form,
@@ -18,6 +19,7 @@ import { useAddress, useMetamask, useContract } from "@thirdweb-dev/react";
 import { useStateContext } from "@/context";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { commonServices } from "@/app/services/common.services";
+import { AuthContext } from "@/app/providers/AuthProvider";
 // import Link from "next/link";
 
 const CreateFormContractSchema = yup.object({
@@ -38,6 +40,15 @@ interface ICreateFormContract {
 
 const CreateFormContract = () => {
   const [loading, setLoading] = useState(false);
+  // const router = useRouter();
+  // if (!router.isReady) {
+  //   return loading; // or a loading spinner, or some placeholder content
+  // }
+  // const { freelancer_id, jobId } = router.query;
+  // const jobId = router.query.job_id;
+  const user = useContext(AuthContext);
+
+// Inside your component
   // const address = useAddress();
   // const connect = useMetamask();
   const { contract } = useContract(
@@ -76,7 +87,7 @@ const CreateFormContract = () => {
         setLoading(true);
         const responseContract = await contract?.call(
           "createContract",
-          [data.title, data.description, data.deadline, data.bids, 66, 9, 9],
+          [data.title, data.description, data.deadline, data.bids, 67, 9, user.user?.id],
           { value: data.bids.toString() }
         );
         setLoading(false);
@@ -85,11 +96,11 @@ const CreateFormContract = () => {
           sendNotification({
             title: `Create contract ${data.title} success`,
             message: `${data.description}`,
-            linkable: '/contract',
+            linkable: `/info-contract/${67}`,
             smail: 1,
             imagefile: null,
             user_type: 'freelancer',
-            user_id: 9
+            user_id: user.user?.id,
           });
       } catch (err) {
         console.error("contract call failure", err);

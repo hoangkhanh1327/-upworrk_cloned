@@ -1,10 +1,8 @@
 'use client';
 
-import Pagiantion from "../dashboard/components/Pagination";
-import SearchBar from "../dashboard/components/Searchbar";
-import SubHeader from "../dashboard/components/SubHeader";
-import { SearchBarProvider } from "../dashboard/context/SearchBarContext";
+import { SearchBarProvider } from "@/app/client/dashboard/context/SearchBarContext";
 import CreateFormContract from "./components/FormCreate";
+import Pagiantion from "@/app/client/dashboard/components/Pagination";
 
 
 const CreateContract = () => {
