@@ -20,6 +20,8 @@ import { Eye, PenTool } from "lucide-react";
 import { useState } from "react";
 import AppliedInfoDialog from "./dialogs/AppliedInfoDialog";
 import Link from "next/link";
+import { set } from "lodash";
+import CreateContractDialog from "./dialogs/CreateContractDialog";
 
 interface IAppliedTable {
   appliedList: Applied[];
@@ -27,6 +29,7 @@ interface IAppliedTable {
 
 const AppliedTable: React.FC<IAppliedTable> = ({ appliedList = [] }) => {
   const [appliedInfo, setAppliedInfo] = useState<Applied | null>(null);
+  const [infoUserApply, setInfoUserApply] = useState<Applied | null>(null);
 
   return (
     <>
@@ -74,8 +77,11 @@ const AppliedTable: React.FC<IAppliedTable> = ({ appliedList = [] }) => {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <PenTool role="button" className="w-5 h-5" />
-                        
+                        <PenTool
+                          onClick={() => setInfoUserApply(i)}
+                          role="button"
+                          className="w-5 h-5"
+                        />
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>Ký hợp đồng</p>
@@ -92,6 +98,12 @@ const AppliedTable: React.FC<IAppliedTable> = ({ appliedList = [] }) => {
         <AppliedInfoDialog
           info={appliedInfo}
           onClose={() => setAppliedInfo(null)}
+        />
+      )}
+       {infoUserApply && (
+        <CreateContractDialog
+          info={infoUserApply}
+          onClose={() => setInfoUserApply(null)}
         />
       )}
     </>

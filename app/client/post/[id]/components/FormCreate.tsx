@@ -3,8 +3,7 @@ import React, { useContext, useState } from "react";
 import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useRouter } from 'next/router';
-
+import { Textarea } from "@/app/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -20,6 +19,7 @@ import { useStateContext } from "@/context";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { commonServices } from "@/app/services/common.services";
 import { AuthContext } from "@/app/providers/AuthProvider";
+import { Applied } from "@/app/types/client.types";
 // import Link from "next/link";
 
 const CreateFormContractSchema = yup.object({
@@ -37,15 +37,14 @@ export interface SignUpSubmitValue {}
 interface ICreateFormContract {
   handleCreateAccount: (data: SignUpSubmitValue) => void;
 }
+interface ICreateContract {
+  // postId: string;
+  infoApply: Applied
+}
 
-const CreateFormContract = () => {
+
+const CreateFormContract : React.FC<ICreateContract> = ({infoApply}) => {
   const [loading, setLoading] = useState(false);
-  // const router = useRouter();
-  // if (!router.isReady) {
-  //   return loading; // or a loading spinner, or some placeholder content
-  // }
-  // const { freelancer_id, jobId } = router.query;
-  // const jobId = router.query.job_id;
   const user = useContext(AuthContext);
 
 // Inside your component
@@ -87,7 +86,7 @@ const CreateFormContract = () => {
         setLoading(true);
         const responseContract = await contract?.call(
           "createContract",
-          [data.title, data.description, data.deadline, data.bids, 67, 9, user.user?.id],
+          [data.title, data.description, data.deadline, data.bids, infoApply.job_id, infoApply.freelancer_id, user.user?.id],
           { value: data.bids.toString() }
         );
         setLoading(false);
@@ -96,7 +95,7 @@ const CreateFormContract = () => {
           sendNotification({
             title: `Create contract ${data.title} success`,
             message: `${data.description}`,
-            linkable: `/info-contract/${67}`,
+            linkable: `/info-contract/${infoApply.job_id}`,
             smail: 1,
             imagefile: null,
             user_type: 'freelancer',
@@ -120,7 +119,7 @@ const CreateFormContract = () => {
       <div className="max-w-[464px] w-[464px] mx-auto">
         <div className="my-6">
           <h1 className="text-4xl -tracking-[1px] font-medium text-center">
-            Create contract
+            Điền thông tin hợp đồng
           </h1>
         </div>
         <Form {...form}>
@@ -143,12 +142,12 @@ const CreateFormContract = () => {
                 </FormItem>
               )}
             />
-            <FormField
+            {/* <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>Mô tả</FormLabel>
                   <FormControl>
                     <Input
                       type="text"
@@ -160,6 +159,19 @@ const CreateFormContract = () => {
                   <FormMessage />
                 </FormItem>
               )}
+            /> */}
+             <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Hãy viết mô tả ngắn về hợp đồng</FormLabel>
+                  <FormControl>
+                    <Textarea rows={10} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
             {/* </div> */}
             <FormField
@@ -167,7 +179,7 @@ const CreateFormContract = () => {
               name="deadline"
               render={({ field }) => (
                 <FormItem className="mt-6">
-                  <FormLabel>deadline</FormLabel>
+                  <FormLabel>Thời hạn</FormLabel>
                   <FormControl>
                     <Input
                       className="border-2 border-solid  border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
@@ -187,7 +199,7 @@ const CreateFormContract = () => {
               name="bids"
               render={({ field }) => (
                 <FormItem className="mt-6">
-                  <FormLabel>Bids</FormLabel>
+                  <FormLabel>Số bids</FormLabel>
                   <FormControl>
                     <Input
                       type="number"

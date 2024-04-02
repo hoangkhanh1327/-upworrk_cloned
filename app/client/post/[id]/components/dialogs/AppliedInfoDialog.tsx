@@ -45,20 +45,12 @@ const AppliedInfoDialog: React.FC<IAppliedInfoDialog> = ({ info, onClose }) => {
           <Button type="button" variant="outline" onClick={() => onClose()}>
             Đóng
           </Button>
-          <Button asChild variant="default">
+          <Button asChild variant="default" className="text-link bg-primary-color hover:bg-primary-color">
             <Link
               target="_blank"
               href={`/client/show-freelancer-info/${info.freelancer_id}`}
             >
               Xem thông tin chi tiết
-            </Link>
-          </Button>
-          <Button className="text-link bg-primary-color hover:bg-primary-color">
-            <Link
-              className="text-white bg-primary-color hover:bg-primary-color hover:text-[#eaeaea] font-medium transition-[color] underline"
-              href={{pathname: `/client/post/${info.job_id}/create-contract`, query: { freelancer_id: info.freelancer_id }}}
-            >
-              Chọn để tạo hợp đồng
             </Link>
           </Button>
         </DialogFooter>
