@@ -84,6 +84,7 @@ const CreateFormContract : React.FC<ICreateContract> = ({infoApply}) => {
     if (address) {
       try {
         setLoading(true);
+        const job_id = 67;
         const responseContract = await contract?.call(
           "createContract",
           [data.title, data.description, data.deadline, data.bids, infoApply.job_id, infoApply.freelancer_id, user.user?.id],
