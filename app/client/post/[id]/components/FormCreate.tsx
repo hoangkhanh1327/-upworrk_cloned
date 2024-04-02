@@ -84,7 +84,6 @@ const CreateFormContract : React.FC<ICreateContract> = ({infoApply}) => {
     if (address) {
       try {
         setLoading(true);
-        const job_id = 67;
         const responseContract = await contract?.call(
           "createContract",
           [data.title, data.description, data.deadline, data.bids, infoApply.job_id, infoApply.freelancer_id, user.user?.id],
@@ -143,24 +142,6 @@ const CreateFormContract : React.FC<ICreateContract> = ({infoApply}) => {
                 </FormItem>
               )}
             />
-            {/* <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mô tả</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
-                      placeholder="Description"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
              <FormField
               control={form.control}
               name="description"
@@ -168,7 +149,7 @@ const CreateFormContract : React.FC<ICreateContract> = ({infoApply}) => {
                 <FormItem>
                   <FormLabel>Hãy viết mô tả ngắn về hợp đồng</FormLabel>
                   <FormControl>
-                    <Textarea rows={10} {...field} />
+                    <Textarea rows={5} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

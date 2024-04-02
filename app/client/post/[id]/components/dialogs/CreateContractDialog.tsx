@@ -26,12 +26,9 @@ const CreateContractDialog: React.FC<IAppliedInfoDialog> = ({
 
   return (
     <Dialog open={true} onOpenChange={() => onClose()}>
-      <DialogContent>
+      <DialogContent className="w-[700px]">
         <DialogHeader>
           <DialogTitle>Tạo 1 hợp đồng làm việc mới</DialogTitle>
-          {/* <DialogDescription>
-            {`Tóm tắt thông tin về ứng viên.`}
-          </DialogDescription> */}
         </DialogHeader>
         <div>
           <CreateFormContract infoApply={info}/>
