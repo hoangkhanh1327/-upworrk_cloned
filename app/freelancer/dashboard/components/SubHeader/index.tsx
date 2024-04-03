@@ -8,12 +8,12 @@ const SubHeader = () => {
     return (
         <div className='flex items-start justify-between'>
             <h2 className='text-5xl leading-[48px] tracking-normal font-medium mt-1 mb-2'>
-                All job posts
+                 Những công việc mới nhất
             </h2>
             <div>
-                <Button className='block px-6 w-full bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] '>
+                {/* <Button className='block px-6 w-full bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] '>
                     Post a new job
-                </Button>
+                </Button> */}
             </div>
         </div>
     );

@@ -206,7 +206,7 @@ const CreateFormContract : React.FC<ICreateContract> = ({infoApply}) => {
                 {loading && (
                   <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
                 )}
-                {address ? "Create contract" : "Connect wallet"}
+                {address ? "Tạo hợp đồng" : "Kết nối ví MetaMask"}
                 {/* {" Already create contract"} */}
               </Button>
             </div>

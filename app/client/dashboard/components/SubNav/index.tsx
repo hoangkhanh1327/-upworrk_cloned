@@ -28,7 +28,7 @@ const SubNav = () => {
                     : ""
                 )}
               >
-                All job posts
+                Tất cả những công việc
               </span>
             </Link>
           </li>

@@ -45,9 +45,9 @@ const AppliedInfoDialog: React.FC<IAppliedInfoDialog> = ({ info, onClose }) => {
           <Button type="button" variant="outline" onClick={() => onClose()}>
             Đóng
           </Button>
-          <Button asChild variant="default" className="text-link bg-primary-color hover:bg-primary-color">
+          <Button asChild variant="default" className="text-white bg-primary-color hover:bg-primary-color">
             <Link
-              target="_blank"
+              // target="_blank"
               href={`/client/show-freelancer-info/${info.freelancer_id}`}
             >
               Xem thông tin chi tiết

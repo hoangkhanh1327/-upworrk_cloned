@@ -9,14 +9,14 @@ const SubHeader = () => {
     return (
         <div className='flex items-start justify-between'>
             <h2 className='text-5xl leading-[48px] tracking-normal font-medium mt-1 mb-2'>
-                All job posts
+                Tất cả các công việc
             </h2>
             <div>
                 <Button
                     asChild
                     className='block px-6 w-full bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] '
                 >
-                    <Link href={'/client/post/create'}>Post a new job</Link>
+                    <Link href={'/client/post/create'}>Tạo 1 công việc mới</Link>
                 </Button>
             </div>
         </div>
