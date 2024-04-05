@@ -35,7 +35,7 @@ import { toast } from "@/app/components/ui/use-toast";
 
 const signUpFormSchema = yup.object({
   attachments: yup.mixed().nullable(),
-  coverLetter: yup.string().required(),
+  coverLetter: yup.string().required("Vui lòng nhập thư giới thiệu của bạn"),
 });
 
 export interface SignUpSubmitValue {
