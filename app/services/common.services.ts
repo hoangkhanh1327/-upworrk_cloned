@@ -30,6 +30,16 @@ const sendNotication = async (params: INotiParams) => {
   });
 };
 
+const getInfoUser = async (params:any): Promise<any>=>{
+  return ApiService.get<any>(`/info-user?id=${params.id}&typeUser=${params.type}`)
+  
+}
+
+const getInfoJob = async (id:number): Promise<any>=>{
+  return ApiService.get<any>(`/job/${id}`)
+  
+}
+
 //api get notification
 const getNotification = async (params: any) => {
   return ApiService.get<GetNotificationResponse>(`/notifications`);
@@ -71,4 +81,6 @@ export const commonServices = {
   getSkill,
   sendNotication,
   getNotification,
+  getInfoUser,
+  getInfoJob,
 };
