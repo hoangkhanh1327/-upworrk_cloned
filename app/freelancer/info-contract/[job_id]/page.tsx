@@ -13,7 +13,7 @@ import { title } from "process";
 import { loginServices } from "@/app/services/authentication.services";
 import { commonServices } from "@/app/services/common.services";
 import FreelancerInfo from "@/app/client/show-freelancer-info/[freelancer_id]/page";
-import { Modal, Button } from 'antd';
+import { Modal, Button } from "antd";
 interface IContractDetail {
   params: {
     job_id: string;
@@ -22,6 +22,7 @@ interface IContractDetail {
 
 const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
   console.log("id", params.job_id);
+  const contractId = process.env.ID_CONTRACT;
   const [contractInfo, setContractInfo] = useState({
     contract_id: -1,
     title: "",
@@ -33,9 +34,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
     address_client: 0,
     address_freelancer: 0,
   });
-  const { contract } = useContract(
-    "0x141F9921217A5e6f0f34341077d831482db29d00"
-  );
+  const { contract } = useContract(contractId);
   const [contractFile, setContractFile] = useState(null);
   const [imgSignature, setImgSignature] = useState(null);
   const getDataContract = async () => {
@@ -74,17 +73,16 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
     setOpen(false);
   };
   const handleOk = () => {
-    
     ///sử lí lấy chữ kí
-  }
+  };
   const handleCancel = () => {
     setOpen(false);
-  }
+  };
   ///////////////////////
   const base64Regex = /^data:image\/(png|jpg|svg|svg\+xml);base64,/;
   const validBase64 =
     /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
-  const base64Parser = (dataURL) => {
+  const base64Parser = (dataURL : string) => {
     if (typeof dataURL !== "string" || !base64Regex.test(dataURL)) {
       return false;
     }
@@ -168,7 +166,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
         console.log("erroooo_>", error);
         return;
       }
-      
+
       const dateObject = new Date(job.nominee.updated_at);
 
       const year = dateObject.getFullYear();
@@ -177,24 +175,24 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       // Lấy ngày trong tháng
       const day = dateObject.getDate();
       // Thiết lập dữ liệu cho mẫu
-      console.log('jo',client);
-      
+      console.log("jo", client);
+
       doc.setData({
         ngay: day,
         thang: month,
         nam: year,
-        dia_diem: 'Trang Web Tìm Việc IT Hot Nhất Việt Nam',
-        company_name: client.company_name??'',
-        client_address:client.address??'',
-        client_numphone:client.phone_num??'',
-        client_email:client.email??'',
-        client_name:client.first_name+client.last_name??'',
-        description:contractInfo.description??'',
-        freelancer_address:freelancer.address??'',
-        freelancer_email:freelancer.email??'',
-        freelancer_numphone:freelancer.phone_num??'',
-        freelancer_dob:freelancer.date_of_birth??'',
-        freelancer_name:freelancer.first_name+freelancer.last_name??'',
+        dia_diem: "Trang Web Tìm Việc IT Hot Nhất Việt Nam",
+        company_name: client.company_name ?? "",
+        client_address: client.address ?? "",
+        client_numphone: client.phone_num ?? "",
+        client_email: client.email ?? "",
+        client_name: client.first_name + client.last_name ?? "",
+        description: contractInfo.description ?? "",
+        freelancer_address: freelancer.address ?? "",
+        freelancer_email: freelancer.email ?? "",
+        freelancer_numphone: freelancer.phone_num ?? "",
+        freelancer_dob: freelancer.date_of_birth ?? "",
+        freelancer_name: freelancer.first_name + freelancer.last_name ?? "",
 
         image: base64ToArrayBuffer(imageData.base64),
         // Thêm các dữ liệu khác tương ứng với mẫu của bạn
@@ -222,41 +220,48 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
 
   useEffect(() => {
     if (contractFile !== null) {
-      window.open(contractFile, '_blank');
+      window.open(contractFile, "_blank");
     }
   }, [contractFile]);
   const [client, setClient] = useState(null);
   const [freelancer, setFreelancer] = useState(null);
-  const [job,setJob] = useState(null);
+  const [job, setJob] = useState(null);
 
   const setInfoUserContract = async () => {
     try {
       const infoJob = (await commonServices.getInfoJob(67)).data;
       setJob(infoJob);
-      console.log("info job",infoJob);
-      
-      const infoClient = (await commonServices.getInfoUser({ id: infoJob.client_id, type: 'client' })).data.base_info;
+      console.log("info job", infoJob);
+
+      const infoClient = (
+        await commonServices.getInfoUser({
+          id: infoJob.client_id,
+          type: "client",
+        })
+      ).data.base_info;
       setClient(infoClient);
-      const freeLancerInfo = (await commonServices.getInfoUser({ id: infoJob.nominee.freelancer_id, type: 'freelancer' })).data.base_info;
+      const freeLancerInfo = (
+        await commonServices.getInfoUser({
+          id: infoJob.nominee.freelancer_id,
+          type: "freelancer",
+        })
+      ).data.base_info;
       setFreelancer(freeLancerInfo);
       console.log(freeLancerInfo);
-      
     } catch (error) {
       console.log("có lỗi khi thực hiện dữ liệu chưa đồng bộ");
-      
     }
-    
-    
-   // c
-  }
+
+    // c
+  };
   useEffect(() => {
     if (contractInfo.contract_id >= 0) {
       setInfoUserContract();
-      //Bắt đầu gọi lấy thông tin Freelancer 
-      commonServices.getInfoUser
+      //Bắt đầu gọi lấy thông tin Freelancer
+      commonServices.getInfoUser;
       //Bắt đầu gọi lấy thông tin Client
     }
-  },[contractInfo])
+  }, [contractInfo]);
 
   return (
     <>
@@ -299,7 +304,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
           <div
             style={{
               width: 1000,
-              height:1000,
+              height: 1000,
               backgroundImage:
                 'url("https://img.freepik.com/free-photo/watercolor-paper-texture_1194-5417.jpg")',
               backgroundRepeat: "no-repeat",
@@ -333,60 +338,106 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
             <p className=" mb-4">
               <div className="font-semibold">Thông tin người thuê:</div>
               <p className="ml-9 mb-4">
-                <span className="font-semibold">Họ tên: </span>{client?client.first_name+client.last_name:''}
+                <span className="font-semibold">Họ tên: </span>
+                {client ? client.first_name + client.last_name : ""}
               </p>
               <p className="ml-9 mb-4">
-                <span className="font-semibold">Số Điện Thoại: </span>{client?client.phone_num:''}
+                <span className="font-semibold">Số Điện Thoại: </span>
+                {client ? client.phone_num : ""}
               </p>
               <p className="ml-9 mb-4">
-                <span className="font-semibold">Email: </span>{client?client.email:''}
+                <span className="font-semibold">Email: </span>
+                {client ? client.email : ""}
               </p>
               <p className="ml-9 mb-4">
-                <span className="font-semibold">Địa chỉ: </span>{client?client.address:''}
+                <span className="font-semibold">Địa chỉ: </span>
+                {client ? client.address : ""}
               </p>
               <p className="ml-9 mb-4">
                 <span className="font-semibold">Tình trạng xác thực:</span>
-                {client?<span
-                  style={{ color: client.is_completed_profile > 1 ? "green" : "red" }}
-                >
-                  {" "}
-                  {client.is_completed_profile >1 ? "đã xác thực" : "chưa xác thực"}{" "}
-                </span>:''}
+                {client ? (
+                  <span
+                    style={{
+                      color: client.is_completed_profile > 1 ? "green" : "red",
+                    }}
+                  >
+                    {" "}
+                    {client.is_completed_profile > 1
+                      ? "đã xác thực"
+                      : "chưa xác thực"}{" "}
+                  </span>
+                ) : (
+                  ""
+                )}
               </p>
             </p>
             <p className=" mb-4">
               <span className="font-semibold">Thông tin người nhận việc:</span>
               <p className="ml-9 mb-4">
-                <span className="font-semibold">Họ tên: </span>{freelancer?freelancer.first_name+freelancer.last_name:''}
+                <span className="font-semibold">Họ tên: </span>
+                {freelancer ? freelancer.first_name + freelancer.last_name : ""}
               </p>
               <p className="ml-9 mb-4">
-                <span className="font-semibold">Số Điện Thoại: </span>{freelancer?freelancer.phone_num:''}
+                <span className="font-semibold">Số Điện Thoại: </span>
+                {freelancer ? freelancer.phone_num : ""}
               </p>
               <p className="ml-9 mb-4">
-                <span className="font-semibold">Email: </span>{freelancer?freelancer.email:''}
+                <span className="font-semibold">Email: </span>
+                {freelancer ? freelancer.email : ""}
               </p>
               <p className="ml-9 mb-4">
-                <span className="font-semibold">Địa chỉ: </span>{freelancer?freelancer.address:''}
+                <span className="font-semibold">Địa chỉ: </span>
+                {freelancer ? freelancer.address : ""}
               </p>
               <p className="ml-9 mb-4">
                 <span className="font-semibold">Tình trạng xác thực:</span>
-                {freelancer?<span
-                  style={{ color: freelancer.is_completed_profile > 1 ? "green" : "red" }}
-                >
-                  {" "}
-                  {freelancer.is_completed_profile >1 ? "đã xác thực" : "chưa xác thực"}{" "}
-                </span>:''}
+                {freelancer ? (
+                  <span
+                    style={{
+                      color:
+                        freelancer.is_completed_profile > 1 ? "green" : "red",
+                    }}
+                  >
+                    {" "}
+                    {freelancer.is_completed_profile > 1
+                      ? "đã xác thực"
+                      : "chưa xác thực"}{" "}
+                  </span>
+                ) : (
+                  ""
+                )}
               </p>
             </p>
-             {/* {contractFile !== null ? (
+            {/* {contractFile !== null ? (
         <Document documents={[{ uri: contractFile }]} />
       ) : (
         "" 
             )}*/}
-            <div style={{display:"flex",justifyContent:'end'}}>
-
-            {contractInfo&&job&&client&&freelancer?<Button onClick={()=>{generateDocument()}}>Xuất Hợp đồng</Button>:''}
-            {contractInfo&&contractInfo.status<=0?<Button style={{backgroundColor:"blue", marginLeft:10}} type="primary" onClick={()=>{setOpen(true)}}>Ký Hợp Đồng</Button>:''}
+            <div style={{ display: "flex", justifyContent: "end" }}>
+              {contractInfo && job && client && freelancer ? (
+                <Button
+                  onClick={() => {
+                    generateDocument();
+                  }}
+                >
+                  Xuất Hợp đồng
+                </Button>
+              ) : (
+                ""
+              )}
+              {contractInfo && contractInfo.status <= 0 ? (
+                <Button
+                  style={{ backgroundColor: "blue", marginLeft: 10 }}
+                  type="primary"
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                >
+                  Ký Hợp Đồng
+                </Button>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
@@ -397,9 +448,11 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
         onCancel={hideModal}
         footer={[]}
       >
-        <SignaturePad setImg={setImgSignature} closePopup={setOpen}></SignaturePad>
+        <SignaturePad
+          setImg={setImgSignature}
+          closePopup={setOpen}
+        ></SignaturePad>
       </Modal>
-
     </>
   );
 };

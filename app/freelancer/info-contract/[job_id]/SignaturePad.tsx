@@ -1,18 +1,25 @@
-import React, { useRef } from 'react';
-import SignatureCanvas from 'react-signature-canvas';
+import React, { useRef } from "react";
+import SignatureCanvas from "react-signature-canvas";
 
-const SignaturePad = ({setImg,closePopup}) => {
-  const signatureCanvasRef = useRef();
+type ISignaturePad = {
+  setImg: (img: string) => void;
+  closePopup?: (isOpen: boolean) => void;
+};
+
+const SignaturePad = ({ setImg, closePopup }: ISignaturePad) => {
+  const signatureCanvasRef = useRef<SignatureCanvas | null>(null);
 
   const clearSignature = () => {
-    signatureCanvasRef.current.clear();
+    signatureCanvasRef.current?.clear();
   };
 
   const getSignatureImage = () => {
-    const signatureImage = signatureCanvasRef.current.toDataURL();
-      console.log(signatureImage);
-    setImg(signatureImage);
-    closePopup(false);
+    const signatureImage = signatureCanvasRef.current?.toDataURL();
+    console.log(signatureImage);
+    setImg(signatureImage ?? "");
+    if (closePopup) {
+      closePopup(false);
+    }
   };
 
   return (
