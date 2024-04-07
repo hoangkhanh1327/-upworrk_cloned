@@ -14,6 +14,7 @@ import { loginServices } from "@/app/services/authentication.services";
 import { commonServices } from "@/app/services/common.services";
 import FreelancerInfo from "@/app/client/show-freelancer-info/[freelancer_id]/page";
 import { Modal, Button } from 'antd';
+import { DetailClientPost } from "@/app/types/freelancer.type";
 interface IContractDetail {
   params: {
     job_id: string;
@@ -227,7 +228,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
   }, [contractFile]);
   const [client, setClient] = useState(null);
   const [freelancer, setFreelancer] = useState(null);
-  const [job,setJob] = useState(null);
+  const [job,setJob] = useState<DetailClientPost|null>(null);
 
   const setInfoUserContract = async () => {
     try {
