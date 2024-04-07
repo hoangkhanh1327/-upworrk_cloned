@@ -63,7 +63,7 @@ export interface FreelancerInfo {
     is_completed_profile: number | string;
 }
 
-type BaseInfo = {
+export type BaseInfo = {
     id: number;
     username: string;
     email: string;
@@ -81,6 +81,8 @@ type BaseInfo = {
     position?: string;
     sex: string;
     updated_at: string;
+    is_completed_profile: number;
+    company_name: string;
 };
 
 type Experience = {

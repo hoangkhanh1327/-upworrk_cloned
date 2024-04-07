@@ -13,9 +13,10 @@ import { title } from "process";
 import { loginServices } from "@/app/services/authentication.services";
 import { commonServices } from "@/app/services/common.services";
 import FreelancerInfo from "@/app/client/show-freelancer-info/[freelancer_id]/page";
-import { Modal, Button } from 'antd';
+import { Modal, Button, Tooltip, Spin, notification } from 'antd';
 import { DetailClientPost } from "@/app/types/freelancer.type";
 import { appConfig } from "@/app/configs/app.config";
+import { BaseInfo } from "@/app/types/authentication.types";
 interface IContractDetail {
   params: {
     job_id: string;
@@ -24,6 +25,7 @@ interface IContractDetail {
 
 const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
   console.log("id", params.job_id);
+  const [loading, setLoading] = useState(false);
   const [contractInfo, setContractInfo] = useState({
     contract_id: -1,
     title: "",
@@ -35,13 +37,25 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
     address_client: 0,
     address_freelancer: 0,
   });
-  console.log("CONTRACT",appConfig);
+  const { address, connect } = useStateContext();
+  const [reload, setReload] = useState(false);
   
   const { contract } = useContract('0x141F9921217A5e6f0f34341077d831482db29d00');
-  const [contractFile, setContractFile] = useState(null);
-  const [imgSignature, setImgSignature] = useState(null);
+  const [contractFile, setContractFile] = useState<string|null>(null);
+  const [imgSignature, setImgSignature] = useState<string | null>(null);
+  type NotificationType = 'success' | 'info' | 'warning' | 'error';
+  const [api, contextHolder] = notification.useNotification();
+
+  const openNotificationWithIcon = (type: NotificationType,message:string,desc:string) => {
+    api[type]({
+      message: message,
+      description:desc
+    });
+  };
+  
   const getDataContract = async () => {
     try {
+      setLoading(true);
       const data = await contract?.call("getJobInfoByCurrentJobId", [
         params.job_id,
       ]);
@@ -59,8 +73,10 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
           address_freelancer: data[8],
         });
       }
+      setLoading(false);
     } catch (error) {
-      ///
+      setLoading(false);
+    openNotificationWithIcon('error',"Tải Thất Bại", 'Dữ liệu đang bị bất đồng bộ vui lòng trở lại trang chủ')
       console.log(error);
     }
   };
@@ -117,10 +133,10 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
   console.log("contract information", contractInfo);
   useEffect(() => {
     getDataContract();
-  }, [contract]);
+  }, [contract,reload]);
 
   ///LOad Template
-  const loadFile = (url, callback) => {
+  const loadFile = (url:string, callback:any) => {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.responseType = "arraybuffer";
@@ -149,7 +165,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       height: 100, // Độ cao của hình ảnh (đơn vị pixel)
     };
     // Chuyển đổi hình ảnh base64 thành ArrayBuffer
-    const base64ToArrayBuffer = (base64) => {
+    const base64ToArrayBuffer = (base64:string) => {
       const binaryString = window.atob(base64.split(",")[1]);
       const len = binaryString.length;
       const bytes = new Uint8Array(len);
@@ -185,17 +201,17 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
         thang: month,
         nam: year,
         dia_diem: "Trang Web Tìm Việc IT Hot Nhất Việt Nam",
-        company_name: client.company_name ?? "",
-        client_address: client.address ?? "",
-        client_numphone: client.phone_num ?? "",
-        client_email: client.email ?? "",
-        client_name: client.first_name + client.last_name ?? "",
-        description: contractInfo.description ?? "",
-        freelancer_address: freelancer.address ?? "",
-        freelancer_email: freelancer.email ?? "",
-        freelancer_numphone: freelancer.phone_num ?? "",
-        freelancer_dob: freelancer.date_of_birth ?? "",
-        freelancer_name: freelancer.first_name + freelancer.last_name ?? "",
+        company_name: client?.company_name ?? "",
+        client_address: client?.address ?? "",
+        client_numphone: client?.phone_num ?? "",
+        client_email: client?.email ?? "",
+        client_name: (client?.first_name??'') + (client?.last_name ?? ""),
+        description: contractInfo?.description ?? "",
+        freelancer_address: freelancer?.address ?? "",
+        freelancer_email: freelancer?.email ?? "",
+        freelancer_numphone: freelancer?.phone_num ?? "",
+        freelancer_dob: freelancer?.date_of_birth ?? "",
+        freelancer_name: (freelancer?.first_name??'') + (freelancer?.last_name ?? ""),
 
         image: base64ToArrayBuffer(imageData.base64),
         // Thêm các dữ liệu khác tương ứng với mẫu của bạn
@@ -226,9 +242,9 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       window.open(contractFile, "_blank");
     }
   }, [contractFile]);
-  const [client, setClient] = useState(null);
-  const [freelancer, setFreelancer] = useState(null);
-  const [job,setJob] = useState<DetailClientPost|null>(null);
+  const [client, setClient] = useState<BaseInfo|null>(null);
+  const [freelancer, setFreelancer] = useState<BaseInfo|null>(null);
+  const [job,setJob] = useState<DetailClientPost|null|any>(null);
 
   const setInfoUserContract = async () => {
     try {
@@ -252,6 +268,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       setFreelancer(freeLancerInfo);
       console.log(freeLancerInfo);
     } catch (error) {
+      setLoading(false);
       console.log("có lỗi khi thực hiện dữ liệu chưa đồng bộ");
     }
 
@@ -259,22 +276,46 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
   };
   useEffect(() => {
     if (contractInfo.contract_id >= 0) {
+      setLoading(true);
       setInfoUserContract();
       //Bắt đầu gọi lấy thông tin Freelancer
-      commonServices.getInfoUser;
+      setLoading(false);
       //Bắt đầu gọi lấy thông tin Client
     }
   }, [contractInfo]);
+  const callAceptContract = async () => {
+    const responseContract = await contract?.call(
+      "acceptContract",
+      [
+        contractInfo.contract_id,
+        imgSignature
+      ]
+    );
+    setLoading(false);
+    setReload(!reload);
+    openNotificationWithIcon('success',"Ký Hợp Đồng Thành Công", 'Hợp đồng của bạn đã được kí thành công bạn có thể xem lại.')
+    console.log("RES", responseContract);
+    
+  }
+  useEffect(() => {
+    if (imgSignature != null) {
+      setLoading(true);
+      callAceptContract();
+        
+    }
+  },[imgSignature])
 
   return (
-    <>
+    <div style={{height:"auto",minHeight:"1700px",display:'block'}}>
+       {contextHolder}
+      <Spin spinning={loading} tip="Đang tải....">
       <div
-        style={{ display: "flex", height: "1200px", flexDirection: "column" }}
+        style={{ display: "flex", minHeight:"fit-content", flexDirection: "column" }}
       >
         <div
           style={{
             width: "100%",
-            height: 100,
+            minHeight:"fit-content",
             backgroundImage:
               'url("https://t4.ftcdn.net/jpg/02/32/92/55/360_F_232925587_st4gM8b3TJHtjjddCIUNyVyFJmZqMmn4.jpg")',
             backgroundRepeat: "no-repeat",
@@ -307,7 +348,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
           <div
             style={{
               width: 1000,
-              height: 1000,
+              display:'inline-table',
               backgroundImage:
                 'url("https://img.freepik.com/free-photo/watercolor-paper-texture_1194-5417.jpg")',
               backgroundRepeat: "no-repeat",
@@ -356,6 +397,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
                 <span className="font-semibold">Địa chỉ: </span>
                 {client ? client.address : ""}
               </p>
+              
               <p className="ml-9 mb-4">
                 <span className="font-semibold">Tình trạng xác thực:</span>
                 {client ? (
@@ -373,6 +415,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
                   ""
                 )}
               </p>
+             
             </p>
             <p className=" mb-4">
               <span className="font-semibold">Thông tin người nhận việc:</span>
@@ -410,7 +453,22 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
                   ""
                 )}
               </p>
+              
             </p>
+            <div style={{fontStyle:'italic', marginBottom:9}}>Cam kết thông tin trên mà tôi đã khai là đúng sự thật nếu sai tôi xin chịu hoàn toàn trách nhiệm trước pháp luật, và tôi đã đọc kỹ nội dung hợp đồng trước khi kí.</div>
+            <div style={{display:'flex', justifyContent:'space-between'}}>
+            <p className="ml-9 mb-4">
+                <span className="font-semibold">Chữ Kí Bên Thuê: </span>
+                <img style={{ height: 100 }} src={contractInfo.signature_client} />
+                <div style={{ display: 'flex',width:"100%",justifyContent:"center" }}><span>{client ? client.first_name +" "+ client.last_name : ""}</span></div>
+
+              </p>
+              <p className="ml-9 mb-4">
+                <span className="font-semibold">Chữ Kí Bên Nhận việc: </span>
+                <img style={{ height: 100 }} src={contractInfo.signature_freelancer} />
+                <div style={{ display: 'flex',width:"100%",justifyContent:"center" }}><span>{freelancer ? freelancer.first_name +" "+ freelancer.last_name : ""}</span></div>
+              </p>
+            </div>
             {/* {contractFile !== null ? (
         <Document documents={[{ uri: contractFile }]} />
       ) : (
@@ -429,22 +487,29 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
                 ""
               )}
               {contractInfo && contractInfo.status <= 0 ? (
-                <Button
-                  style={{ backgroundColor: "blue", marginLeft: 10 }}
-                  type="primary"
-                  onClick={() => {
-                    setOpen(true);
-                  }}
-                >
-                  Ký Hợp Đồng
-                </Button>
+                // <Tooltip title={"Kết nối Ví Để Kí Hợp Đồng"} >
+                  <Button
+                    style={{ backgroundColor: "blue", marginLeft: 10 }}
+                    type="primary"
+                    onClick={() => {
+                      if (address == null || address == '') {
+                        connect();
+                      }
+                      else {
+                        setOpen(true);
+                      }
+                    }}
+                  >
+                    {address == null || address == '' ? 'Kết Nối Ví':"Ký Hợp Đồng"}
+                  </Button>
               ) : (
                 ""
               )}
             </div>
           </div>
         </div>
-      </div>
+        </div>
+        </Spin>
       <Modal
         title="Hãy Ký Khi Đã Đọc Kỹ Điều Khoản Hợp Đồng"
         open={open}
@@ -456,7 +521,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
           closePopup={setOpen}
         ></SignaturePad>
       </Modal>
-    </>
+    </div>
   );
 };
 
