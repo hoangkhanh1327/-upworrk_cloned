@@ -9,7 +9,7 @@ import {
 import { ethers } from "ethers";
 
 const StateContext = createContext({
-  address: "",
+  address: null,
   connect: () => {},
 });
 type StateContextProviderProps = {
@@ -18,7 +18,6 @@ type StateContextProviderProps = {
 export const StateContextProvider = ({
   children,
 }: StateContextProviderProps) => {
-  // const { mutateAsync: createCampaign } = useContractWrite(contract, 'createCampaign');
 
   const address = useAddress();
   const connect = useMetamask();

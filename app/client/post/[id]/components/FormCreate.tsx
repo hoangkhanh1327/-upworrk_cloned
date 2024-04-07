@@ -53,6 +53,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
 
   const { contract } = useContract(contractId);
   const { address, connect } = useStateContext();
+  console.log("address", address);
   const form = useForm({
     resolver: yupResolver(CreateFormContractSchema),
     defaultValues: {
@@ -62,8 +63,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
       bids: 0,
     },
   });
-  // const data = await
-  //  contract?.call('createContract', ["aaaa","desc","6",proposal,41,32,6], { value: (proposal).toString() });
+
   const sendNotification = async (data: any) => {
     try {
       // setIsGettingPosts(true);
@@ -79,9 +79,9 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
   };
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log("imgSignature", imgSignature);
     if (address) {
       try {
+        console.log("data");
         setLoading(true);
         const responseContract = await contract?.call(
           "createContract",
@@ -97,6 +97,16 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
           { value: data.bids.toString() }
         );
         setLoading(false);
+        console.log(
+          "responseContract",
+          data.title,
+          data.description,
+          imgSignature,
+          data.bids,
+          infoApply.job_id,
+          infoApply.freelancer_id,
+          user.user?.id
+        );
         //send notification
         // await notiRes =
         sendNotification({
@@ -184,15 +194,6 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
               />
             </div>
 
-            {/* </div> */}
-
-            {/* <FormField
-            control={form.control}
-            name="signature"
-            render={({ field }) => (
-              <FormItem className="mt-6">
-                <FormLabel>Chữ kỹ của bạn</FormLabel>
-                <FormControl> */}
             <div className="grid grid-cols-1 gap-x-1">
               <FormField
                 control={form.control}
