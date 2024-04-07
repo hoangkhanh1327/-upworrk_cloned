@@ -248,10 +248,9 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
 
   const setInfoUserContract = async () => {
     try {
-      const infoJob = (await commonServices.getInfoJob(67)).data;
+      const infoJob = (await commonServices.getInfoJob(parseInt(params.job_id))).data;
       setJob(infoJob);
       console.log("info job", infoJob);
-
       const infoClient = (
         await commonServices.getInfoUser({
           id: infoJob.client_id,
