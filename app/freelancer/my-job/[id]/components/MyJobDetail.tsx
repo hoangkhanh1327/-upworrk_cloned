@@ -4,6 +4,7 @@ import { Button } from '@/app/components/ui/button';
 import { Skeleton } from '@/app/components/ui/skeleton';
 import { freelancerServices } from '@/app/services/freelancer.services';
 import { DetailClientPost } from '@/app/types/client.types';
+import { AppliedJob } from '@/app/types/freelancer.type';
 import { format } from 'date-fns';
 import { FileIcon, SquarePen } from 'lucide-react';
 import Image from 'next/image';
@@ -11,18 +12,28 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { VscFile } from 'react-icons/vsc';
 
-interface IPostDetail {
-    postId: string;
+interface IMyJobDetail {
+    jobId: string;
 }
 
-const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
+const MyJobDetail: React.FC<IMyJobDetail> = ({ jobId }) => {
     const [loading, setLoading] = useState(false);
     const [post, setPost] = useState<DetailClientPost | null>(null);
+    const [jobs, setJobs] = useState<AppliedJob[]>([]);
+
     useEffect(() => {
-        const fetchPostData = async (postId: string) => {
+        const fetchFreelancerJobs = async () => {
+            const res = await freelancerServices.getAppliedJobs({});
+            setJobs(res.data);
+        };
+        fetchFreelancerJobs();
+    }, []);
+
+    useEffect(() => {
+        const fetchPostData = async (jobId: string) => {
             try {
                 setLoading(true);
-                const res = await freelancerServices.getPost(postId);
+                const res = await freelancerServices.getPost(jobId);
                 if (res.data) {
                     setPost(res.data);
                 }
@@ -31,13 +42,17 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                 setLoading(false);
             }
         };
-        if (postId) {
-            fetchPostData(postId);
+        if (jobId) {
+            fetchPostData(jobId);
         }
-    }, [postId]);
+    }, [jobId]);
+
+    const currentStatusJob = (jobs || []).find(
+        (j) => j.job_id?.toString() === jobId
+    );
 
     return (
-        <section className='px-20'>
+        <section>
             <div>
                 <h2 className='text-4xl font-semibold -tracking-[1px]'>
                     Chi tiết công việc
@@ -127,31 +142,29 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 File đính kèm
                             </h3>
                             <div className='flex items-center gap-x-3 pl-3'>
-                                <p>
-                                    {!loading && post?.content_file && (
-                                        <Link
-                                            href={post?.content_file}
-                                            target='_blank'
-                                        >
-                                            <div className='upload-file'>
-                                                <div className='flex px-3 py-3'>
-                                                    <div className='upload-file-thumbnail !p-0 w-8 h-8'>
-                                                        {
-                                                            <FileIcon>
-                                                                <VscFile />
-                                                            </FileIcon>
-                                                        }
-                                                    </div>
-                                                    <div className='upload-file-info min-h-[2rem]'>
-                                                        <h6 className='upload-file-name'>
-                                                            {`${post?.title}`}
-                                                        </h6>
-                                                    </div>
+                                {!loading && post?.content_file && (
+                                    <Link
+                                        href={post?.content_file}
+                                        target='_blank'
+                                    >
+                                        <div className='upload-file'>
+                                            <div className='flex px-3 py-3'>
+                                                <div className='upload-file-thumbnail !p-0 w-8 h-8'>
+                                                    {
+                                                        <FileIcon>
+                                                            <VscFile />
+                                                        </FileIcon>
+                                                    }
+                                                </div>
+                                                <div className='upload-file-info min-h-[2rem]'>
+                                                    <h6 className='upload-file-name'>
+                                                        {`${post?.title}`}
+                                                    </h6>
                                                 </div>
                                             </div>
-                                        </Link>
-                                    )}
-                                </p>
+                                        </div>
+                                    </Link>
+                                )}
                             </div>
                         </div>
                         <div className='mb-6 flex items-start'>
@@ -159,45 +172,61 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 Hình ảnh
                             </h3>
                             <div className='flex items-center gap-x-3 pl-3'>
-                                <p>
-                                    {!loading && post?.thumbnail && (
-                                        <Link
-                                            href={post?.thumbnail}
-                                            target='_blank'
-                                        >
-                                            <div className='w-[120px] h-[120px] relative'>
-                                                <Image
-                                                    src={post?.thumbnail}
-                                                    alt=''
-                                                    fill
-                                                />
-                                            </div>
-                                        </Link>
-                                    )}
-                                </p>
+                                {!loading && post?.thumbnail && (
+                                    <Link
+                                        href={post?.thumbnail}
+                                        target='_blank'
+                                    >
+                                        <div className='w-[120px] h-[120px] relative'>
+                                            <Image
+                                                src={post?.thumbnail}
+                                                alt=''
+                                                fill
+                                            />
+                                        </div>
+                                    </Link>
+                                )}
                             </div>
                         </div>
                     </div>
 
                     <footer className='p-8 border-t border-solid border-[#d5e0d5] flex items-center justify-end'>
-                        <Button className='cursor-pointer flex items-center border-solid border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4 '>
-                            <Link
-                                href={{
-                                    pathname: `/freelancer/job/${postId}/apply`,
-                                }}
-                            >
-                                Ứng tuyển ngay
-                            </Link>
-                        </Button>
-                        <Button className='cursor-pointer flex items-center border-2 border-solid-[#14a800] border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4'>
-                            <Link
-                                href={`/freelancer/apply/${postId}`}
-                                className='flex gap-x-3'
-                            >
-                                <SquarePen color='#fff' className='w-5 h-5' />
-                                <span>Lưu công việc</span>
-                            </Link>
-                        </Button>
+                        {currentStatusJob?.status?.toString() === '3' && (
+                            <Button className='cursor-pointer flex items-center border-solid border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4 '>
+                                <Link
+                                    href={{
+                                        pathname: `/freelancer/my-job/${jobId}/task`,
+                                    }}
+                                >
+                                    Quản lý chi tiết công việc
+                                </Link>
+                            </Button>
+                        )}
+                        {currentStatusJob?.status?.toString() === '2' && (
+                            <>
+                                <Button className='cursor-pointer flex items-center border-solid border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4 '>
+                                    <Link
+                                        href={{
+                                            pathname: `/freelancer/job/${jobId}/apply`,
+                                        }}
+                                    >
+                                        Ứng tuyển ngay
+                                    </Link>
+                                </Button>
+                                <Button className='cursor-pointer flex items-center border-2 border-solid-[#14a800] border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4'>
+                                    <Link
+                                        href={`/freelancer/apply/${jobId}`}
+                                        className='flex gap-x-3'
+                                    >
+                                        <SquarePen
+                                            color='#fff'
+                                            className='w-5 h-5'
+                                        />
+                                        <span>Lưu công việc</span>
+                                    </Link>
+                                </Button>
+                            </>
+                        )}
                     </footer>
                 </article>
             </div>
@@ -205,4 +234,4 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
     );
 };
 
-export default PostDetail;
+export default MyJobDetail;

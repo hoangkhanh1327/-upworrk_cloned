@@ -23,7 +23,7 @@ const SubNav = () => {
                             <span
                                 className={cn(
                                     'block h-full',
-                                    pathname === '/freelancer/dashboard'
+                                    pathname === '/client/dashboard'
                                         ? 'bg-white text-[#108a00] after:content-[""] after:block after:bg-[#108a00] after:w-full after:h-[2px] after:rounded-[6px]'
                                         : ''
                                 )}
