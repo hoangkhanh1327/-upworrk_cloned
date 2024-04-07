@@ -1,7 +1,9 @@
 interface IAppConfig {
-    apiUrl: string
+    apiUrl: string,
+    contractId: string,
 }
 
 export const appConfig: IAppConfig = {
-    apiUrl: process.env.NEXT_PUBLIC_APP_API_URL || ''
+    apiUrl: process.env.NEXT_PUBLIC_APP_API_URL || '',
+    contractId:process.env.ID_CONTRACT||'',
 }  
