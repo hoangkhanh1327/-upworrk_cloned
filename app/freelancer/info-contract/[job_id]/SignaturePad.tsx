@@ -1,18 +1,25 @@
-import React, { useRef } from 'react';
-import SignatureCanvas from 'react-signature-canvas';
+import React, { useRef } from "react";
+import SignatureCanvas from "react-signature-canvas";
 
-const SignaturePad = ({setImg,closePopup}) => {
-  const signatureCanvasRef = useRef();
+type ISignaturePad = {
+  setImg: (img: string) => void;
+  closePopup?: (isOpen: boolean) => void;
+};
+
+const SignaturePad = ({ setImg, closePopup }: ISignaturePad) => {
+  const signatureCanvasRef = useRef<SignatureCanvas | null>(null);
 
   const clearSignature = () => {
-    signatureCanvasRef.current.clear();
+    signatureCanvasRef.current?.clear();
   };
 
   const getSignatureImage = () => {
-    const signatureImage = signatureCanvasRef.current.toDataURL();
-      console.log(signatureImage);
-    setImg(signatureImage);
-    closePopup(false);
+    const signatureImage = signatureCanvasRef.current?.toDataURL();
+    console.log(signatureImage);
+    setImg(signatureImage ?? "");
+    if (closePopup) {
+      closePopup(false);
+    }
   };
 
   return (
@@ -27,12 +34,14 @@ const SignaturePad = ({setImg,closePopup}) => {
       </div>
       <div className="mt-4 flex justify-center space-x-4">
         <button
+          type="button"
           className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           onClick={clearSignature}
         >
           Xóa chữ ký
         </button>
         <button
+          type="button"
           className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
           onClick={getSignatureImage}
         >

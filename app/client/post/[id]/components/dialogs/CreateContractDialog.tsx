@@ -6,8 +6,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/app/components/ui/dialog";
-import { Label } from "@/app/components/ui/label";
-import { Textarea } from "@/app/components/ui/textarea";
 import { Applied } from "@/app/types/client.types";
 import { Dialog } from "@radix-ui/react-dialog";
 import Link from "next/link";
@@ -26,25 +24,24 @@ const CreateContractDialog: React.FC<IAppliedInfoDialog> = ({
 
   return (
     <Dialog open={true} onOpenChange={() => onClose()}>
-      <DialogContent className="w-[700px]">
+      <DialogContent className="max-w-[80%] h-[100%]">
         <DialogHeader>
           <DialogTitle>Tạo 1 hợp đồng làm việc mới</DialogTitle>
         </DialogHeader>
         <div>
-          <CreateFormContract infoApply={info}/>
+          <CreateFormContract infoApply={info} />
         </div>
         <DialogFooter>
-          <Button type="button" variant="outline" onClick={() => onClose()}>
+          <Button type="button" onClick={() => onClose()}>
             Đóng
           </Button>
           <Button
             asChild
-            variant="default"
+            // variant="default"
             className="text-link bg-primary-color hover:bg-primary-color"
           >
             Chọn để tạo hợp đồng
           </Button>
-         
         </DialogFooter>
       </DialogContent>
     </Dialog>

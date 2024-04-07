@@ -34,7 +34,7 @@ import { DetailClientPost } from "@/app/types/client.types";
 import { toast } from "@/app/components/ui/use-toast";
 
 const signUpFormSchema = yup.object({
-  attachments: yup.mixed().nullable(),
+  attachmentUrl: yup.mixed().nullable(),
   coverLetter: yup.string().required("Vui lòng nhập thư giới thiệu của bạn"),
 });
 
@@ -53,41 +53,39 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
   const form = useForm({
     resolver: yupResolver(signUpFormSchema),
     defaultValues: {
-      attachments: null,
+      attachmentUrl: null,
       coverLetter: "",
     },
   });
 
   const sendNotification = async (data: any) => {
-    
     try {
-        // setIsGettingPosts(true);
-        const res = await commonServices.sendNotication(data);
-        if(res.status === 200) {
-          toast({
-              title: 'Thành công',
-              description: 'Bạn đã gửi yêu cầu làm việc thành công',
-              className: cn(
-                  'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
-              ),
-              duration: 1000,
-          });
-        }
+      // setIsGettingPosts(true);
+      const res = await commonServices.sendNotication(data);
+      if (res.status === 200) {
+        toast({
+          title: "Thành công",
+          description: "Bạn đã gửi yêu cầu làm việc thành công",
+          className: cn(
+            "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+          ),
+          duration: 1000,
+        });
+      }
     } catch (error) {
       // if (res.data) {
-        toast({
-            title: 'Thất bại',
-            description: 'Đã có lỗi xảy ra',
-            className: cn(
-                'top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4'
-            ),
-            duration: 1000,
-        });
+      toast({
+        title: "Thất bại",
+        description: "Đã có lỗi xảy ra",
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+        ),
+        duration: 1000,
+      });
     } finally {
-        // setIsGettingPosts(false);
+      // setIsGettingPosts(false);
     }
-};
-
+  };
 
   const handleCreatePost = async (data: any) => {
     try {
@@ -102,16 +100,32 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
         // deadline: format(data.deadline, "yyyy-MM-dd"),
       });
       if (res.status === 200) {
-        // router.push("/client/dashboard");
-         sendNotification({
-            title: `Có 1 ứng viên mới đã ứng tuyển công việc ${job.title} của bạn`,
-            message: `Ứng viên ${user.user?.username} đã ứng tuyển công việc ${job.title} của bạn`,
-            linkable: `info-contract/${job.id}`,
-            smail: 1,
-            imagefile: null,
-            user_type: 'client', //type cua nguoi nhan
-            user_id: job.client_id // id cua nguoi nhan
-        })
+        sendNotification({
+          title: `Có 1 ứng viên mới đã ứng tuyển công việc ${job.title} của bạn`,
+          message: `Ứng viên ${user.user?.username} đã ứng tuyển công việc ${job.title} của bạn`,
+          linkable: `/info-contract/${job.id}`,
+          smail: 1,
+          imagefile: null,
+          user_type: "client", //type cua nguoi nhan
+          user_id: job.client_id, // id cua nguoi nhan
+        });
+        toast({
+          title: "Thành công",
+          description: "Bạn đã gửi yêu cầu làm việc thành công",
+          className: cn(
+            "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+          ),
+          duration: 3000,
+        });
+      } else {
+        toast({
+          title: "Thất bại",
+          description: res.message || "Đã có lỗi xảy ra",
+          className: cn(
+            "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
+          ),
+          duration: 3000,
+        });
       }
     } catch (error) {
       console.log("error", error);
@@ -120,7 +134,7 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
     }
   };
 
-  const fileContent = form.watch("attachments");
+  const fileContent = form.watch("attachmentUrl");
 
   const onSubmit: SubmitHandler<SignUpSubmitValue | any> = (data) =>
     handleCreatePost(data);
@@ -147,10 +161,10 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
                     fileList={fileContent ? [fileContent as File] : []}
                     draggable={true}
                     onChange={(file) => {
-                      form.setValue("attachments", file[0]);
+                      form.setValue("attachmentUrl", file[0]);
                     }}
                     onFileRemove={() => {
-                      form.setValue("attachments", null);
+                      form.setValue("attachmentUrl", null);
                     }}
                   />
                 </FormItem>
@@ -169,6 +183,7 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
                 </FormItem>
               )}
             />
+            
             <div className="flex justify-center items-center gap-x-1 mt-20">
               <Button
                 disabled={loading}
