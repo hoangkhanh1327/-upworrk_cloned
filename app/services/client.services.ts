@@ -65,11 +65,16 @@ type GetFreelancerInfoResponse = CommonResponse & {
 const getDetailFreelancersInfo = (freelancerId: GetFreelancerInfoRequest) => {
     return ApiService.get<GetFreelancerInfoResponse>(`/info-user?id=${freelancerId}&typeUser=freelancer`)
 }
+const confirmJob = async (id: any) => { 
+    
+    return ApiService.postFormData<any>(`/client/job/${id}/recruit-confirm`);
+  }
 
 export const clientServices = {
     getPosts,
     getPost,
     createPost,
     updatePost,
+    confirmJob,
     getDetailFreelancersInfo,
 };

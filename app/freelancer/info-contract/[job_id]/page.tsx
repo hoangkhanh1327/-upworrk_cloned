@@ -293,7 +293,6 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
     );
     setLoading(false);
     setReload(!reload);
-    freelancerServices.confirmJob(params.job_id);
     commonServices.sendNotication({
       title: `Hợp đồng ${job.title} của bạn đã được freelancer chấp thuận`,
       message: `Ứng viên ${freelancer?.last_name} đã chấp thuận công việc ${job.title} của bạn. Vui lòng ấn để xem hợp đồng.`,
@@ -496,7 +495,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
               ) : (
                 ""
               )}
-              {contractInfo && contractInfo.status <= 0 ? (
+              {contractInfo && contractInfo.status <= 0? (
                 // <Tooltip title={"Kết nối Ví Để Kí Hợp Đồng"} >
                   <Button
                     style={{ backgroundColor: "blue", marginLeft: 10 }}

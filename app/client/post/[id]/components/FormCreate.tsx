@@ -22,6 +22,7 @@ import { AuthContext } from "@/app/providers/AuthProvider";
 import { Applied } from "@/app/types/client.types";
 import SignaturePad from "@/app/freelancer/info-contract/[job_id]/SignaturePad";
 import { appConfig } from "@/app/configs/app.config";
+import { clientServices } from "@/app/services/client.services";
 // import Link from "next/link";
 
 const CreateFormContractSchema = yup.object({
@@ -96,6 +97,8 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
           ],
           { value: data.bids.toString() }
         );
+        // gọi cho bên kia biết là chấp nhận freelancer này.
+        clientServices.confirmJob(infoApply.id);
         setLoading(false);
         console.log(
           "responseContract",
@@ -112,11 +115,11 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
         sendNotification({
           title: `Create contract ${data.title} success`,
           message: `${data.description}`,
-          linkable: `/info-contract/${infoApply.job_id}`,
+          linkable: `info-contract/${infoApply.job_id}`,
           smail: 1,
           imagefile: null,
           user_type: "freelancer",
-          user_id: user.user?.id,
+          user_id: infoApply.freelancer_id,
         });
       } catch (err) {
         console.error("contract call failure", err);
