@@ -35,8 +35,13 @@ const applyJob = async (params: any) => {
   return ApiService.postFormData<ApplyJobResponse>(`/freelancer/job/apply`, params);
 };
 
+const confirmJob = async (id: any) => { 
+  return ApiService.postFormData<ApplyJobResponse>(`/client/job/${id}/recruit-confirm`);
+}
+
 export const freelancerServices = {
   getPosts,
   getPost,
-  applyJob
+  applyJob,
+  confirmJob
 };

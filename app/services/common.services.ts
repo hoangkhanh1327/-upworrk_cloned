@@ -50,7 +50,7 @@ export type INotiParams = {
   message: string;
   linkable: string;
   smail: number;
-  imagefile: File;
+  imagefile: File|null;
   user_type?: string;
   user_id?: number;
 };

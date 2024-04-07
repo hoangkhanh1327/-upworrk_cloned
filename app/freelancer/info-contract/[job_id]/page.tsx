@@ -17,6 +17,7 @@ import { Modal, Button, Tooltip, Spin, notification } from 'antd';
 import { DetailClientPost } from "@/app/types/freelancer.type";
 import { appConfig } from "@/app/configs/app.config";
 import { BaseInfo } from "@/app/types/authentication.types";
+import { freelancerServices } from "@/app/services/freelancer.services";
 interface IContractDetail {
   params: {
     job_id: string;
@@ -292,6 +293,16 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
     );
     setLoading(false);
     setReload(!reload);
+    freelancerServices.confirmJob(params.job_id);
+    commonServices.sendNotication({
+      title: `Hợp đồng ${job.title} của bạn đã được freelancer chấp thuận`,
+      message: `Ứng viên ${freelancer?.last_name} đã chấp thuận công việc ${job.title} của bạn. Vui lòng ấn để xem hợp đồng.`,
+      linkable: `freelancer/info-contract/${job.id}`,
+      smail: 1,
+      imagefile: null,
+      user_type: "client", //type cua nguoi nhan
+      user_id: client?.id, // id cua nguoi nhan
+    });
     openNotificationWithIcon('success',"Ký Hợp Đồng Thành Công", 'Hợp đồng của bạn đã được kí thành công bạn có thể xem lại.')
     console.log("RES", responseContract);
     
