@@ -142,9 +142,19 @@ const TaskBoard = (props: TaskBoardProps) => {
                         >
                             <div className='scrumboard-body flex justify-between max-w-full overflow-x-auto h-full mt-4'>
                                 {TaskColumns.map((col, index) => {
-                                    const data = tasks?.filter(
-                                        (t) => t.status?.toString() === col.key
-                                    );
+                                    let data: Task[];
+                                    if (col.key === '3') {
+                                        data = tasks?.filter(
+                                            (t) =>
+                                                t.confirm_status?.toString() ===
+                                                '1'
+                                        );
+                                    } else {
+                                        data = tasks?.filter(
+                                            (t) =>
+                                                t.status?.toString() === col.key
+                                        );
+                                    }
                                     return (
                                         <BoardColumn
                                             columnStatus={col.key}
