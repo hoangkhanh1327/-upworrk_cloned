@@ -1,36 +1,57 @@
 import { forwardRef } from 'react';
 import classNames from 'classnames';
-import { Card } from '@/app/components/ui/card';
+import {
+    Card,
+    CardContent,
+    CardFooter,
+    CardHeader,
+} from '@/app/components/ui/card';
+import { Task } from '@/app/types/task.types';
+import { format, compareAsc } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { useTaskBoardContext } from './TaskBoardContext';
 
 interface BoardCardProps {
-    data: any;
+    data: Task;
 }
 
 const BoardCard = forwardRef<HTMLDivElement, BoardCardProps>((props, ref) => {
     const { data, ...rest } = props;
+    const { onOpenDialog } = useTaskBoardContext();
 
-    const { id, name, comments, attachments, members, dueDate, labels } = data;
+    const { name, desc, deadline } = data;
 
     const onCardClick = () => {
-        // dispatch(openDialog())
-        // dispatch(updateDialogView('TICKET'))
-        // dispatch(setSelectedTicketId(id))
+        onOpenDialog('UPDATE_TASK', data);
     };
+
+    const isDeadline = compareAsc(new Date(deadline), new Date());
 
     return (
         <Card
             ref={ref}
             className={classNames(
-                'hover:shadow-lg rounded-lg dark:bg-gray-700 bg-gray-50'
+                'hover:shadow-lg rounded-lg dark:bg-gray-700 bg-gray-50 mb-6'
             )}
             onClick={() => onCardClick()}
             {...rest}
         >
-            <h6 className='mb-2'>{name}</h6>
-
-            <div className='flex items-center justify-between mt-3'>
-                <div className='flex items-center gap-2'></div>
-            </div>
+            <CardHeader className='font-semibold'>{name}</CardHeader>
+            <CardContent>
+                <p className='text-sm'>{desc}</p>
+            </CardContent>
+            <CardFooter>
+                <small
+                    className={cn(
+                        '',
+                        isDeadline === -1
+                            ? 'text-rose-500'
+                            : 'text-primary-color'
+                    )}
+                >
+                    Deadline: {format(deadline, 'dd/MM/yyyy')}
+                </small>
+            </CardFooter>
         </Card>
     );
 });

@@ -10,17 +10,18 @@ import {
     useState,
 } from 'react';
 
-type TaskBoardDialogType = 'ADD_NEW_TASk';
+type TaskBoardDialogType = 'ADD_NEW_TASK' | 'UPDATE_TASK';
 
 interface ITaskBoardContext {
     loading: boolean;
     isOpenDialog: boolean;
     dialogType?: TaskBoardDialogType;
     tasks: Task[];
-    onOpenDialog: (type: TaskBoardDialogType, taskStatus?: string) => void;
+    onOpenDialog: (type: TaskBoardDialogType, data?: Task) => void;
     onCloseDialog: () => void;
     onFetchTasks: (jobId: string) => void;
     setTasks?: Dispatch<SetStateAction<Task[]>>;
+    selectedTask: Task | null;
 }
 
 const TaskBoardContext = createContext<ITaskBoardContext | null>(null);
@@ -61,11 +62,18 @@ const TaskBoardProvider = ({ children }: { children: React.ReactNode }) => {
         TaskBoardDialogType | undefined
     >(undefined);
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-    const handleOpenDialog = useCallback((type: TaskBoardDialogType) => {
-        setOpenDialog(true);
-        setDialogType(type);
-    }, []);
+    const handleOpenDialog = useCallback(
+        (type: TaskBoardDialogType, data?: Task) => {
+            setOpenDialog(true);
+            setDialogType(type);
+            if (data) {
+                setSelectedTask(data);
+            }
+        },
+        []
+    );
 
     const handleCloseDialogg = useCallback(() => {
         setOpenDialog(false);
@@ -91,6 +99,7 @@ const TaskBoardProvider = ({ children }: { children: React.ReactNode }) => {
                 isOpenDialog,
                 dialogType,
                 tasks,
+                selectedTask,
                 onOpenDialog: handleOpenDialog,
                 onCloseDialog: handleCloseDialogg,
                 onFetchTasks: fetchTasks,

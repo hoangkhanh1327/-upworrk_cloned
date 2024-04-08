@@ -33,7 +33,6 @@ const LoginFormStep2: React.FC<ILoginFormStep2> = ({
                         <Input
                             autoFocus
                             ref={passwordRef}
-                            defaultValue={'abc123'}
                             type='password'
                             className='w-full !border-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 '
                             onKeyDown={(e) => {

@@ -22,6 +22,18 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 import { Calendar } from '@/app/components/ui/calendar';
+import { Task } from '@/app/types/task.types';
+import { useToast } from '@/app/components/ui/use-toast';
+import React, { useEffect, useState } from 'react';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogTitle,
+    DialogTrigger,
+} from '@/app/components/ui/dialog';
 
 const taskFormSchema = yup.object({
     name: yup.string().required('Vui lòng nhập tên task'),
@@ -33,6 +45,8 @@ interface ITaskForm {
     jobId: string;
     type: 'edit' | 'new';
     initialData?: any;
+    onSuccess: (data: Task | string) => void;
+    onClose: () => void;
 }
 
 interface CreateTaskSubmitValue {
@@ -41,8 +55,37 @@ interface CreateTaskSubmitValue {
     deadline: string;
 }
 
+interface IDeleteButton {
+    onDelete: () => void;
+}
+
+const DeleteButton: React.FC<IDeleteButton> = ({ onDelete }) => {
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                <Button variant='destructive' type='button'>
+                    Xoá task
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogTitle>Xoá task</DialogTitle>
+                <DialogDescription>
+                    {`Bạn chắc chắn muốn xoá task này?`}
+                </DialogDescription>
+                <DialogFooter>
+                    <Button variant='destructive' onClick={onDelete}>
+                        Xác nhận xoá
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
+};
+
 const TaskForm = (props: ITaskForm) => {
-    const { jobId, type, initialData } = props;
+    const { jobId, type, initialData, onClose, onSuccess } = props;
+    const { toast } = useToast();
+    const [loading, setLoading] = useState(false);
     const form = useForm({
         resolver: yupResolver(taskFormSchema),
         defaultValues: {
@@ -51,39 +94,62 @@ const TaskForm = (props: ITaskForm) => {
             deadline: initialData?.deadline || '',
         },
     });
-    console.log('jobId', jobId);
 
     const handleSubmit: SubmitHandler<CreateTaskSubmitValue> = async (data) => {
         try {
+            setLoading(true);
             const res = await taskServices.createJobTask({
                 id: jobId,
                 ...data,
                 deadline: format(data.deadline, 'yyyy-MM-dd'),
             });
-            console.log('res', res);
+            toast({
+                title: 'Thêm task thành công',
+            });
+            onSuccess(res.data);
+            onClose();
         } catch (error) {
-            console.log('error', error);
+            toast({
+                title: 'Thêm task thất bại',
+                description: (error as Error)?.message,
+                variant: 'destructive',
+            });
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleError: SubmitErrorHandler<CreateTaskSubmitValue | any> = (
-        errors
-    ) => {
-        console.log('error', errors);
+    const handleDelete = async () => {
+        try {
+            setLoading(true);
+            toast({
+                title: 'Xoá task thành công',
+            });
+            const res = await taskServices.deleteJobTask(
+                initialData.id.toString()
+            );
+            onSuccess(initialData.id);
+            onClose();
+        } catch (error) {
+            toast({
+                title: 'Xoá task thất bại',
+                description: (error as Error)?.message,
+                variant: 'destructive',
+            });
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
-        <div className='max-w-[464px] w-[464px] mx-auto'>
+        <div className='max-w-[28vw] w-[28vw] mx-auto'>
             <div className='my-2'>
                 <h1 className='text-4xl -tracking-[1px] font-medium text-center'>
                     {type === 'new' ? 'Tạo task mới' : 'Chỉnh sửa task'}
                 </h1>
             </div>
             <Form {...form}>
-                <form
-                    className=''
-                    onSubmit={form.handleSubmit(handleSubmit, handleError)}
-                >
+                <form className='' onSubmit={form.handleSubmit(handleSubmit)}>
                     <FormField
                         control={form.control}
                         name='name'
@@ -143,7 +209,9 @@ const TaskForm = (props: ITaskForm) => {
                                                         'dd-MM-yyyy'
                                                     )
                                                 ) : (
-                                                    <span>Pick a date</span>
+                                                    <span>
+                                                        Chọn ngày hết hạn
+                                                    </span>
                                                 )}
                                                 <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
                                             </Button>
@@ -168,15 +236,19 @@ const TaskForm = (props: ITaskForm) => {
                             </FormItem>
                         )}
                     />
-                    <div className='mt-6 flex justify-end'>
+                    <div className='mt-6 flex justify-end gap-x-3'>
+                        <Button type='button' onClick={onClose}>
+                            Đóng
+                        </Button>
+                        {<DeleteButton onDelete={handleDelete} />}
                         <Button
-                            //   disabled={loading}
+                            disabled={loading}
                             className='block bg-[#108a00] hover:bg-[#14a800]'
                             type='submit'
                         >
-                            {/* {loading && (
-                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
-                  )} */}
+                            {loading && (
+                                <ReloadIcon className='mr-2 h-4 w-4 animate-spin inline-flex' />
+                            )}
                             Lưu
                         </Button>
                     </div>

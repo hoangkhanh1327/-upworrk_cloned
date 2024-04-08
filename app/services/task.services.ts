@@ -3,8 +3,8 @@ import { Task } from '../types/task.types';
 import ApiService from './ApiService';
 
 type GetTaskResponse = CommonResponse & {
-    data: Task[]
-}
+    data: Task[];
+};
 
 const getJobTask = async (id: string) => {
     return ApiService.get<GetTaskResponse>(`/job/${id}/task`);
@@ -22,7 +22,7 @@ type CreateJobTaskRequest = {
 };
 
 type CreateJobTaskResponse = CommonResponse & {
-    data: any;
+    data: Task;
 };
 
 const createJobTask = async (params: CreateJobTaskRequest) => {
@@ -36,16 +36,18 @@ type FreelancerUpdateJobStatusRequest = {
 };
 
 type FreelancerUpdateJobStatusResponse = CommonResponse & {
-    data: any;
+    data: Task;
 };
 
 const freelancerUpdateJobStatus = async (
     params: FreelancerUpdateJobStatusRequest
 ) => {
-    const { id, status } = params;
+    const { id, ...rest } = params;
+    console.log('status', status);
+
     return ApiService.post<FreelancerUpdateJobStatusResponse>(
         `/job/task/${id}/set-status`,
-        status
+        rest
     );
 };
 

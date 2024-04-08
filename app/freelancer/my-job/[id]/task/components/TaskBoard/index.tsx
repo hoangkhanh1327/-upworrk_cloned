@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense, useCallback, useState } from 'react';
 
 import {
     Droppable,
@@ -9,9 +9,12 @@ import {
     DraggableChildrenFn,
 } from 'react-beautiful-dnd';
 import BoardColumn from './BoardColumn';
-import { reorder, reorderQuoteMap } from './utils';
 import { TaskColumns, useTaskBoardContext } from './TaskBoardContext';
-import { Dialog, DialogContent } from '@/app/components/ui/dialog';
+import { Dialog, DialogClose, DialogContent } from '@/app/components/ui/dialog';
+import { Task } from '@/app/types/task.types';
+import { taskServices } from '@/app/services/task.services';
+import { useToast } from '@/app/components/ui/use-toast';
+import { LucideLoader } from 'lucide-react';
 
 const CreateTaskForm = lazy(() => import('./TaskForm'));
 
@@ -24,43 +27,30 @@ export type TaskBoardProps = {
 };
 
 const TaskBoard = (props: TaskBoardProps) => {
-    const { onFetchTasks, isOpenDialog, dialogType, onCloseDialog, tasks } =
-        useTaskBoardContext();
+    const {
+        onFetchTasks,
+        isOpenDialog,
+        dialogType,
+        onCloseDialog,
+        tasks,
+        setTasks,
+        selectedTask,
+    } = useTaskBoardContext();
     const {
         containerHeight,
         useClone,
         isCombineEnabled,
         withScrollableColumns,
     } = props;
+    const { toast } = useToast();
+    const [showLoadingDialog, setLoadingDialog] = useState(false);
 
-    const onDragEnd = (result: DropResult) => {
-        if (result.combine) {
-            const columns: any[] = [];
-            if (result.type === 'COLUMN') {
-                const shallow: any[] = [];
-                shallow.splice(result.source.index, 1);
-                // dispatch(updateOrdered(shallow));
-                return;
-            }
-            console.log('test', result);
+    const onDragEnd = async (result: DropResult) => {
+        const { source, destination, draggableId, type } = result;
 
-            const column = columns[0];
-            const withQuoteRemoved = [...column];
-            withQuoteRemoved.splice(result.source.index, 1);
-            const newColumns = {
-                ...columns,
-                [result.source.droppableId]: withQuoteRemoved,
-            };
-            // dispatch(updateColumns(newColumns));
+        if (!destination) {
             return;
         }
-
-        if (!result.destination) {
-            return;
-        }
-
-        const source = result.source;
-        const destination = result.destination;
 
         if (
             source.droppableId === destination.droppableId &&
@@ -69,17 +59,66 @@ const TaskBoard = (props: TaskBoardProps) => {
             return;
         }
 
-        if (result.type === 'COLUMN') {
-            const newOrdered = reorder([], source.index, destination.index);
+        if (type === 'COLUMN') {
             return;
         }
 
-        const data = reorderQuoteMap({
-            quoteMap: [] as any,
-            source,
-            destination,
-        });
+        if (destination.droppableId === '3') {
+            toast({
+                title: 'Bạn không có quyền cập nhật trạng thái này',
+                variant: 'destructive',
+            });
+            return;
+        }
+
+        const taskId = draggableId?.replace('task-', '');
+        const updateStatus = destination.droppableId;
+        try {
+            setLoadingDialog(true);
+            const res = await taskServices.freelancerUpdateJobStatus({
+                id: taskId,
+                status: updateStatus,
+            });
+            if (res.data) {
+                const updatedTaskList = tasks?.map((t) => {
+                    if (t.id === res.data.id) {
+                        return res.data;
+                    }
+                    return t;
+                });
+                toast({
+                    title: 'Cập nhật trạng thái task thành công',
+                });
+                setTasks?.(updatedTaskList);
+            }
+        } catch (error) {
+            toast({
+                title: 'Cập nhật trạng thái task thất bại',
+                description: (error as Error)?.message,
+                variant: 'destructive',
+            });
+        } finally {
+            setLoadingDialog(false);
+        }
     };
+
+    const handleUpdateTaskList = useCallback(
+        (data: Task) => {
+            setTasks?.((prev) => [data, ...prev]);
+        },
+        [setTasks]
+    );
+
+    const handleDeleteTaskFromList = useCallback(
+        (data: string) => {
+            console.log('data', data);
+
+            setTasks?.((prev) =>
+                [...prev].filter((s) => s.id?.toString() !== data?.toString())
+            );
+        },
+        [setTasks]
+    );
 
     useEffect(() => {
         onFetchTasks?.(props.jobId);
@@ -126,14 +165,53 @@ const TaskBoard = (props: TaskBoardProps) => {
                 </Droppable>
             </DragDropContext>
             <Dialog open={isOpenDialog} onOpenChange={() => onCloseDialog()}>
-                <DialogContent>
+                <DialogContent className='max-w-[30vw]'>
                     <Suspense fallback={<></>}>
-                        {dialogType === 'ADD_NEW_TASk' && (
-                            <CreateTaskForm jobId={props.jobId} type='new' />
+                        {dialogType === 'ADD_NEW_TASK' && (
+                            <CreateTaskForm
+                                jobId={props.jobId}
+                                type='new'
+                                onSuccess={(data) =>
+                                    handleUpdateTaskList(data as Task)
+                                }
+                                onClose={() => onCloseDialog()}
+                            />
+                        )}
+                        {dialogType === 'UPDATE_TASK' && (
+                            <CreateTaskForm
+                                jobId={props.jobId}
+                                type='edit'
+                                onSuccess={(data) =>
+                                    handleDeleteTaskFromList(data as string)
+                                }
+                                onClose={() => onCloseDialog()}
+                                initialData={selectedTask}
+                            />
                         )}
                     </Suspense>
                 </DialogContent>
             </Dialog>
+            {showLoadingDialog && (
+                <div
+                    className='fixed inset-0 z-50 bg-black/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'
+                    style={{
+                        pointerEvents: 'auto',
+                    }}
+                    data-aria-hidden='true'
+                    aria-hidden='true'
+                >
+                    <div
+                        role='dialog'
+                        className='fixed left-[50%] top-[50%] z-50 grid  translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg'
+                        tabIndex={-1}
+                        style={{
+                            pointerEvents: 'auto',
+                        }}
+                    >
+                        <LucideLoader className='h-5 w-5 animate-spin inline-flex' />
+                    </div>
+                </div>
+            )}
         </>
     );
 };

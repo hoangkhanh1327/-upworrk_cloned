@@ -2817,6 +2817,7 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
     redux "^4.0.0"
+
 "@types/react-signature-canvas@^1.0.6":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@types/react-signature-canvas/-/react-signature-canvas-1.0.5.tgz#7fa2e091bda04a336e5e8d992548143e3bb8e3a2"

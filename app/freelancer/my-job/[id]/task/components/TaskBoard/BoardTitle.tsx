@@ -19,16 +19,16 @@ const BoardTitle = (props: BoardTitleProps) => {
     const { onOpenDialog } = useTaskBoardContext();
 
     const onAddNewTask = () => {
-        onOpenDialog('ADD_NEW_TASk');
+        onOpenDialog('ADD_NEW_TASK');
     };
 
     return (
         <div
-            className='board-title border border-solid border-stone-500 px-4 py-3 flex justify-between items-center rounded-2xl'
+            className='board-title border border-solid border-stone-500 px-4 py-3 flex justify-between items-center rounded-md'
             {...dragHandleProps}
         >
             <h6 className='font-medium text-lg'>{title}</h6>
-            {status === '0' && (
+            {status === '-1' && (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <CircleEllipsisIcon role='button' />
