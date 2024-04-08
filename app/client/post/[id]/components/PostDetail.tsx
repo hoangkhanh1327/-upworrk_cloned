@@ -194,6 +194,20 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                             </div>
                         </div>
 
+                        <div className='mb-6 flex items-start justify-end'>
+                            {post?.status?.toString() === '3' && (
+                                <Button className='cursor-pointer flex items-center border-solid border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4 '>
+                                    <Link
+                                        href={{
+                                            pathname: `/client/task-management/${post?.id}`,
+                                        }}
+                                    >
+                                        Quản lý chi tiết công việc
+                                    </Link>
+                                </Button>
+                            )}
+                        </div>
+
                         {(post?.status?.toString() === '1' ||
                             post?.status?.toString() === '2') && (
                             <div className='mb-6 flex flex-col items-start'>
@@ -201,7 +215,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                     Số lượng ứng viên:{' '}
                                     {post?.applied?.length || 0}
                                 </h3>
-                                <div className='flex items-center gap-x-3 pl-3'>
+                                <div className='flex items-center gap-x-3 pl-3 w-full'>
                                     <AppliedTable
                                         appliedList={post?.applied || []}
                                     />

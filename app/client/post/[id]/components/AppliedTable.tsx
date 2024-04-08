@@ -33,7 +33,7 @@ const AppliedTable: React.FC<IAppliedTable> = ({ appliedList = [] }) => {
 
   return (
     <>
-      <Table>
+      <Table className='w-full'>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px] text-center font-medium">
@@ -41,7 +41,7 @@ const AppliedTable: React.FC<IAppliedTable> = ({ appliedList = [] }) => {
             </TableHead>
             <TableHead>Username</TableHead>
             <TableHead className="text-center">Proposal</TableHead>
-            <TableHead className="text-right">Ngày tạo tài khỏan</TableHead>
+            <TableHead className="text-right">Ngày tạo tài khoản</TableHead>
             <TableHead className="text-center">Giới thiệu</TableHead>
             <TableHead className="text-center">#</TableHead>
           </TableRow>

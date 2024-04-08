@@ -33,7 +33,7 @@ const Pagiantion = () => {
                         <ChevronLeft className='-mt-[2px]' /> Previous
                     </Button>
                 </li>
-                {[...Array(totalPage + 3)].map((_, index) => {
+                {[...Array(totalPage)].map((_, index) => {
                     const isActive = page === index + 1;
                     return (
                         <li key={`pagination-${index}`}>
