@@ -103,7 +103,7 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
         sendNotification({
           title: `Có 1 ứng viên mới đã ứng tuyển công việc ${job.title} của bạn`,
           message: `Ứng viên ${user.user?.username} đã ứng tuyển công việc ${job.title} của bạn`,
-          linkable: `/info-contract/${job.id}`,
+          linkable: `/freelancer/info-contract/${job.id}`,
           smail: 1,
           imagefile: null,
           user_type: "client", //type cua nguoi nhan
