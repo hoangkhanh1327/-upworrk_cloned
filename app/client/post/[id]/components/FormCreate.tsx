@@ -30,7 +30,7 @@ const CreateFormContractSchema = yup.object({
   description: yup.string().required(""),
   // deadline: yup.date().required(),
   bids: yup.number().required(),
-  // signature: yup.string().required("Vui lòng nhập chữ ký của bạn"),
+  signature: yup.string().required("Vui lòng nhập chữ ký của bạn"),
   // status: yup.number().required(),
 
   // allowSendMail: yup.bool(),
@@ -62,6 +62,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
       description: "",
       // deadline: new Date(),
       bids: 0,
+      signature:''
     },
   });
 
@@ -200,7 +201,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
             <div className="grid grid-cols-1 gap-x-1">
               <FormField
                 control={form.control}
-                name=""
+                name="signature"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Chữ ký</FormLabel>

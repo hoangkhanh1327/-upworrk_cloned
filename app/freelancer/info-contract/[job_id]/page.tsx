@@ -8,7 +8,7 @@ import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
 import Document from "react-doc-viewer";
 import SignaturePad from "./SignaturePad";
-import ImageModule from "docxtemplater-image-module";
+//import ImageModule from "docxtemplater-image-module";
 import { title } from "process";
 import { loginServices } from "@/app/services/authentication.services";
 import { commonServices } from "@/app/services/common.services";

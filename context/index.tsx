@@ -8,7 +8,10 @@ import {
 } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 
-const StateContext = createContext({
+const StateContext = createContext<{
+  address: string | null;
+  connect: () => void;
+}>({
   address: null,
   connect: () => {},
 });
@@ -21,11 +24,11 @@ export const StateContextProvider = ({
 
   const address = useAddress();
   const connect = useMetamask();
-
+  const addressValue = typeof address !== 'undefined' ? address : null;
   return (
     <StateContext.Provider
       value={{
-        address,
+        address: addressValue,
         connect,
       }}
     >

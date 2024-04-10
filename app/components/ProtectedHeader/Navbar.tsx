@@ -31,7 +31,7 @@ const Navbar = () => {
     if (notifications) {
       setNoties(notifications);
       setUnread(0);
-      notifications.map((i) => {
+      notifications.map((i:any) => {
         console.log("TS READ:", i.is_read);
 
         if (i.is_read == 0) {
@@ -176,7 +176,7 @@ const Navbar = () => {
                 </button>
               </div>
               <ul>
-                {notifications.map((noti) => {
+                {notifications.map((noti:any) => {
                   if (statusNoti == 0) {
                     return(
                     <ListNoti
