@@ -3,10 +3,12 @@ import { cn } from "@/lib/utils";
 import { NavigationMenuLink } from "@/app/components/ui/navigation-menu";
 import Link from "next/link";
 
-const ListNoti = React.forwardRef<
-  React.ElementRef<"a">,
-  React.ComponentPropsWithoutRef<"a">
->(({ className, title, isRead, linkable, children, ...props }, ref) => {
+interface ListNotiProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  title: string;
+  isRead: number;
+  linkable?: string; // Allow linkable to be optional
+}
+const ListNoti = React.forwardRef<HTMLAnchorElement, ListNotiProps>(({ className, title, isRead, linkable, children, ...props }, ref) => {
   console.log("LINK ABLE", linkable);
   // Hàm để cắt chuỗi nếu quá dài
   const truncateString = (str:any, maxLength:number) => {
@@ -15,7 +17,7 @@ const ListNoti = React.forwardRef<
 
   // Sử dụng hàm truncateString để giới hạn độ dài của title và children
   const truncatedTitle = truncateString(title, 50); // Giới hạn title 50 ký tự
-  const truncatedChildren = truncateString(children, 100);
+  const truncatedChildren = truncateString(children, 60);
 
   return (
     <li className="pt-7 p-2" style={{ height: 90, maxHeight: 90 }}>
