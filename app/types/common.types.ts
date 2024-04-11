@@ -26,3 +26,15 @@ export type SkillInProfile = {
     skill_name: string,
     skill_point?: number
 }
+
+export type Notification = {
+    id: number;
+    title: string;
+    message: string;
+    linkable: string;
+    is_read: number;
+    created_at: string;
+    updated_at: string;
+    className?: string;
+    children: string;
+};

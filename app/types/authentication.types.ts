@@ -61,6 +61,7 @@ export interface FreelancerInfo {
     available_proposal?: number | string;
     skills: SkillInProfile[];
     is_completed_profile: number | string;
+    skill?: SkillInProfile[];
 }
 
 export type BaseInfo = {

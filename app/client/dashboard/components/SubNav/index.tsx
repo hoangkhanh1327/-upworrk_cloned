@@ -56,21 +56,21 @@ const SubNav = () => {
           <li
             className={cn(
               "mb-0 list-item",
-              pathname === "/client/create-contract"
+              pathname === "/client/invite-freelancer"
                 ? "text-[#108a00] bg-white border-0"
                 : ""
             )}
           >
-            <Link href={`/client/create-contract`}>
+            <Link href={`/client/invite-freelancer`}>
               <span
                 className={cn(
                   "block h-full",
-                  pathname === "/client/create-contract"
+                  pathname === "/client/invite-freelancer"
                     ? 'bg-white text-[#108a00] after:content-[""] after:block after:bg-[#108a00] after:w-full after:h-[2px] after:rounded-[6px]'
                     : ""
                 )}
               >
-                Create contracts
+                Danh sách freelancer đề xuất
               </span>
             </Link>
           </li>

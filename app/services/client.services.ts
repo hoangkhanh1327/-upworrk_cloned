@@ -1,4 +1,4 @@
-import { FreelancerPreviewInfo } from '../types/authentication.types';
+import { FreelancerInfo, FreelancerPreviewInfo } from '../types/authentication.types';
 import { ClientPostList, DetailClientPost } from '../types/client.types';
 import { CommonResponse } from '../types/common.types';
 import ApiService from './ApiService';
@@ -61,6 +61,13 @@ type GetFreelancerInfoRequest = string;
 type GetFreelancerInfoResponse = CommonResponse & {
     data: FreelancerPreviewInfo
 }
+type GetListFreelancerInfoResponse = CommonResponse & {
+    data: {
+        data: FreelancerInfo[];
+        total: number;
+        total_page: number;
+    };
+}
 
 const getDetailFreelancersInfo = (freelancerId: GetFreelancerInfoRequest) => {
     return ApiService.get<GetFreelancerInfoResponse>(`/info-user?id=${freelancerId}&typeUser=freelancer`)
@@ -68,7 +75,11 @@ const getDetailFreelancersInfo = (freelancerId: GetFreelancerInfoRequest) => {
 const confirmJob = async (id: any) => { 
     
     return ApiService.postFormData<any>(`/client/job/${id}/recruit-confirm`);
-  }
+}
+
+const getListFreeLancer = async (params: any) => {
+    return ApiService.get<GetListFreelancerInfoResponse>(`/client/freelancers`, params);
+}
 
 export const clientServices = {
     getPosts,
@@ -77,4 +88,5 @@ export const clientServices = {
     updatePost,
     confirmJob,
     getDetailFreelancersInfo,
+    getListFreeLancer
 };

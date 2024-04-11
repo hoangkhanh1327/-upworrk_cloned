@@ -13,7 +13,8 @@ type modalType =
     | 'edit-common-info'
     | 'edit-personal-info'
     | 'edit-skill-info'
-    | 'change-password';
+    | 'change-password'
+    | 'edit-avatar';
 
 interface IProfileContext {
     menu: string;
