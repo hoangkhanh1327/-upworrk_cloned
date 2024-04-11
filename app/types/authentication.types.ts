@@ -1,4 +1,4 @@
-import { SkillInProfile } from './common.types';
+import { Skill, SkillInProfile } from './common.types';
 
 export interface User {
     id: number;
@@ -61,7 +61,7 @@ export interface FreelancerInfo {
     available_proposal?: number | string;
     skills: SkillInProfile[];
     is_completed_profile: number | string;
-    skill?: SkillInProfile[];
+    skill?: Skill[];
 }
 
 export type BaseInfo = {

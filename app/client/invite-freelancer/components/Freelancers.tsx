@@ -22,7 +22,6 @@ const Freelancers = () => {
               <FreelancerItem key={free.id} freelancer={free} />
             ))}
       </div>
-      huyen test
     </section>
   );
 };
