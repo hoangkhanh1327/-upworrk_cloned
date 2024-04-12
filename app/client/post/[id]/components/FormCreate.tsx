@@ -188,7 +188,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
                   <FormItem>
                     <FormLabel>Hãy viết mô tả ngắn về hợp đồng</FormLabel>
                     <FormControl>
-                      <Textarea rows={3} {...field} />
+                      <Textarea rows={5} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
