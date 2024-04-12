@@ -1,29 +1,23 @@
-'use client';
-import React from 'react'
-import PostDetailProvider from '../context/PostDetailProvider';
-import CreateContractDetail from './components/CreateContractDetail';
-
+"use client";
+import React from "react";
+import PostDetailProvider from "../context/PostDetailProvider";
+import CreateContractDetail from "./components/CreateContractDetail";
 
 interface ICreateContract {
-    params: {
-        id: string;
-    };
+  params: {
+    id: string;
+  };
 }
 const CreateContract: React.FC<ICreateContract> = ({ params }) => {
-    return (
-                <main>
-                    <PostDetailProvider>
-                        {/* <EditPostDetail postId={params.id} />
-                        <EditPostModalProvider /> */}
-                        <CreateContractDetail postId={params.id}/>
-                        <h1>hhhh</h1>
-                    </PostDetailProvider>
-                </main>
-            );
-        }
-export default CreateContract
-
-
+  return (
+    <main className="container w-[80%]">
+      <PostDetailProvider>
+        <CreateContractDetail postId={params.id} />
+      </PostDetailProvider>
+    </main>
+  );
+};
+export default CreateContract;
 
 // import EditPostDetail from './components/EditPostDetail';
 // import EditPostProvider from './context/EditPostContext';
