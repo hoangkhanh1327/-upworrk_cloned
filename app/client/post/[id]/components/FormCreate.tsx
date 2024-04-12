@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -23,6 +23,10 @@ import { Applied } from "@/app/types/client.types";
 import SignaturePad from "@/app/freelancer/info-contract/[job_id]/SignaturePad";
 import { appConfig } from "@/app/configs/app.config";
 import { clientServices } from "@/app/services/client.services";
+import PolicyViews from "./PolicyViews";
+import { Button as ButtonAnt, Checkbox, CheckboxProps, Modal} from "antd" ;
+import SignaturePadSimple from "./SignaturePad";
+import InputOtp from "./InputOtp";
 // import Link from "next/link";
 
 const CreateFormContractSchema = yup.object({
@@ -41,14 +45,44 @@ interface ICreateFormContract {
 }
 interface ICreateContract {
   // postId: string;
+  otpStatus: any;
   infoApply: Applied;
 }
+const inputContainerStyle = {
+  display: 'inline-block',
+  border: '1px solid #ccc',
+  borderRadius: '5px',
+  overflow: 'hidden',
+};
 
-const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
+const inputStyle = {
+  width: '100%',
+  height: '100%',
+  padding: '0',
+  margin: '0',
+  border: 'none',
+  textAlign: 'center',
+  fontSize: '20px',
+  outline: 'none',
+};
+
+const CreateFormContract: React.FC<ICreateContract> = ({otpStatus, infoApply }) => {
   const [loading, setLoading] = useState(false);
   const user = useContext(AuthContext);
   const [contractFile, setContractFile] = useState(null);
   const [imgSignature, setImgSignature] = useState<String>("");
+  const [acceptedPolicy, setAcceptedPolicy] = useState<boolean>(false);
+  const [checked, setChecked] = useState(false);
+  const [disabledPolicy, setDisabledPolicy] = useState(true); 4
+  const [verify,setVerify] = useState(false);
+
+  const toggleChecked = () => {
+    setChecked(!checked);
+  };
+  const onChange = (e:any) => {
+    console.log('checked = ', e.target.checked);
+    setChecked(e.target.checked);
+  };
 
   const { contract } = useContract('0x141F9921217A5e6f0f34341077d831482db29d00');
   const { address, connect } = useStateContext();
@@ -77,6 +111,15 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
       // setIsGettingPosts(false);
     }
   };
+  
+
+  useEffect(() => {
+    if (imgSignature) {
+      if (!verify) {
+        otpStatus(true);
+      }
+    }
+  },[imgSignature])
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     if (address) {
@@ -195,27 +238,21 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
                 )}
               />
             </div>
-
             <div className="grid grid-cols-1 gap-x-1">
-              {/* <FormField
-                control={form.control}
-                name="signature"
-                render={({ field }) => ( */}
-                  <FormItem>
-                    <FormLabel>Chữ ký</FormLabel>
-                    <FormControl>
-                      <SignaturePad setImg={setImgSignature} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                {/* )} */}
-              {/* /> */}
+              <PolicyViews setDisabledPolicy={setDisabledPolicy}></PolicyViews>
+              <Checkbox checked={checked} disabled={disabledPolicy} onChange={onChange}>
+          {disabledPolicy?"Vui lòng đọc điều khoảng trước khi tích vào đây":"Tôi đã đọc kỹ và tôi chấp nhận tất cả điều khoản nêu trên."}
+        </Checkbox>
             </div>
-            {/* </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
+              {checked?<>
+                <div className="grid grid-cols-1 gap-x-1 justify-items-center">
+    <FormItem>
+        <FormLabel>{ "Chữ ký"}</FormLabel>
+                  <SignaturePadSimple setImg={setImgSignature} />
+                  <InputOtp setDataOtp={()=>{}}></InputOtp>
+        <FormMessage />
+    </FormItem>
+</div>
 
             <div className="text-center mt-6">
               <Button
@@ -230,9 +267,10 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
                 )}
                 {address ? "Tạo hợp đồng" : "Kết nối ví MetaMask"}
               </Button>
-            </div>
+            </div></>:<></>}
           </form>
         </Form>
+        
       </div>
     </>
   );
