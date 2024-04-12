@@ -9,7 +9,7 @@ import Cookies from "js-cookie";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
-const InputOtp = ({ setDataOtp }) => {
+const InputOtp = ({ setVerify }:any) => {
   const [api, contextHolder] = notification.useNotification();
 
   const openNotificationWithIcon = (type: NotificationType, msg: string) => {
@@ -21,7 +21,7 @@ const InputOtp = ({ setDataOtp }) => {
     const [otp, setOtp] = useState<any>(["", "", "", ""]);
     const [trueOtp, setTrueOtp] = useState<string|null>(null);
 
-  const inputStyle = {
+  const inputStyle:any = {
     width: "50px",
     height: "50px",
     marginRight: "10px",
@@ -32,19 +32,22 @@ const InputOtp = ({ setDataOtp }) => {
     zIndex: 2000,
   };
 
-  const lastInputStyle = {
+  const lastInputStyle:any = {
     marginRight: "0",
   };
 
-  const otpContainerStyle = {
+  const otpContainerStyle:any = {
     display: "flex",
-    zIndex: 2000,
+      zIndex: 2000,
+    margin: "50",
   };
 
   const handleChange = (index:number, value:string) => {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
+      const newOtp = [...otp];
+      if (value.toString().length <=1) {
+          newOtp[index] = value;
+          setOtp(newOtp);
+      }
   };
 
   const handleKeyDown = (e:any, index:number) => {
@@ -57,7 +60,12 @@ const InputOtp = ({ setDataOtp }) => {
     }
   };
   useEffect(() => {
-    document.getElementById(`otp_1`)?.focus();
+      document.getElementById(`otp_0`)?.focus();
+      commonServices.sendOtp();
+    openNotificationWithIcon(
+      "success",
+      "Hệ thống đã gởi otp về mail của bạn, bạn vui lòng check mail."
+    );
   }, []);
 
   const sendOtp = () => {
@@ -100,7 +108,8 @@ const InputOtp = ({ setDataOtp }) => {
                 openNotificationWithIcon(
                     "success",
                     "Xác thực thành công."
-                  );
+                );
+                setVerify(true);
             } else {
                 openNotificationWithIcon(
                     "error",
@@ -124,7 +133,7 @@ const InputOtp = ({ setDataOtp }) => {
           onKeyDown={(e) => handleKeyDown(e, index)}
         />
       ))}
-      <Button onClick={sendOtp}>Gởi lại OTP</Button>
+      <Button style={{marginTop:9, marginLeft:20}} onClick={sendOtp}>Gởi lại OTP</Button>
     </div>
   );
 };

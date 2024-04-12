@@ -44,8 +44,6 @@ interface ICreateFormContract {
   handleCreateAccount: (data: SignUpSubmitValue) => void;
 }
 interface ICreateContract {
-  // postId: string;
-  otpStatus: any;
   infoApply: Applied;
 }
 const inputContainerStyle = {
@@ -66,7 +64,7 @@ const inputStyle = {
   outline: 'none',
 };
 
-const CreateFormContract: React.FC<ICreateContract> = ({otpStatus, infoApply }) => {
+const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
   const [loading, setLoading] = useState(false);
   const user = useContext(AuthContext);
   const [contractFile, setContractFile] = useState(null);
@@ -116,16 +114,38 @@ const CreateFormContract: React.FC<ICreateContract> = ({otpStatus, infoApply }) 
   useEffect(() => {
     if (imgSignature) {
       if (!verify) {
-        otpStatus(true);
+        setOpen(true);
+      } else {
+        setOpen(false);
       }
     }
-  },[imgSignature])
+  }, [imgSignature,verify]);
+  /////Các hàm MODAL/////
+  const [open, setOpen] = useState(false);
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     if (address) {
       try {
         console.log("data");
         setLoading(true);
+        console.log([
+          data.title,
+          data.description,
+          imgSignature,
+          data.bids,
+          infoApply.job_id,
+          infoApply.freelancer_id,
+          user.user?.id,
+        ]);
+        
         const responseContract = await contract?.call(
           "createContract",
           [
@@ -249,28 +269,35 @@ const CreateFormContract: React.FC<ICreateContract> = ({otpStatus, infoApply }) 
     <FormItem>
         <FormLabel>{ "Chữ ký"}</FormLabel>
                   <SignaturePadSimple setImg={setImgSignature} />
-                  <InputOtp setDataOtp={()=>{}}></InputOtp>
+                  
         <FormMessage />
     </FormItem>
 </div>
 
             <div className="text-center mt-6">
-              <Button
-                disabled={loading}
-                className="bg-button-primary hover:bg-button-primary/80 px-6 border-2 border-solid border-transparent rounded-[10rem] transition-all inline-flex justify-center items-center max-h-10 leading-[calc_2.5rem_-_1px] text-base font-medium disabled:bg-button-disabled disabled:text-[#9aaa97] disabled:!cursor-not-allowed disabled:pointer-events-auto"
-                onClick={() => {
-                  form.handleSubmit(onSubmit, onError);
-                }}
-              >
-                {loading && (
-                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
-                )}
-                {address ? "Tạo hợp đồng" : "Kết nối ví MetaMask"}
-              </Button>
+                {verify?<Button
+                  disabled={loading}
+                  className="bg-button-primary hover:bg-button-primary/80 px-6 border-2 border-solid border-transparent rounded-[10rem] transition-all inline-flex justify-center items-center max-h-10 leading-[calc_2.5rem_-_1px] text-base font-medium disabled:bg-button-disabled disabled:text-[#9aaa97] disabled:!cursor-not-allowed disabled:pointer-events-auto"
+                  onClick={() => {
+                    form.handleSubmit(onSubmit, onError);
+                  }}
+                >
+                  {loading && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+                  )}
+                  {address ? "Tạo hợp đồng" : "Kết nối ví MetaMask"}
+                </Button>:''}
             </div></>:<></>}
           </form>
         </Form>
-        
+        <Modal
+        title="Nhập mã OTP, mã OTP đã được gởi về mail của bạn"
+        open={open}
+        onCancel={()=>{}}
+        footer={[]}
+      >
+        <InputOtp setVerify={setVerify}></InputOtp>
+      </Modal>
       </div>
     </>
   );

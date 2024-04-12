@@ -16,9 +16,9 @@ const PolicyViews: React.FC<any> = ({ setDisabledPolicy }) => {
     useEffect(() => {
         const handleScroll = () => {
             
-            const element = document.getElementById('policy-f');
-            console.log("==>", (element.scrollHeight - element.scrollTop),element.clientHeight);
-            const isBottom = element.scrollHeight - element.scrollTop === element.clientHeight;
+            const element:any = document.getElementById('policy-f');
+            console.log("==>", (element?.scrollHeight - element?.scrollTop),element?.clientHeight);
+            const isBottom = element?.scrollHeight - element?.scrollTop === element?.clientHeight;
             setDisabledPolicy(!isBottom);
             if (isBottom) element?.removeEventListener('scroll', handleScroll);
                 
