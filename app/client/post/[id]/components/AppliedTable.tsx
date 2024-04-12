@@ -19,8 +19,8 @@ import { format } from "date-fns";
 import { Eye, PenTool } from "lucide-react";
 import { useState } from "react";
 import AppliedInfoDialog from "./dialogs/AppliedInfoDialog";
-import Link from "next/link";
 import { set } from "lodash";
+import Link from "next/link";
 import CreateContractDialog from "./dialogs/CreateContractDialog";
 
 interface IAppliedTable {
@@ -33,7 +33,7 @@ const AppliedTable: React.FC<IAppliedTable> = ({ appliedList = [] }) => {
 
   return (
     <>
-      <Table className='w-full'>
+      <Table className="w-full">
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px] text-center font-medium">
@@ -77,11 +77,29 @@ const AppliedTable: React.FC<IAppliedTable> = ({ appliedList = [] }) => {
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                        <PenTool
-                          onClick={() => setInfoUserApply(i)}
-                          role="button"
+                        {/* <PenTool
+                          // onClick={() => setInfoUserApply(i)}
+                          // role="button"
                           className="w-5 h-5"
-                        />
+                        > */}
+                        {/* <Link href={`/post/${i.id}/create-contract`}>
+                            <Button
+                              onClick={() => setInfoUserApply(i)}
+                              className="w-5 h-5"
+                            >
+                              Ký hợp đồng
+                            </Button> */}
+                        <Button
+                          asChild
+                          variant="default"
+                          className="text-white bg-primary-color hover:bg-primary-color"
+                        >
+                          <Link href={`/client/post/${i.job_id}/create-contract`}>
+                            Ký hợp đồng
+                          </Link>
+                        </Button>
+
+                        {/* </PenTool > */}
                       </TooltipTrigger>
                       <TooltipContent>
                         <p>Ký hợp đồng</p>
@@ -100,12 +118,12 @@ const AppliedTable: React.FC<IAppliedTable> = ({ appliedList = [] }) => {
           onClose={() => setAppliedInfo(null)}
         />
       )}
-       {infoUserApply && (
+      {/* {infoUserApply && (
         <CreateContractDialog
           info={infoUserApply}
           onClose={() => setInfoUserApply(null)}
         />
-      )}
+      )} */}
     </>
   );
 };
