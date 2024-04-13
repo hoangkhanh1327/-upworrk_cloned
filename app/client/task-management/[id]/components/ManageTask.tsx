@@ -45,6 +45,8 @@ const ManageTask: React.FC<IManageTask> = ({ id }) => {
         (j) => j.job_id?.toString() === id
     );
 
+    console.log('vo day');
+    
     return (
         <section>
             <div>

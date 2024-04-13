@@ -24,6 +24,16 @@ const nextConfig = {
                 hostname: 'timviecits.id.vn',
                 pathname: '/**',
             },
+            {
+                protocol: 'http',
+                hostname: 'devo.vn',
+                pathname: '/**'
+            },
+            {
+                protocol: 'https',
+                hostname: 'devo.vn',
+                pathname: '/**'
+            }
         ],
     },
 };

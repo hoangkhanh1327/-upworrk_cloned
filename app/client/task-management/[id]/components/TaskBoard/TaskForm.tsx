@@ -34,11 +34,19 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/app/components/ui/dialog';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/app/components/ui/select';
 
 const taskFormSchema = yup.object({
     name: yup.string().required('Vui lòng nhập tên task'),
     desc: yup.string().required('Vui lòng nhập mô tả'),
     deadline: yup.string().required('Vui lòng chọn deadline'),
+    priority: yup.string().required('Vui lòng chọn mức độ quan trọng'),
 });
 
 interface ITaskForm {
@@ -52,6 +60,7 @@ interface ITaskForm {
 interface CreateTaskSubmitValue {
     name: string;
     desc: string;
+    priority: string;
     deadline: string;
 }
 
@@ -92,22 +101,39 @@ const TaskForm = (props: ITaskForm) => {
             name: initialData?.name || '',
             desc: initialData?.desc || '',
             deadline: initialData?.deadline || '',
+            priority: initialData?.priority || '1',
         },
     });
 
-    const handleSubmit: SubmitHandler<CreateTaskSubmitValue> = async (data) => {
+    const onSubmit: SubmitHandler<CreateTaskSubmitValue> = async (data) => {
         try {
             setLoading(true);
-            const res = await taskServices.createJobTask({
-                id: jobId,
-                ...data,
-                deadline: format(data.deadline, 'yyyy-MM-dd'),
-            });
-            toast({
-                title: 'Thêm task thành công',
-            });
-            onSuccess(res.data);
-            onClose();
+            if (type === 'new') {
+                const res = await taskServices.createJobTask({
+                    id: jobId,
+                    ...data,
+                    deadline: format(data.deadline, 'yyyy-MM-dd'),
+                });
+                toast({
+                    title: 'Thêm task thành công',
+                });
+                onSuccess(res.data);
+                onClose();
+            }
+            if (type === 'edit' && initialData.id) {
+                const res = await taskServices.updateJobTask({
+                    task_id: initialData.id,
+                    ...data,
+                    deadline: data.deadline
+                        ? format(data.deadline, 'yyyy-MM-dd')
+                        : initialData.deadline,
+                });
+                toast({
+                    title: 'Cập nhật task thành công',
+                });
+                onSuccess(res.data);
+                onClose();
+            }
         } catch (error) {
             toast({
                 title: 'Thêm task thất bại',
@@ -141,6 +167,8 @@ const TaskForm = (props: ITaskForm) => {
         }
     };
 
+    console.log('client task update');
+
     return (
         <div className='max-w-[28vw] w-[28vw] mx-auto'>
             <div className='my-2'>
@@ -149,7 +177,7 @@ const TaskForm = (props: ITaskForm) => {
                 </h1>
             </div>
             <Form {...form}>
-                <form className='' onSubmit={form.handleSubmit(handleSubmit)}>
+                <form className='' onSubmit={form.handleSubmit(onSubmit)}>
                     <FormField
                         control={form.control}
                         name='name'
@@ -183,6 +211,40 @@ const TaskForm = (props: ITaskForm) => {
                                 <FormMessage />
                             </FormItem>
                         )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name='priority'
+                        render={({ field }) => {
+                            return (
+                                <FormItem className='mt-6'>
+                                    <FormLabel>Độ ưu tiên</FormLabel>
+                                    <Select
+                                        onValueChange={field.onChange}
+                                        value={field.value?.toString()}
+                                        defaultValue={field.value.toString()}
+                                    >
+                                        <FormControl>
+                                            <SelectTrigger className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'>
+                                                <SelectValue placeholder='' />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <FormMessage />
+                                        <SelectContent className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'>
+                                            <SelectItem value='1'>
+                                                Rất quan trọng
+                                            </SelectItem>
+                                            <SelectItem value='2'>
+                                                Quan trọng
+                                            </SelectItem>
+                                            <SelectItem value='3'>
+                                                Không ưu tiên
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </FormItem>
+                            );
+                        }}
                     />
                     <FormField
                         control={form.control}
