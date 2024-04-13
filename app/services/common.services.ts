@@ -45,6 +45,10 @@ const getNotification = async (params: any) => {
   return ApiService.get<GetNotificationResponse>(`/notifications`);
 };
 
+const sendOtp = async () => {
+  return ApiService.post<GetNotificationResponse>(`/send-otp`);
+}
+
 export type INotiParams = {
   title: string;
   message: string;
@@ -83,4 +87,5 @@ export const commonServices = {
   getNotification,
   getInfoUser,
   getInfoJob,
+  sendOtp
 };

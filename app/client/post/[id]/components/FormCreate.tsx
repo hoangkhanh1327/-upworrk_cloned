@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -23,6 +23,10 @@ import { Applied } from "@/app/types/client.types";
 import SignaturePad from "@/app/freelancer/info-contract/[job_id]/SignaturePad";
 import { appConfig } from "@/app/configs/app.config";
 import { clientServices } from "@/app/services/client.services";
+import PolicyViews from "./PolicyViews";
+import { Button as ButtonAnt, Checkbox, CheckboxProps, Modal} from "antd" ;
+import SignaturePadSimple from "./SignaturePad";
+import InputOtp from "./InputOtp";
 // import Link from "next/link";
 
 const CreateFormContractSchema = yup.object({
@@ -40,15 +44,43 @@ interface ICreateFormContract {
   handleCreateAccount: (data: SignUpSubmitValue) => void;
 }
 interface ICreateContract {
-  // postId: string;
   infoApply: Applied;
 }
+const inputContainerStyle = {
+  display: 'inline-block',
+  border: '1px solid #ccc',
+  borderRadius: '5px',
+  overflow: 'hidden',
+};
+
+const inputStyle = {
+  width: '100%',
+  height: '100%',
+  padding: '0',
+  margin: '0',
+  border: 'none',
+  textAlign: 'center',
+  fontSize: '20px',
+  outline: 'none',
+};
 
 const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
   const [loading, setLoading] = useState(false);
   const user = useContext(AuthContext);
   const [contractFile, setContractFile] = useState(null);
   const [imgSignature, setImgSignature] = useState<String>("");
+  const [acceptedPolicy, setAcceptedPolicy] = useState<boolean>(false);
+  const [checked, setChecked] = useState(false);
+  const [disabledPolicy, setDisabledPolicy] = useState(true); 4
+  const [verify,setVerify] = useState(false);
+
+  const toggleChecked = () => {
+    setChecked(!checked);
+  };
+  const onChange = (e:any) => {
+    console.log('checked = ', e.target.checked);
+    setChecked(e.target.checked);
+  };
 
   const { contract } = useContract('0x141F9921217A5e6f0f34341077d831482db29d00');
   const { address, connect } = useStateContext();
@@ -77,12 +109,43 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
       // setIsGettingPosts(false);
     }
   };
+  
+
+  useEffect(() => {
+    if (imgSignature) {
+      if (!verify) {
+        setOpen(true);
+      } else {
+        setOpen(false);
+      }
+    }
+  }, [imgSignature,verify]);
+  /////Các hàm MODAL/////
+  const [open, setOpen] = useState(false);
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     if (address) {
       try {
         console.log("data");
         setLoading(true);
+        console.log([
+          data.title,
+          data.description,
+          imgSignature,
+          data.bids,
+          infoApply.job_id,
+          infoApply.freelancer_id,
+          user.user?.id,
+        ]);
+        
         const responseContract = await contract?.call(
           "createContract",
           [
@@ -195,44 +258,46 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
                 )}
               />
             </div>
-
             <div className="grid grid-cols-1 gap-x-1">
-              {/* <FormField
-                control={form.control}
-                name="signature"
-                render={({ field }) => ( */}
-                  <FormItem>
-                    <FormLabel>Chữ ký</FormLabel>
-                    <FormControl>
-                      <SignaturePad setImg={setImgSignature} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                {/* )} */}
-              {/* /> */}
+              <PolicyViews setDisabledPolicy={setDisabledPolicy}></PolicyViews>
+              <Checkbox checked={checked} disabled={disabledPolicy} onChange={onChange}>
+          {disabledPolicy?"Vui lòng đọc điều khoảng trước khi tích vào đây":"Tôi đã đọc kỹ và tôi chấp nhận tất cả điều khoản nêu trên."}
+        </Checkbox>
             </div>
-            {/* </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          /> */}
+              {checked?<>
+                <div className="grid grid-cols-1 gap-x-1 justify-items-center">
+    <FormItem>
+        <FormLabel>{ "Chữ ký"}</FormLabel>
+                  <SignaturePadSimple setImg={setImgSignature} />
+                  
+        <FormMessage />
+    </FormItem>
+</div>
 
             <div className="text-center mt-6">
-              <Button
-                disabled={loading}
-                className="bg-button-primary hover:bg-button-primary/80 px-6 border-2 border-solid border-transparent rounded-[10rem] transition-all inline-flex justify-center items-center max-h-10 leading-[calc_2.5rem_-_1px] text-base font-medium disabled:bg-button-disabled disabled:text-[#9aaa97] disabled:!cursor-not-allowed disabled:pointer-events-auto"
-                onClick={() => {
-                  form.handleSubmit(onSubmit, onError);
-                }}
-              >
-                {loading && (
-                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
-                )}
-                {address ? "Tạo hợp đồng" : "Kết nối ví MetaMask"}
-              </Button>
-            </div>
+                {verify?<Button
+                  disabled={loading}
+                  className="bg-button-primary hover:bg-button-primary/80 px-6 border-2 border-solid border-transparent rounded-[10rem] transition-all inline-flex justify-center items-center max-h-10 leading-[calc_2.5rem_-_1px] text-base font-medium disabled:bg-button-disabled disabled:text-[#9aaa97] disabled:!cursor-not-allowed disabled:pointer-events-auto"
+                  onClick={() => {
+                    form.handleSubmit(onSubmit, onError);
+                  }}
+                >
+                  {loading && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+                  )}
+                  {address ? "Tạo hợp đồng" : "Kết nối ví MetaMask"}
+                </Button>:''}
+            </div></>:<></>}
           </form>
         </Form>
+        <Modal
+        title="Nhập mã OTP, mã OTP đã được gởi về mail của bạn"
+        open={open}
+        onCancel={()=>{}}
+        footer={[]}
+      >
+        <InputOtp setVerify={setVerify}></InputOtp>
+      </Modal>
       </div>
     </>
   );
