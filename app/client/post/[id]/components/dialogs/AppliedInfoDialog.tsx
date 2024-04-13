@@ -22,7 +22,7 @@ interface IAppliedInfoDialog {
 const AppliedInfoDialog: React.FC<IAppliedInfoDialog> = ({ info, onClose }) => {
     return (
         <Dialog open={true} onOpenChange={() => onClose()}>
-            <DialogContent>
+            <DialogContent className='max-w-[60%]'>
                 <DialogHeader>
                     <DialogTitle>Thông tin ứng viên</DialogTitle>
                     <DialogDescription>
@@ -43,7 +43,7 @@ const AppliedInfoDialog: React.FC<IAppliedInfoDialog> = ({ info, onClose }) => {
                             />
                         </div>
                         <Label className='my-3 text-right'>Proposal: </Label>
-                        <div className='col-span-3'>${info.proposal || 0}</div>
+                        <div className='col-span-3'>${info?.proposal || 0}</div>
                         <Label className='my-3 text-right'>File đính kèm</Label>
                         <div className='flex items-center gap-x-3 pl-3'>
                             {info?.attachment_url && (

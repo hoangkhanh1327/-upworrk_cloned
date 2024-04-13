@@ -20,7 +20,7 @@ const LoginFormStep2: React.FC<ILoginFormStep2> = ({
         <div className='px-12 py-4 mt-8 overflow-x-hidden min-w-[500px] max-w-[570px] mx-auto border border-solid border-[#d5e0d5] rounded-2xl'>
             <div className='px-8'>
                 <h1 className='text-[28px] mt-6 mb-6 leading-8 text-center font-semibold'>
-                    Welcome
+                    Xin chào{' '}
                 </h1>
 
                 <h4 className='mt-6 mb-3 pb-2 overflow-hidden text-ellipsis whitespace-nowrap text-base text-center'>
@@ -55,7 +55,7 @@ const LoginFormStep2: React.FC<ILoginFormStep2> = ({
                         {loading && (
                             <ReloadIcon className='mr-2 h-4 w-4 animate-spin inline-flex' />
                         )}
-                        Login
+                        Đăng nhập
                     </Button>
                 </div>
             </div>
