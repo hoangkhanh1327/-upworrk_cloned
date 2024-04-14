@@ -11,24 +11,25 @@ import {
 import { Dialog } from "@radix-ui/react-dialog";
 import { FreelancerInfo } from '@/app/types/authentication.types';
 import CreateFormContract from '@/app/client/post/[id]/components/FormCreate';
-
-
+import InviteFreelancerForm from '../form/InviteFreelancerForm';
 
 interface IInviteFreelancerDialog {
-    info: FreelancerInfo;
+  freelancer: FreelancerInfo;
+  isOpen: boolean;
     onClose: () => void;
   }
   
 
-const InviteFreelancerDialog = ({info, onClose}: IInviteFreelancerDialog) => {
+const InviteFreelancerDialog = ({freelancer, isOpen,onClose}: IInviteFreelancerDialog) => {
+  console.log('freelancer-------------------->', freelancer)
   return (
-    <Dialog open={true} onOpenChange={() => onClose()}>
-      <DialogContent className="max-w-[80%] h-[80%]">
+    <Dialog open={isOpen} onOpenChange={() => onClose()}>
+      <DialogContent className="max-w-[60%]">
         <DialogHeader>
-          <DialogTitle>Tạo lời mời việc mới với {info.username}</DialogTitle>
+          <DialogTitle>Tạo lời mời việc mới với {freelancer.username}</DialogTitle>
         </DialogHeader>
         <div>
-          <CreateFormContract infoApply={info} />
+          <InviteFreelancerForm freelancer={freelancer} />
         </div>
         <DialogFooter>
           <Button type="button" onClick={() => onClose()}>

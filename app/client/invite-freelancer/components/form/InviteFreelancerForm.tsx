@@ -19,31 +19,58 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { commonServices } from "@/app/services/common.services";
 import { AuthContext } from "@/app/providers/AuthProvider";
 import { FreelancerInfo } from "@/app/types/authentication.types";
+import JobItem from "@/app/freelancer/my-job/components/AppliedJobs/JobItem";
+import { Select } from "@/app/components/ui/select";
+import { clientServices } from "@/app/services/client.services";
+import { ClientPostList } from "@/app/types/client.types";
+import { isEmpty } from "lodash";
+import { Skeleton } from "@/app/components/ui/skeleton";
 
 interface ICreateInvite {
-  infoApply: FreelancerInfo;
+  freelancer: FreelancerInfo;
 }
 export interface SignUpSubmitValue {}
 const CreateFormInviteSchema = yup.object({
   title: yup.string().required(""),
   description: yup.string().required(""),
   // deadline: yup.date().required(),
-  bids: yup.number().required(),
+  // bids: yup.number().required(),
   // signature: yup.string().required("Vui lòng nhập chữ ký của bạn"),
   // allowSendMail: yup.bool(),
 });
 
-const InviteFreelancerForm = () => {
-  const [loading, setLoading] = useState(false);
+const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [posts, setPosts] = useState<ClientPostList>([]);
+  const [isGettingPosts, setIsGettingPosts] = useState<boolean>(false);
+  useEffect(() => {
+    const fecthPosts = async (data: any) => {
+      try {
+        setIsGettingPosts(true);
+        const res = await clientServices.getPosts({
+          page: data?.page || 1,
+          num: 999,
+          status: 1,
+        });
+        if (res.data && !isEmpty(res.data.data)) {
+          setPosts(res.data.data);
+        }
+      } catch (error) {
+        console.log("error", error);
+      } finally {
+        setIsGettingPosts(false);
+      }
+    };
+    fecthPosts({ page: 1, statusOpts: "1" });
+  }, []);
 
-  
   const form = useForm({
     resolver: yupResolver(CreateFormInviteSchema),
     defaultValues: {
       title: "",
       description: "",
       // deadline: new Date(),
-      bids: 0,
+      // bids: 0,
       // signature: "",
     },
   });
@@ -61,7 +88,7 @@ const InviteFreelancerForm = () => {
       <div className="">
         <Form {...form}>
           <form className="" onSubmit={form.handleSubmit(onSubmit, onError)}>
-            <div className="grid grid-cols-2 gap-x-2">
+            <div className="grid grid-cols-1 gap-x-1">
               <FormField
                 control={form.control}
                 name="title"
@@ -79,19 +106,29 @@ const InviteFreelancerForm = () => {
                   </FormItem>
                 )}
               />
+            </div>
+            <div className="grid grid-cols-1 gap-x-1">
               <FormField
                 control={form.control}
-                name="bids"
+                // name="post_id"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Số bids</FormLabel>
+                    <FormLabel>Chọn công việc</FormLabel>
                     <FormControl>
-                      <Input
-                        type="number"
+                      <Select
                         className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
-                        placeholder="bids"
                         {...field}
-                      />
+                      >
+                        {isGettingPosts ? (
+                          <Skeleton className="h-10" />
+                        ) : (
+                          posts.map((post) => (
+                            <option key={post.id} value={post.id}>
+                              {post.title}
+                            </option>
+                          ))
+                        )}
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -104,9 +141,14 @@ const InviteFreelancerForm = () => {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Hãy viết mô tả ngắn về hợp đồng</FormLabel>
+                    <FormLabel>Nội dung thư mời</FormLabel>
                     <FormControl>
-                      <Textarea rows={5} {...field} />
+                      <Textarea
+                        className="
+                       !focus:outline-none border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
+                        rows={5}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
