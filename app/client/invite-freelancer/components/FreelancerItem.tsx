@@ -5,21 +5,20 @@ import { FreelancerInfo } from "@/app/types/authentication.types";
 import { FileIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { VscFile } from "react-icons/vsc";
+import { format, compareAsc } from "date-fns";
 
 interface IFreelancerItem {
   freelancer: FreelancerInfo;
 }
 
 const FreelancerItem = ({ freelancer }: IFreelancerItem) => {
+  const handleInviteFreelancer = (freelancer: FreelancerInfo) => {
+    console.log("invite freelancer", freelancer);
+  };
   return (
     <div className="mb-6 items-start">
       <div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-        {/* <h3>Name: {post?.nominee?.username}</h3> */}
         <div className="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          {/* <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            Thông tin ứng viên
-          </h5> */}
           <div className="flex items-center content-center">
             <div className="mr-4">
               <img
@@ -52,7 +51,7 @@ const FreelancerItem = ({ freelancer }: IFreelancerItem) => {
             </p>
             <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
               <strong>Ngày sinh: </strong>
-              <span>{freelancer.date_of_birth}</span>
+              <span>{format(freelancer.date_of_birth, "dd/MM/yyyy")}</span>
             </p>
             <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
               <strong>Địa chỉ: </strong>
@@ -100,13 +99,10 @@ const FreelancerItem = ({ freelancer }: IFreelancerItem) => {
               asChild
               variant="default"
               className="text-white bg-blue-500 hover:bg-blue-400"
+              onClick={() => {handleInviteFreelancer(freelancer)}}
             >
-              <Link
-                // target="_blank"
-                href={`/client/show-freelancer-info/${freelancer.id}`}
-              >
+           
                 Mời ứng viên làm việc
-              </Link>
             </Button>
           </div>
           {/* {!loading && post?.nominee?.attachment_url && ( */}

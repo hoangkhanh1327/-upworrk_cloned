@@ -232,10 +232,10 @@ const TaskForm = (props: ITaskForm) => {
                                         <FormMessage />
                                         <SelectContent className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'>
                                             <SelectItem value='1'>
-                                                Rất quan trọng
+                                               Quan trọng
                                             </SelectItem>
                                             <SelectItem value='2'>
-                                                Quan trọng
+                                               Trung bình
                                             </SelectItem>
                                             <SelectItem value='3'>
                                                 Không ưu tiên

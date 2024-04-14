@@ -8,4 +8,5 @@ export type Task = {
     name: string;
     status:  number;
     updated_at: string;
+    priority: number | string;
 };
