@@ -5,10 +5,14 @@ import { Skill } from '@/app/types/common.types';
 import { commonServices } from '@/app/services/common.services';
 
 interface MultiSkillSelectProps {
+    value?: any;
     onChange?: any;
 }
 
-const MultiSkillSelect: React.FC<MultiSkillSelectProps> = ({ onChange }) => {
+const MultiSkillSelect: React.FC<MultiSkillSelectProps> = ({
+    value,
+    onChange,
+}) => {
     const [defaultOptionSkills, setDefaultOptionSkills] = useState<Skill[]>([]);
 
     const loadOptionSkills = async (
@@ -26,6 +30,8 @@ const MultiSkillSelect: React.FC<MultiSkillSelectProps> = ({ onChange }) => {
         }
     };
 
+    useEffect(() => {}, []);
+
     return (
         <AsyncSelect
             isMulti
@@ -34,10 +40,10 @@ const MultiSkillSelect: React.FC<MultiSkillSelectProps> = ({ onChange }) => {
             loadOptions={loadOptionSkills as any}
             getOptionLabel={(o) => o.name}
             getOptionValue={(o) => o.id?.toString()}
-            placeholder='Chọn skill...'
-            noOptionsMessage={() => `No skill found`}
-            loadingMessage={() => `Getting skill ...`}
-            value={[] as Skill[]}
+            placeholder='Chọn kỹ năng...'
+            noOptionsMessage={() => `Không tìm thấy dữ liệu kỹ năng`}
+            loadingMessage={() => `Đang tải dữ liệu ...`}
+            value={(value || []) as Skill[]}
             onChange={onChange}
         />
     );

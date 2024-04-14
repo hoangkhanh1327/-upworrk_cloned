@@ -1,41 +1,37 @@
 import { freelancerServices } from '@/app/services/freelancer.services';
-import { ClientPostList } from '@/app/types/client.types';
 import { DetailJobPost } from '@/app/types/freelancer.type';
 import { isEmpty } from 'lodash';
 import {
     Dispatch,
-    MutableRefObject,
     SetStateAction,
     createContext,
-    useCallback,
     useEffect,
-    useRef,
     useState,
 } from 'react';
 
 interface ISearchBarContext {
-    visibility: string;
+    price: string[];
     status: string[];
-    type: string;
-    postedBy: string;
+    dates: string[];
+    skills: any[];
     searchText: string;
     posts: DetailJobPost[];
     isGettingPosts: boolean;
     total: number;
     page: number;
     totalPage: number;
-    setVisibility?: Dispatch<SetStateAction<string>>;
+    setPrice?: Dispatch<SetStateAction<string[]>>;
     setStatus?: Dispatch<SetStateAction<string[]>>;
-    setType?: Dispatch<SetStateAction<string>>;
-    setPostedBy?: Dispatch<SetStateAction<string>>;
+    setDates?: Dispatch<SetStateAction<string[]>>;
+    setSkills?: Dispatch<SetStateAction<any[]>>;
     setSearchText?: Dispatch<SetStateAction<string>>;
     handleGoPage?: (page: number) => void;
 }
 export const SearchBarContext = createContext<ISearchBarContext>({
-    visibility: '0',
+    price: [''],
     status: ['0'],
-    type: '0',
-    postedBy: '0',
+    dates: [''],
+    skills: [],
     searchText: '',
     page: 1,
     posts: [],
@@ -49,10 +45,10 @@ export const SearchBarProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [visibility, setVisibility] = useState('0');
+    const [price, setPrice] = useState(['']);
     const [statusOpts, setStatusOpts] = useState<string[]>(['0']);
-    const [type, setType] = useState('0');
-    const [postedBy, setPostedBy] = useState('0');
+    const [dates, setDates] = useState(['']);
+    const [skills, setSkills] = useState<any[]>([]);
     const [searchText, setSearchText] = useState('');
     const [posts, setPosts] = useState<DetailJobPost[]>([]);
     const [isGettingPosts, setIsGettingPosts] = useState(false);
@@ -69,14 +65,14 @@ export const SearchBarProvider = ({
             try {
                 setIsGettingPosts(true);
                 const res = await freelancerServices.getPosts({
+                    ...data,
                     page: data?.page || 1,
                     num: 999,
-                    status: 1,
                 });
                 if (res.data && !isEmpty(res.data.data)) {
-                    setPosts(res.data.data);
-                    setTotal(res.data.total);
-                    setTotalPage(res.data.total_page);
+                    setPosts(res.data.data || []);
+                    setTotal(res.data.total || 0);
+                    setTotalPage(res.data.total_page || 0);
                 }
             } catch (error) {
                 console.log('error', error);
@@ -84,33 +80,36 @@ export const SearchBarProvider = ({
                 setIsGettingPosts(false);
             }
         };
-        if (type && postedBy && statusOpts && visibility && page)
-            fecthPosts({
+        if (dates && skills && statusOpts && price && page) {
+            const params = {
                 page,
-                type,
-                visibility,
-                statusOpts,
-                postedBy,
-            });
-    }, [postedBy, statusOpts, type, visibility, page]);
+                status: statusOpts?.toString() || '',
+                keyword: searchText || '',
+                skills: skills?.map((s: any) => s.id)?.toString(),
+                bids: price?.toString(),
+                deadline: dates.toString(),
+            };
+            fecthPosts(params);
+        }
+    }, [skills, statusOpts, dates, price, page, searchText]);
 
     return (
         <SearchBarContext.Provider
             value={{
                 page,
-                visibility,
+                price,
                 status: statusOpts,
-                type,
-                postedBy,
+                dates,
+                skills,
                 searchText,
                 posts,
                 isGettingPosts,
                 total,
                 totalPage,
-                setVisibility,
+                setPrice,
                 setStatus: setStatusOpts,
-                setType,
-                setPostedBy,
+                setDates,
+                setSkills,
                 setSearchText,
                 handleGoPage,
             }}
