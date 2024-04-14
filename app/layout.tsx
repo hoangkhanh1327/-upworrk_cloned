@@ -4,6 +4,7 @@ import AuthProvider from "./providers/AuthProvider";
 import AppThirdwebProvider from "./providers/ThirdwebProvider";
 import { Toaster } from "./components/ui/toaster";
 import NotificationProvider from "./providers/NotificationProvider";
+import "react-datepicker/dist/react-datepicker.css";
 
 export const metadata: Metadata = {
   title: "IT WORKS VN Version",

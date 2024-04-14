@@ -1,9 +1,8 @@
-@import "./styles/_upload.css";
+@import './styles/_upload.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 
 @font-face {
     font-family: 'Neue Montreal';
@@ -102,7 +101,6 @@
     }
 }
 
-
 *,
 ::after,
 ::before {
@@ -133,4 +131,14 @@ body {
     letter-spacing: 0.02em;
     background-color: #fff;
     color: #001e00;
+}
+
+input[type='number'] {
+    /* -moz-appearance: textfield; */
+}
+
+.hide-arrow::-webkit-outer-spin-button,
+.hide-arrow::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
