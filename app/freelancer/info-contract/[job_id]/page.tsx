@@ -13,11 +13,13 @@ import { title } from "process";
 import { loginServices } from "@/app/services/authentication.services";
 import { commonServices } from "@/app/services/common.services";
 import FreelancerInfo from "@/app/client/show-freelancer-info/[freelancer_id]/page";
-import { Modal, Button, Tooltip, Spin, notification } from 'antd';
+import { Modal, Button, Tooltip, Spin, notification, Checkbox } from 'antd';
 import { DetailClientPost } from "@/app/types/freelancer.type";
 import { appConfig } from "@/app/configs/app.config";
 import { BaseInfo } from "@/app/types/authentication.types";
 import { freelancerServices } from "@/app/services/freelancer.services";
+import InputOtp from "@/app/client/post/[id]/components/InputOtp";
+import PolicyViews from "@/app/client/post/[id]/components/PolicyViews";
 interface IContractDetail {
   params: {
     job_id: string;
@@ -27,6 +29,9 @@ interface IContractDetail {
 const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
   console.log("id", params.job_id);
   const [loading, setLoading] = useState(false);
+  const [checked, setChecked] = useState(false);
+  const [disabledPolicy, setDisabledPolicy] = useState(true);
+  const [verify, setVerify] = useState(false);
   const [contractInfo, setContractInfo] = useState({
     contract_id: -1,
     title: "",
@@ -99,6 +104,10 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
     setOpen(false);
   };
   ///////////////////////
+  const onChangeCheckBox = (e: any) => {
+    console.log("checked = ", e.target.checked);
+    setChecked(e.target.checked);
+  };
   const base64Regex = /^data:image\/(png|jpg|svg|svg\+xml);base64,/;
   const validBase64 =
     /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
@@ -281,6 +290,9 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       //Bắt đầu gọi lấy thông tin Freelancer
       setLoading(false);
       //Bắt đầu gọi lấy thông tin Client
+    }
+    if (contractInfo.status > 0) {
+      setChecked(true);
     }
   }, [contractInfo]);
   const callAceptContract = async () => {
@@ -483,6 +495,16 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       ) : (
         "" 
             )}*/}
+             <PolicyViews setDisabledPolicy={setDisabledPolicy}></PolicyViews>
+              <Checkbox
+                checked={checked}
+                disabled={disabledPolicy}
+                onChange={onChangeCheckBox}
+              >
+                {disabledPolicy
+                  ? "Vui lòng đọc điều khoảng trước khi tích vào đây"
+                  : "Tôi đã đọc kỹ và tôi chấp nhận tất cả điều khoản nêu trên."}
+              </Checkbox>
             <div style={{ display: "flex", justifyContent: "end" }}>
               {contractInfo && job && client && freelancer ? (
                 <Button
@@ -495,7 +517,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
               ) : (
                 ""
               )}
-              {contractInfo && contractInfo.status <= 0? (
+              {contractInfo && checked&& contractInfo.status <= 0? (
                 // <Tooltip title={"Kết nối Ví Để Kí Hợp Đồng"} >
                   <Button
                     style={{ backgroundColor: "blue", marginLeft: 10 }}
@@ -519,7 +541,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
         </div>
         </div>
         </Spin>
-      <Modal
+      {verify ? <Modal
         title="Hãy Ký Khi Đã Đọc Kỹ Điều Khoản Hợp Đồng"
         open={open}
         onCancel={hideModal}
@@ -529,7 +551,16 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
           setImg={setImgSignature}
           closePopup={setOpen}
         ></SignaturePad>
-      </Modal>
+      </Modal> :<Modal
+          title="Nhập mã OTP, mã OTP đã được gởi về mail của bạn"
+          open={open}
+          onCancel={() => {}}
+          footer={[]}
+        >
+          <InputOtp setVerify={setVerify}></InputOtp>
+        </Modal>
+      }
+
     </div>
   );
 };
