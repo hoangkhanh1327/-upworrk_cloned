@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 import { useTaskBoardContext } from "./TaskBoardContext";
 import { Button } from "@/app/components/ui/button";
 import PriorityLabel from "./PriorityLabel";
+import { CiEdit } from "react-icons/ci";
 
 
 interface BoardCardProps {
@@ -36,10 +37,17 @@ const BoardCard = forwardRef<HTMLDivElement, BoardCardProps>((props, ref) => {
       className={classNames(
         "hover:shadow-lg rounded-lg dark:bg-gray-700 bg-gray-50 mb-6"
       )}
-      onClick={() => onCardClick()}
+      
       {...rest}
     >
-      <CardHeader className="font-semibold">{name}</CardHeader>
+      <CardHeader className="">
+        <div className="flex justify-between">
+          <span className="text-lg font-bold">{name}</span>
+          <span className="float-right p-2" >
+            <CiEdit  className="font-bold text-lg cursor-pointer" onClick={() => onCardClick()} />
+          </span>
+        </div>
+      </CardHeader>
       <CardContent>
         <p className="text-sm">{desc}</p>
       </CardContent>

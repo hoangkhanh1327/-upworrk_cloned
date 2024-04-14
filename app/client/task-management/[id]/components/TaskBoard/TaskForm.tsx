@@ -200,7 +200,7 @@ const TaskForm = (props: ITaskForm) => {
                         name='desc'
                         render={({ field }) => (
                             <FormItem className='mt-6'>
-                                <FormLabel>Tên task</FormLabel>
+                                 <FormLabel>Mô tả task</FormLabel>
                                 <FormControl>
                                     <Textarea
                                         className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'
@@ -231,15 +231,9 @@ const TaskForm = (props: ITaskForm) => {
                                         </FormControl>
                                         <FormMessage />
                                         <SelectContent className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'>
-                                            <SelectItem value='1'>
-                                               Quan trọng
-                                            </SelectItem>
-                                            <SelectItem value='2'>
-                                               Trung bình
-                                            </SelectItem>
-                                            <SelectItem value='3'>
-                                                Không ưu tiên
-                                            </SelectItem>
+                                        <SelectItem value="1">Quan trọng</SelectItem>
+                                        <SelectItem value="2">Trung bình</SelectItem>
+                                        <SelectItem value="3">Ưu tiên thấp</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormItem>

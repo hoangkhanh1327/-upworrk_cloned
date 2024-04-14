@@ -3,6 +3,7 @@ import React from "react";
 interface PriorityLabelProps {
   priority: string | number;
 }
+
 const PriorityLabel = ({ priority }: PriorityLabelProps) => {
   return (
     <div>
