@@ -113,6 +113,9 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
     }
   };
 
+  console.log("infoAppli",infoApply);
+  
+
   useEffect(() => {
     if (imgSignature) {
       if (!verify) {

@@ -20,8 +20,9 @@ const CreateContractDetail = ({ postId }: ICreateContract) => {
       <Skeleton className="w-20 h-7" />
     </>
   ) : (
-    <section>
-      <CreateFormContract infoApply={post} />
+      <section>
+        {post&&post?.applied[0]? <CreateFormContract infoApply={post?.applied[0]} />:<></>}
+     
     </section>
   );
 };
