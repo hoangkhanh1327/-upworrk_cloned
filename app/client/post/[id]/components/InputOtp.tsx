@@ -19,7 +19,7 @@ const InputOtp = ({ setVerify }:any) => {
     });
   };
     const [otp, setOtp] = useState<any>(["", "", "", ""]);
-    const [trueOtp, setTrueOtp] = useState<string|null>(null);
+    const [trueOtp, setTrueOtp] = useState<{otp_code: string,expired:number}>({otp_code: '',expired:0});
 
   const inputStyle:any = {
     width: "50px",
@@ -92,8 +92,8 @@ const InputOtp = ({ setVerify }:any) => {
     //Truyền dô mỗi tài khoản sẽ có 1 kênh lắng nghe
     console.log(`notify.${user_type}.${user_id}`);
 
-    channel.bind("otp.new", function (data: {otp_code: string}) {
-      setTrueOtp(data.otp_code);
+    channel.bind("otp.new", function (data: {otp_code: string,expired:number}) {
+      setTrueOtp(data);
     });
 
     return () => {
@@ -103,14 +103,23 @@ const InputOtp = ({ setVerify }:any) => {
     };
     
     useEffect(() => {
-        if (otp.join("").replace(/\s+/g, '').length == 4) {
-            if (otp.join("") == trueOtp) {
+      if (otp.join("").replace(/\s+/g, '').length == 4) {
+        const currentTime = new Date().getTime()/1000;
+        console.log(currentTime,trueOtp.expired);
+        
+            if (otp.join("") == trueOtp.otp_code&&currentTime<=trueOtp.expired) {
                 openNotificationWithIcon(
                     "success",
                     "Xác thực thành công."
                 );
                 setVerify(true);
             } else {
+              if (otp.join("") == trueOtp.otp_code&&currentTime > trueOtp.expired)
+                  openNotificationWithIcon(
+                    "error",
+                    "Mã xác thực hết hạn sử dụng. Vui lòng chọn gởi lại OTP để nhận mã mới."
+                );
+              else
                 openNotificationWithIcon(
                     "error",
                     "Mã xác thực không hợp lệ."
