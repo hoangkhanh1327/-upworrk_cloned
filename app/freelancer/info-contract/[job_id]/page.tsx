@@ -308,7 +308,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
     commonServices.sendNotication({
       title: `Hợp đồng ${job.title} của bạn đã được freelancer chấp thuận`,
       message: `Ứng viên ${freelancer?.last_name} đã chấp thuận công việc ${job.title} của bạn. Vui lòng ấn để xem hợp đồng.`,
-      linkable: `freelancer/info-contract/${job.id}`,
+      linkable: `/freelancer/info-contract/${job.id}`,
       smail: 1,
       imagefile: null,
       user_type: "client", //type cua nguoi nhan
