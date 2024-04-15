@@ -32,7 +32,7 @@ interface ICreateInvite {
 export interface SignUpSubmitValue {}
 const CreateFormInviteSchema = yup.object({
   title: yup.string().required(""),
-  description: yup.string().required(""),
+  mail_invite: yup.string().required(""),
   // deadline: yup.date().required(),
   // bids: yup.number().required(),
   // signature: yup.string().required("Vui lòng nhập chữ ký của bạn"),
@@ -68,15 +68,15 @@ const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
     resolver: yupResolver(CreateFormInviteSchema),
     defaultValues: {
       title: "",
-      description: "",
-      // deadline: new Date(),
-      // bids: 0,
-      // signature: "",
+      mail_invite: "",
     },
   });
+  const handleSetJob = (e: any) => {
+    console.log('aaaaaaaaaaaaa->', e)
+  }
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    // console.log(data);
+    clientServices.sendInviteWorkToFreelancer(data);
   };
   // handleCreateAccount(data);
   const onError: SubmitErrorHandler<SignUpSubmitValue> = (errors) => {
@@ -97,7 +97,9 @@ const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
                     <FormLabel>Title</FormLabel>
                     <FormControl>
                       <Input
-                        className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
+                        className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] 
+                        focus-visible:ring-offset-0 focus-visible:ring-transparent focus-visible:ring-opacity-50
+                        no-underline"
                         placeholder="Title"
                         {...field}
                       />
@@ -107,44 +109,44 @@ const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
                 )}
               />
             </div>
-            <div className="grid grid-cols-1 gap-x-1">
-              <FormField
-                control={form.control}
-                // name="post_id"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Chọn công việc</FormLabel>
-                    <FormControl>
-                      <Select
-                        {...{ className : "border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline" }}
-                        {...field}
-                      >
-                        {isGettingPosts ? (
-                          <Skeleton className="h-10" />
-                        ) : (
-                          posts.map((post) => (
-                            <option key={post.id} value={post.id}>
-                              {post.title}
-                            </option>
-                          ))
-                        )}
-                      </Select>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} name={""}              />
+            <div className="grid grid-cols-1 gap-x-1 my-2">
+              <p className="py-2">Chọn công việc</p>
+              <select
+                className="peer h-full w-full 
+              rounded-[7px] bg-transparent px-3 py-2.5 font-sans
+               text-sm font-normal text-blue-gray-700 outline outline-0
+               border-2 border-solid border-[#e4ebe4]
+               focus:border-0
+                 focus:border-transparent  focus:outline-1 disabled:bg-blue-gray-50"
+              >
+                {isGettingPosts ? (
+                  <Skeleton className="h-8" />
+                ) : (
+                  posts.map((post) => (
+                    <option
+                      key={post.id}
+                      value={post.id}
+                      className="py-2 !h-[50px] text-lg hover:bg-gray-200"
+                      onChange={(e) => handleSetJob(e)}
+                    >
+                      {post.title}
+                    </option>
+                  ))
+                )}
+              </select>
             </div>
             <div className="grid grid-cols-1 gap-x-1">
               <FormField
+                //  ref={usernameRef}
                 control={form.control}
-                name="description"
+                name="mail_invite"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Nội dung thư mời</FormLabel>
                     <FormControl>
                       <Textarea
                         className="
-                       !focus:outline-none border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
+                        focus-visible:ring-offset-0 focus-visible:ring-transparent focus-visible:ring-opacity-50 border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
                         rows={5}
                         {...field}
                       />

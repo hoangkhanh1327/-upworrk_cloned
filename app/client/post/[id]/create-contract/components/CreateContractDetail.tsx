@@ -12,7 +12,6 @@ const CreateContractDetail = ({ postId }: ICreateContract) => {
       handleGetPostDetail?.(postId);
     }
   }, [postId]);
-  console.log("post------->", post);
   return loading ? (
     <>
       <Skeleton className="w-20 h-7" />

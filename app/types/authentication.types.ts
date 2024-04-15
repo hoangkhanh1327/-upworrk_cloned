@@ -48,7 +48,7 @@ export interface FreelancerInfo {
     date_of_birth: string;
     company_name?: string;
     introduce?: string;
-    avatar_url?: string;
+    avatar_url?: File;
     status: number;
     email_verified_at: string;
     google_id?: string;
