@@ -64,7 +64,7 @@ const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
     fecthPosts({ page: 1, statusOpts: "1" });
   }, []);
 
-  const form = useForm({
+  const form:any = useForm({
     resolver: yupResolver(CreateFormInviteSchema),
     defaultValues: {
       title: "",
@@ -116,7 +116,7 @@ const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
                     <FormLabel>Chọn công việc</FormLabel>
                     <FormControl>
                       <Select
-                        className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
+                        {...{ className : "border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline" }}
                         {...field}
                       >
                         {isGettingPosts ? (
@@ -132,8 +132,7 @@ const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
+                )} name={""}              />
             </div>
             <div className="grid grid-cols-1 gap-x-1">
               <FormField

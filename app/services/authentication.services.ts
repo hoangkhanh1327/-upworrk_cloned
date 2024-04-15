@@ -77,11 +77,15 @@ const getFreelancerInfo = async () => {
 };
 
 type IUpdateFreelancerInfoRequest = Partial<FreelancerInfo> & {
-    avatar_url: File;
+    avatar_url?: File;
     skills?: {
         skill_id: string | number;
         point: string | number;
     }[];
+    username?: string,
+    company_name?: string,
+    last_name?: string,
+    first_name?: string,
 };
 
 type IUpdateFreelancerInfoReponse = CommonResponse & {
