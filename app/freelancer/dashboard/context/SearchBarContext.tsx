@@ -11,7 +11,7 @@ import {
 
 interface ISearchBarContext {
     price: string[];
-    status: string[];
+    status: string;
     dates: string[];
     skills: any[];
     searchText: string;
@@ -21,7 +21,7 @@ interface ISearchBarContext {
     page: number;
     totalPage: number;
     setPrice?: Dispatch<SetStateAction<string[]>>;
-    setStatus?: Dispatch<SetStateAction<string[]>>;
+    setStatus?: Dispatch<SetStateAction<string>>;
     setDates?: Dispatch<SetStateAction<string[]>>;
     setSkills?: Dispatch<SetStateAction<any[]>>;
     setSearchText?: Dispatch<SetStateAction<string>>;
@@ -29,7 +29,7 @@ interface ISearchBarContext {
 }
 export const SearchBarContext = createContext<ISearchBarContext>({
     price: [''],
-    status: ['0'],
+    status: '0',
     dates: [''],
     skills: [],
     searchText: '',
@@ -46,7 +46,7 @@ export const SearchBarProvider = ({
     children: React.ReactNode;
 }) => {
     const [price, setPrice] = useState(['']);
-    const [statusOpts, setStatusOpts] = useState<string[]>(['0']);
+    const [statusOpts, setStatusOpts] = useState<string>('0');
     const [dates, setDates] = useState(['']);
     const [skills, setSkills] = useState<any[]>([]);
     const [searchText, setSearchText] = useState('');
