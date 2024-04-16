@@ -10,28 +10,19 @@ import {
 } from 'react';
 
 interface ISearchBarContext {
-    visibility: string;
     status: string;
-    type: string;
-    postedBy: string;
     searchText: string;
     posts: ClientPostList;
     isGettingPosts: boolean;
     total: number;
     page: number;
     totalPage: number;
-    setVisibility?: Dispatch<SetStateAction<string>>;
     setStatus?: Dispatch<SetStateAction<string>>;
-    setType?: Dispatch<SetStateAction<string>>;
-    setPostedBy?: Dispatch<SetStateAction<string>>;
     setSearchText?: Dispatch<SetStateAction<string>>;
     handleGoPage?: (page: number) => void;
 }
 export const SearchBarContext = createContext<ISearchBarContext>({
-    visibility: '0',
     status: '-1',
-    type: '0',
-    postedBy: '0',
     searchText: '',
     page: 1,
     posts: [],
@@ -45,10 +36,7 @@ export const SearchBarProvider = ({
 }: {
     children: React.ReactNode;
 }) => {
-    const [visibility, setVisibility] = useState('0');
     const [statusOpts, setStatusOpts] = useState<string>('-1');
-    const [type, setType] = useState('0');
-    const [postedBy, setPostedBy] = useState('0');
     const [searchText, setSearchText] = useState('');
     const [posts, setPosts] = useState<ClientPostList>([]);
     const [isGettingPosts, setIsGettingPosts] = useState(true);
@@ -81,34 +69,25 @@ export const SearchBarProvider = ({
                 setIsGettingPosts(false);
             }
         };
-        if (type && postedBy && statusOpts && visibility && page)
+        if (statusOpts && page)
             fecthPosts({
                 page,
-                // type,
-                // visibility,
                 statusOpts,
                 searchText,
-                // postedBy,
             });
-    }, [postedBy, statusOpts, type, visibility, page, searchText]);
+    }, [, statusOpts, page, searchText]);
 
     return (
         <SearchBarContext.Provider
             value={{
                 page,
-                visibility,
                 status: statusOpts,
-                type,
-                postedBy,
                 searchText,
                 posts,
                 isGettingPosts,
                 total,
                 totalPage,
-                setVisibility,
                 setStatus: setStatusOpts,
-                setType,
-                setPostedBy,
                 setSearchText,
                 handleGoPage,
             }}

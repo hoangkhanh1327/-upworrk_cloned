@@ -1,20 +1,10 @@
 import _ from 'lodash';
-import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
-import { cn } from '@/lib/utils';
-import { Search, Settings2 } from 'lucide-react';
-import React, { Dispatch, SetStateAction, useContext } from 'react';
+import { Search } from 'lucide-react';
+import React, {  useContext } from 'react';
 import { SearchBarContext } from '../../context/SearchBarContext';
 
-interface IFilterSearch {
-    isFilterPannelOpen: boolean;
-    toggleFilterPannel: Dispatch<SetStateAction<boolean>>;
-}
-
-const FilterSearch: React.FC<IFilterSearch> = ({
-    isFilterPannelOpen,
-    toggleFilterPannel,
-}) => {
+const FilterSearch = () => {
     const { searchText, setSearchText } = useContext(SearchBarContext);
 
     const setSearchDebounce = _.debounce((value) => {
@@ -35,20 +25,10 @@ const FilterSearch: React.FC<IFilterSearch> = ({
                     placeholder='Tìm kiếm'
                     size={20}
                     onChange={(e) => {
-                        setSearchDebounce(e.target.value)
+                        setSearchDebounce(e.target.value);
                     }}
                 />
             </label>
-            <Button
-                onClick={() => toggleFilterPannel((prev) => !prev)}
-                className={cn(
-                    'bg-transparent inline-flex pl-4 pr-6 items-center group hover:bg-transparent  active:scale-95 transition-all',
-                    !isFilterPannelOpen ? 'text-[#001e00]' : 'text-[#108a00]'
-                )}
-            >
-                <Settings2 className='w-6 h-6 mr-3' />
-                Filters
-            </Button>
         </div>
     );
 };
