@@ -1,6 +1,6 @@
 import { DetailClientPost } from '../types/client.types';
 import { CommonResponse } from '../types/common.types';
-import { AppliedJob, DetailJobPost } from '../types/freelancer.type';
+import { AppliedJob, DetailJobPost, Invite } from '../types/freelancer.type';
 import ApiService from './ApiService';
 
 type GetFreelancerPostsRequest = {
@@ -53,6 +53,12 @@ type GetAppliedJobsResponse = CommonResponse & {
 const getAppliedJobs = async (params: GetAppliedJobsRequest) => {
     return ApiService.get<GetAppliedJobsResponse>(`/freelancer/job/applied`);
 };
+type GetInviteListResponse = CommonResponse & {
+    data: Invite[];
+};
+const getListInvite = async () => {
+    return ApiService.get<GetInviteListResponse>(`/client/invite/list`);
+}
 
 
 
@@ -61,4 +67,5 @@ export const freelancerServices = {
   getPost,
   applyJob,
   getAppliedJobs,
+  getListInvite
 };

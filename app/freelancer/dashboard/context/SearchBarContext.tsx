@@ -66,8 +66,8 @@ export const SearchBarProvider = ({
                 setIsGettingPosts(true);
                 const res = await freelancerServices.getPosts({
                     ...data,
-                    page: data?.page || 1,
-                    num: 999,
+                    // page: data?.page || 1,
+                    // num: 999,
                 });
                 if (res.data && !isEmpty(res.data.data)) {
                     setPosts(res.data.data || []);
@@ -82,12 +82,13 @@ export const SearchBarProvider = ({
         };
         if (dates && skills && statusOpts && price && page) {
             const params = {
-                page,
-                status: statusOpts?.toString() || '',
-                keyword: searchText || '',
-                skills: skills?.map((s: any) => s.id)?.toString(),
-                bids: price?.toString(),
-                deadline: dates.toString(),
+                // page,
+                status: 1,
+                //  statusOpts?.toString() || '',
+                // keyword: searchText || '',
+                // skills: skills?.map((s: any) => s.id)?.toString(),
+                // bids: price?.toString(),
+                // deadline: dates.toString(),
             };
             fecthPosts(params);
         }

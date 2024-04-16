@@ -25,9 +25,12 @@ import { clientServices } from "@/app/services/client.services";
 import { ClientPostList } from "@/app/types/client.types";
 import { isEmpty } from "lodash";
 import { Skeleton } from "@/app/components/ui/skeleton";
+import { useToast } from "@/app/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
 interface ICreateInvite {
   freelancer: FreelancerInfo;
+  onClose?: () => void;
 }
 export interface SignUpSubmitValue {}
 const CreateFormInviteSchema = yup.object({
@@ -39,10 +42,13 @@ const CreateFormInviteSchema = yup.object({
   // allowSendMail: yup.bool(),
 });
 
-const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
+const InviteFreelancerForm = ({ freelancer, onClose }: ICreateInvite) => {
+  const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [posts, setPosts] = useState<ClientPostList>([]);
   const [isGettingPosts, setIsGettingPosts] = useState<boolean>(false);
+  const [idJob, setIdJob] = useState<number>(posts[0]?.id || 0);
+  const { toast } = useToast();
   useEffect(() => {
     const fecthPosts = async (data: any) => {
       try {
@@ -64,19 +70,75 @@ const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
     fecthPosts({ page: 1, statusOpts: "1" });
   }, []);
 
-  const form:any = useForm({
+  const form: any = useForm({
     resolver: yupResolver(CreateFormInviteSchema),
     defaultValues: {
       title: "",
       mail_invite: "",
     },
   });
-  const handleSetJob = (e: any) => {
-    console.log('aaaaaaaaaaaaa->', e)
-  }
+  const handleSetJob = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const postId = e.target?.value;
+    console.log(postId);
+    setIdJob(Number(postId));
+    // ...
+  };
+  
+  const sendNotification = async (data: any) => {
+    try {
+      // setIsGettingPosts(true);
+      const res = await commonServices.sendNotication(data);
+      if (res.status === 200) {
+        console.log("send notification success", res);
+      }
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      // setIsGettingPosts(false);
+    }
+  };
 
   const onSubmit: SubmitHandler<any> = async (data) => {
-    clientServices.sendInviteWorkToFreelancer(data);
+    const dataSubmit = {
+      job_id: idJob,
+      freelancer_id: freelancer.id,
+      mail_invite: data.mail_invite,
+    }
+    const res = await clientServices.sendInviteWorkToFreelancer(dataSubmit);
+    try {
+      setLoading(true);
+      if (res.status === 200) {
+        sendNotification({
+          title:  `Lời mời làm việc từ ${user?.username} 😍`,
+          message: data.mail_invite,
+          linkable: `/job/${idJob}`,
+          smail: 1,
+          imagefile: null,
+          user_type: "freelancer",
+          user_id: freelancer.id,
+        });
+
+        toast({
+          title: "Thành công",
+          description: "Gửi lời mời thành công",
+          className: cn(
+            "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 text-white bg-green-200"
+          ),
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Gửi lời mời thất bại",
+        description: res.message || "Có lỗi xảy ra, vui lòng thử lại sau",
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 text-white bg-red-200"
+        ),
+        duration: 2000,
+      });
+    }
+    setLoading(false);
+    onClose?.();
   };
   // handleCreateAccount(data);
   const onError: SubmitErrorHandler<SignUpSubmitValue> = (errors) => {
@@ -112,6 +174,7 @@ const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
             <div className="grid grid-cols-1 gap-x-1 my-2">
               <p className="py-2">Chọn công việc</p>
               <select
+                onChange={(e) => handleSetJob(e as any)}
                 className="peer h-full w-full 
               rounded-[7px] bg-transparent px-3 py-2.5 font-sans
                text-sm font-normal text-blue-gray-700 outline outline-0
@@ -127,7 +190,6 @@ const InviteFreelancerForm = ({ freelancer }: ICreateInvite) => {
                       key={post.id}
                       value={post.id}
                       className="py-2 !h-[50px] text-lg hover:bg-gray-200"
-                      onChange={(e) => handleSetJob(e)}
                     >
                       {post.title}
                     </option>

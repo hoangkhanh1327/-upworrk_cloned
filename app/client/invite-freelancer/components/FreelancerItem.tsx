@@ -29,7 +29,7 @@ const FreelancerItem = ({ freelancer }: IFreelancerItem) => {
                 <img
                   src={
                     freelancer.avatar_url
-                      ? freelancer.avatar_url
+                      ? freelancer.avatar_url.toString()
                       : "/images/others/unknown_avatar.png"
                   }
                   alt="avatar"

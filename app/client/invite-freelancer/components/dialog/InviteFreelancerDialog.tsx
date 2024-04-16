@@ -29,7 +29,7 @@ const InviteFreelancerDialog = ({freelancer, isOpen,onClose}: IInviteFreelancerD
           <DialogTitle>Tạo lời mời việc mới với {freelancer.username}</DialogTitle>
         </DialogHeader>
         <div>
-          <InviteFreelancerForm freelancer={freelancer} />
+          <InviteFreelancerForm freelancer={freelancer} onClose={onClose}/>
         </div>
         <DialogFooter>
           <Button type="button" onClick={() => onClose()}>

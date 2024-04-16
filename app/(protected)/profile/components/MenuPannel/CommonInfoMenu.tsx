@@ -62,7 +62,7 @@ const CommonInfo = () => {
                                 {user?.avatar_url ? (
                                     <div className='w-[150px] h-[150px] relative rounded-full overflow-hidden'>
                                         <Image
-                                            src={user.avatar_url}
+                                            src={user.avatar_url.toString()}
                                             alt=''
                                             fill
                                         />
