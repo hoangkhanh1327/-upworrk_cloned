@@ -82,13 +82,12 @@ export const SearchBarProvider = ({
         };
         if (dates && skills && statusOpts && price && page) {
             const params = {
-                // page,
-                status: 1,
-                //  statusOpts?.toString() || '',
-                // keyword: searchText || '',
-                // skills: skills?.map((s: any) => s.id)?.toString(),
-                // bids: price?.toString(),
-                // deadline: dates.toString(),
+                page,
+                status: statusOpts,
+                keyword: searchText || '',
+                skills: skills?.map((s: any) => s.id)?.toString(),
+                bids: price?.toString(),
+                deadline: dates.toString(),
             };
             fecthPosts(params);
         }
