@@ -3,21 +3,15 @@ import AppThirdwebProvider from "@/app/providers/ThirdwebProvider";
 import { useStateContext } from "@/context";
 import { useContract } from "@thirdweb-dev/react";
 import { useContext, useEffect, useState } from "react";
-import Packer from "docxtemplater";
 import PizZip from "pizzip";
 import Docxtemplater from "docxtemplater";
-import Document from "react-doc-viewer";
 import SignaturePad from "./SignaturePad";
 //import ImageModule from "docxtemplater-image-module";
-import { title } from "process";
-import { loginServices } from "@/app/services/authentication.services";
 import { commonServices } from "@/app/services/common.services";
 import FreelancerInfo from "@/app/client/show-freelancer-info/[freelancer_id]/page";
-import { Modal, Button, Tooltip, Spin, notification, Checkbox } from 'antd';
+import { Modal, Button, Tooltip, Spin, notification, Checkbox } from "antd";
 import { DetailClientPost } from "@/app/types/freelancer.type";
-import { appConfig } from "@/app/configs/app.config";
 import { BaseInfo } from "@/app/types/authentication.types";
-import { freelancerServices } from "@/app/services/freelancer.services";
 import InputOtp from "@/app/client/post/[id]/components/InputOtp";
 import PolicyViews from "@/app/client/post/[id]/components/PolicyViews";
 interface IContractDetail {
@@ -45,20 +39,26 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
   });
   const { address, connect } = useStateContext();
   const [reload, setReload] = useState(false);
-  
-  const { contract } = useContract('0x141F9921217A5e6f0f34341077d831482db29d00');
-  const [contractFile, setContractFile] = useState<string|null>(null);
+
+  const { contract } = useContract(
+    "0x141F9921217A5e6f0f34341077d831482db29d00"
+  );
+  const [contractFile, setContractFile] = useState<string | null>(null);
   const [imgSignature, setImgSignature] = useState<string | null>(null);
-  type NotificationType = 'success' | 'info' | 'warning' | 'error';
+  type NotificationType = "success" | "info" | "warning" | "error";
   const [api, contextHolder] = notification.useNotification();
 
-  const openNotificationWithIcon = (type: NotificationType,message:string,desc:string) => {
+  const openNotificationWithIcon = (
+    type: NotificationType,
+    message: string,
+    desc: string
+  ) => {
     api[type]({
       message: message,
-      description:desc
+      description: desc,
     });
   };
-  
+
   const getDataContract = async () => {
     try {
       setLoading(true);
@@ -82,7 +82,11 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-    openNotificationWithIcon('error',"Tải Thất Bại", 'Dữ liệu đang bị bất đồng bộ vui lòng trở lại trang chủ')
+      openNotificationWithIcon(
+        "error",
+        "Tải Thất Bại",
+        "Dữ liệu đang bị bất đồng bộ vui lòng trở lại trang chủ"
+      );
       console.log(error);
     }
   };
@@ -111,7 +115,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
   const base64Regex = /^data:image\/(png|jpg|svg|svg\+xml);base64,/;
   const validBase64 =
     /^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
-  const base64Parser = (dataURL : string) => {
+  const base64Parser = (dataURL: string) => {
     if (typeof dataURL !== "string" || !base64Regex.test(dataURL)) {
       return false;
     }
@@ -143,10 +147,10 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
   console.log("contract information", contractInfo);
   useEffect(() => {
     getDataContract();
-  }, [contract,reload]);
+  }, [contract, reload]);
 
   ///LOad Template
-  const loadFile = (url:string, callback:any) => {
+  const loadFile = (url: string, callback: any) => {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
     xhr.responseType = "arraybuffer";
@@ -175,7 +179,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       height: 100, // Độ cao của hình ảnh (đơn vị pixel)
     };
     // Chuyển đổi hình ảnh base64 thành ArrayBuffer
-    const base64ToArrayBuffer = (base64:string) => {
+    const base64ToArrayBuffer = (base64: string) => {
       const binaryString = window.atob(base64.split(",")[1]);
       const len = binaryString.length;
       const bytes = new Uint8Array(len);
@@ -215,13 +219,14 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
         client_address: client?.address ?? "",
         client_numphone: client?.phone_num ?? "",
         client_email: client?.email ?? "",
-        client_name: (client?.first_name??'') + (client?.last_name ?? ""),
+        client_name: (client?.first_name ?? "") + (client?.last_name ?? ""),
         description: contractInfo?.description ?? "",
         freelancer_address: freelancer?.address ?? "",
         freelancer_email: freelancer?.email ?? "",
         freelancer_numphone: freelancer?.phone_num ?? "",
         freelancer_dob: freelancer?.date_of_birth ?? "",
-        freelancer_name: (freelancer?.first_name??'') + (freelancer?.last_name ?? ""),
+        freelancer_name:
+          (freelancer?.first_name ?? "") + (freelancer?.last_name ?? ""),
 
         image: base64ToArrayBuffer(imageData.base64),
         // Thêm các dữ liệu khác tương ứng với mẫu của bạn
@@ -252,13 +257,14 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       window.open(contractFile, "_blank");
     }
   }, [contractFile]);
-  const [client, setClient] = useState<BaseInfo|null>(null);
-  const [freelancer, setFreelancer] = useState<BaseInfo|null>(null);
-  const [job,setJob] = useState<DetailClientPost|null|any>(null);
+  const [client, setClient] = useState<BaseInfo | null>(null);
+  const [freelancer, setFreelancer] = useState<BaseInfo | null>(null);
+  const [job, setJob] = useState<DetailClientPost | null | any>(null);
 
   const setInfoUserContract = async () => {
     try {
-      const infoJob = (await commonServices.getInfoJob(parseInt(params.job_id))).data;
+      const infoJob = (await commonServices.getInfoJob(parseInt(params.job_id)))
+        .data;
       setJob(infoJob);
       console.log("info job", infoJob);
       const infoClient = (
@@ -296,13 +302,10 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
     }
   }, [contractInfo]);
   const callAceptContract = async () => {
-    const responseContract = await contract?.call(
-      "acceptContract",
-      [
-        contractInfo.contract_id,
-        imgSignature
-      ]
-    );
+    const responseContract = await contract?.call("acceptContract", [
+      contractInfo.contract_id,
+      imgSignature,
+    ]);
     setLoading(false);
     setReload(!reload);
     commonServices.sendNotication({
@@ -314,188 +317,233 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       user_type: "client", //type cua nguoi nhan
       user_id: client?.id, // id cua nguoi nhan
     });
-    openNotificationWithIcon('success',"Ký Hợp Đồng Thành Công", 'Hợp đồng của bạn đã được kí thành công bạn có thể xem lại.')
+    openNotificationWithIcon(
+      "success",
+      "Ký Hợp Đồng Thành Công",
+      "Hợp đồng của bạn đã được kí thành công bạn có thể xem lại."
+    );
     console.log("RES", responseContract);
-    
-  }
+  };
   useEffect(() => {
     if (imgSignature != null) {
       setLoading(true);
       callAceptContract();
-        
     }
-  },[imgSignature])
+  }, [imgSignature]);
 
   return (
-    <div style={{height:"auto",minHeight:"1700px",display:'block'}}>
-       {contextHolder}
+    <div style={{ height: "auto", minHeight: "1700px", display: "block" }}>
+      {contextHolder}
       <Spin spinning={loading} tip="Đang tải....">
-      <div
-        style={{ display: "flex", minHeight:"fit-content", flexDirection: "column" }}
-      >
         <div
           style={{
-            width: "100%",
-            minHeight:"fit-content",
-            backgroundImage:
-              'url("https://t4.ftcdn.net/jpg/02/32/92/55/360_F_232925587_st4gM8b3TJHtjjddCIUNyVyFJmZqMmn4.jpg")',
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
             display: "flex",
-            justifyContent: "center",
-          }}
-        >
-          {" "}
-          <span
-            style={{
-              marginTop: 35,
-              color: "yellow",
-              fontSize: "35px",
-              fontFamily: "roboto",
-              fontWeight: 800,
-            }}
-          >
-            Thông Tin Hợp Đồng{" "}
-          </span>
-        </div>
-        <div
-          style={{
-            width: "100%",
-            height: 100,
-            display: "flex",
-            justifyContent: "center",
+            minHeight: "fit-content",
+            flexDirection: "column",
           }}
         >
           <div
             style={{
-              width: 1000,
-              display:'inline-table',
+              width: "100%",
+              minHeight: "fit-content",
               backgroundImage:
-                'url("https://img.freepik.com/free-photo/watercolor-paper-texture_1194-5417.jpg")',
+                'url("https://t4.ftcdn.net/jpg/02/32/92/55/360_F_232925587_st4gM8b3TJHtjjddCIUNyVyFJmZqMmn4.jpg")',
               backgroundRepeat: "no-repeat",
               backgroundSize: "cover",
-              padding: "70px",
-              fontFamily: "roboto",
-              fontSize: 25,
+              display: "flex",
+              justifyContent: "center",
             }}
           >
-            <p className=" mb-4">
-              <span className="font-semibold">Tên hợp đồng:</span>
-              {" " + contractInfo.title}
-            </p>
-            <p className=" mb-4">
-              <span className="font-semibold">Điều khoản hợp đồng:</span>
-              {" " + contractInfo.description}
-            </p>
-            <p className=" mb-4">
-              <span className="font-semibold">Lương:</span>
-              {" " + contractInfo.bids}
-            </p>
-            <p className=" mb-4">
-              <span className="font-semibold">Trạng thái:</span>
-              <span
-                style={{ color: contractInfo.status > 0 ? "green" : "red" }}
-              >
-                {" "}
-                {contractInfo.status > 0 ? "đã kí" : "đang chờ ký"}{" "}
-              </span>
-            </p>
-            <p className=" mb-4">
-              <div className="font-semibold">Thông tin người thuê:</div>
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Họ tên: </span>
-                {client ? client.first_name + client.last_name : ""}
+            {" "}
+            <span
+              style={{
+                marginTop: 35,
+                color: "yellow",
+                fontSize: "35px",
+                fontFamily: "roboto",
+                fontWeight: 800,
+              }}
+            >
+              Thông Tin Hợp Đồng{" "}
+            </span>
+          </div>
+          <div
+            style={{
+              width: "100%",
+              height: 100,
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <div
+              style={{
+                width: 1000,
+                display: "inline-table",
+                backgroundImage:
+                  'url("https://img.freepik.com/free-photo/watercolor-paper-texture_1194-5417.jpg")',
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "cover",
+                padding: "70px",
+                fontFamily: "roboto",
+                fontSize: 25,
+              }}
+            >
+              <p className=" mb-4">
+                <span className="font-semibold">Tên hợp đồng:</span>
+                {" " + contractInfo.title}
               </p>
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Số Điện Thoại: </span>
-                {client ? client.phone_num : ""}
+              <p className=" mb-4">
+                <span className="font-semibold">Điều khoản hợp đồng:</span>
+                {" " + contractInfo.description}
               </p>
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Email: </span>
-                {client ? client.email : ""}
+              <p className=" mb-4">
+                <span className="font-semibold">Lương:</span>
+                {" " + contractInfo.bids}
               </p>
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Địa chỉ: </span>
-                {client ? client.address : ""}
+              <p className=" mb-4">
+                <span className="font-semibold">Trạng thái:</span>
+                <span
+                  style={{ color: contractInfo.status > 0 ? "green" : "red" }}
+                >
+                  {" "}
+                  {contractInfo.status > 0 ? "đã kí" : "đang chờ ký"}{" "}
+                </span>
               </p>
-              
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Tình trạng xác thực:</span>
-                {client ? (
-                  <span
-                    style={{
-                      color: client.is_completed_profile > 1 ? "green" : "red",
-                    }}
-                  >
-                    {" "}
-                    {client.is_completed_profile > 1
-                      ? "đã xác thực"
-                      : "chưa xác thực"}{" "}
-                  </span>
-                ) : (
-                  ""
-                )}
-              </p>
-             
-            </p>
-            <p className=" mb-4">
-              <span className="font-semibold">Thông tin người nhận việc:</span>
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Họ tên: </span>
-                {freelancer ? freelancer.first_name + freelancer.last_name : ""}
-              </p>
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Số Điện Thoại: </span>
-                {freelancer ? freelancer.phone_num : ""}
-              </p>
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Email: </span>
-                {freelancer ? freelancer.email : ""}
-              </p>
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Địa chỉ: </span>
-                {freelancer ? freelancer.address : ""}
-              </p>
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Tình trạng xác thực:</span>
-                {freelancer ? (
-                  <span
-                    style={{
-                      color:
-                        freelancer.is_completed_profile > 1 ? "green" : "red",
-                    }}
-                  >
-                    {" "}
-                    {freelancer.is_completed_profile > 1
-                      ? "đã xác thực"
-                      : "chưa xác thực"}{" "}
-                  </span>
-                ) : (
-                  ""
-                )}
-              </p>
-              
-            </p>
-            <div style={{fontStyle:'italic', marginBottom:9}}>Cam kết thông tin trên mà tôi đã khai là đúng sự thật nếu sai tôi xin chịu hoàn toàn trách nhiệm trước pháp luật, và tôi đã đọc kỹ nội dung hợp đồng trước khi kí.</div>
-            <div style={{display:'flex', justifyContent:'space-between'}}>
-            <p className="ml-9 mb-4">
-                <span className="font-semibold">Chữ Kí Bên Thuê: </span>
-                <img style={{ height: 100 }} src={contractInfo.signature_client} />
-                <div style={{ display: 'flex',width:"100%",justifyContent:"center" }}><span>{client ? client.first_name +" "+ client.last_name : ""}</span></div>
+              <p className=" mb-4">
+                <div className="font-semibold">Thông tin người thuê:</div>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Họ tên: </span>
+                  {client ? client.first_name + client.last_name : ""}
+                </p>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Số Điện Thoại: </span>
+                  {client ? client.phone_num : ""}
+                </p>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Email: </span>
+                  {client ? client.email : ""}
+                </p>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Địa chỉ: </span>
+                  {client ? client.address : ""}
+                </p>
 
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Tình trạng xác thực:</span>
+                  {client ? (
+                    <span
+                      style={{
+                        color:
+                          client.is_completed_profile > 1 ? "green" : "red",
+                      }}
+                    >
+                      {" "}
+                      {client.is_completed_profile > 1
+                        ? "đã xác thực"
+                        : "chưa xác thực"}{" "}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </p>
               </p>
-              <p className="ml-9 mb-4">
-                <span className="font-semibold">Chữ Kí Bên Nhận việc: </span>
-                <img style={{ height: 100 }} src={contractInfo.signature_freelancer} />
-                <div style={{ display: 'flex',width:"100%",justifyContent:"center" }}><span>{freelancer ? freelancer.first_name +" "+ freelancer.last_name : ""}</span></div>
+              <p className=" mb-4">
+                <span className="font-semibold">
+                  Thông tin người nhận việc:
+                </span>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Họ tên: </span>
+                  {freelancer
+                    ? freelancer.first_name + freelancer.last_name
+                    : ""}
+                </p>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Số Điện Thoại: </span>
+                  {freelancer ? freelancer.phone_num : ""}
+                </p>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Email: </span>
+                  {freelancer ? freelancer.email : ""}
+                </p>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Địa chỉ: </span>
+                  {freelancer ? freelancer.address : ""}
+                </p>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Tình trạng xác thực:</span>
+                  {freelancer ? (
+                    <span
+                      style={{
+                        color:
+                          freelancer.is_completed_profile > 1 ? "green" : "red",
+                      }}
+                    >
+                      {" "}
+                      {freelancer.is_completed_profile > 1
+                        ? "đã xác thực"
+                        : "chưa xác thực"}{" "}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </p>
               </p>
-            </div>
-            {/* {contractFile !== null ? (
+              <div style={{ fontStyle: "italic", marginBottom: 9 }}>
+                Cam kết thông tin trên mà tôi đã khai là đúng sự thật nếu sai
+                tôi xin chịu hoàn toàn trách nhiệm trước pháp luật, và tôi đã
+                đọc kỹ nội dung hợp đồng trước khi kí.
+              </div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Chữ Kí Bên Thuê: </span>
+                  <img
+                    style={{ height: 100 }}
+                    src={contractInfo.signature_client}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span>
+                      {client ? client.first_name + " " + client.last_name : ""}
+                    </span>
+                  </div>
+                </p>
+                <p className="ml-9 mb-4">
+                  <span className="font-semibold">Chữ Kí Bên Nhận việc: </span>
+                  <img
+                    style={{ height: 100 }}
+                    src={contractInfo.signature_freelancer}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span>
+                      {freelancer
+                        ? freelancer.first_name + " " + freelancer.last_name
+                        : ""}
+                    </span>
+                  </div>
+                </p>
+              </div>
+              {/* {contractFile !== null ? (
         <Document documents={[{ uri: contractFile }]} />
       ) : (
         "" 
             )}*/}
-             <PolicyViews setDisabledPolicy={setDisabledPolicy}></PolicyViews>
+              <div className="my-2">
+                <PolicyViews
+                  setDisabledPolicy={setDisabledPolicy}
+                ></PolicyViews>
+              </div>
+
               <Checkbox
                 checked={checked}
                 disabled={disabledPolicy}
@@ -505,53 +553,58 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
                   ? "Vui lòng đọc điều khoảng trước khi tích vào đây"
                   : "Tôi đã đọc kỹ và tôi chấp nhận tất cả điều khoản nêu trên."}
               </Checkbox>
-            <div style={{ display: "flex", justifyContent: "end" }}>
-              {contractInfo && job && client && freelancer ? (
-                <Button
-                  onClick={() => {
-                    generateDocument();
-                  }}
-                >
-                  Xuất Hợp đồng
-                </Button>
-              ) : (
-                ""
-              )}
-              {contractInfo && checked&& contractInfo.status <= 0? (
-                // <Tooltip title={"Kết nối Ví Để Kí Hợp Đồng"} >
+              <div style={{ display: "flex", justifyContent: "end" }}>
+                {contractInfo && job && client && freelancer ? (
+                  <Button
+                    onClick={() => {
+                      generateDocument();
+                    }}
+                  >
+                    Xuất Hợp đồng
+                  </Button>
+                ) : (
+                  ""
+                )}
+                {contractInfo && checked && contractInfo.status <= 0 ? (
+                  // <Tooltip title={"Kết nối Ví Để Kí Hợp Đồng"} >
                   <Button
                     style={{ backgroundColor: "blue", marginLeft: 10 }}
                     type="primary"
                     onClick={() => {
-                      if (address == null || address == '') {
+                      if (address == null || address == "") {
                         connect();
-                      }
-                      else {
+                      } else {
                         setOpen(true);
                       }
                     }}
                   >
-                    {address == null || address == '' ? 'Kết Nối Ví':"Ký Hợp Đồng"}
+                    {address == null || address == ""
+                      ? "Kết Nối Ví"
+                      : "Ký Hợp Đồng"}
                   </Button>
-              ) : (
-                ""
-              )}
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
           </div>
         </div>
-        </div>
-        </Spin>
-      {verify ? <Modal
-        title="Hãy Ký Khi Đã Đọc Kỹ Điều Khoản Hợp Đồng"
-        open={open}
-        onCancel={hideModal}
-        footer={[]}
-      >
-        <SignaturePad
-          setImg={setImgSignature}
-          closePopup={setOpen}
-        ></SignaturePad>
-      </Modal> :<Modal
+      </Spin>
+      {verify ? (
+        <Modal
+          title="Hãy Ký Khi Đã Đọc Kỹ Điều Khoản Hợp Đồng"
+          open={open}
+          onCancel={hideModal}
+          footer={[]}
+        >
+          <SignaturePad
+            setImg={setImgSignature}
+            closePopup={setOpen}
+          ></SignaturePad>
+        </Modal>
+      ) : (
+        <Modal
+          className="text-center"
           title="Nhập mã OTP, mã OTP đã được gởi về mail của bạn"
           open={open}
           onCancel={() => {}}
@@ -559,8 +612,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
         >
           <InputOtp setVerify={setVerify}></InputOtp>
         </Modal>
-      }
-
+      )}
     </div>
   );
 };

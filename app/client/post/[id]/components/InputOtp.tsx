@@ -5,11 +5,12 @@ import { Button, notification } from "antd";
 import { commonServices } from "@/app/services/common.services";
 import Pusher from "pusher-js";
 import Cookies from "js-cookie";
+import { text } from "stream/consumers";
 // import Link from "next/link";
 
 type NotificationType = "success" | "info" | "warning" | "error";
 
-const InputOtp = ({ setVerify }:any) => {
+const InputOtp = ({ setVerify }: any) => {
   const [api, contextHolder] = notification.useNotification();
 
   const openNotificationWithIcon = (type: NotificationType, msg: string) => {
@@ -18,10 +19,12 @@ const InputOtp = ({ setVerify }:any) => {
       description: msg,
     });
   };
-    const [otp, setOtp] = useState<any>(["", "", "", ""]);
-    const [trueOtp, setTrueOtp] = useState<{otp_code: string,expired:number}>({otp_code: '',expired:0});
+  const [otp, setOtp] = useState<any>(["", "", "", ""]);
+  const [trueOtp, setTrueOtp] = useState<{ otp_code: string; expired: number }>(
+    { otp_code: "", expired: 0 }
+  );
 
-  const inputStyle:any = {
+  const inputStyle: any = {
     width: "50px",
     height: "50px",
     marginRight: "10px",
@@ -32,25 +35,29 @@ const InputOtp = ({ setVerify }:any) => {
     zIndex: 2000,
   };
 
-  const lastInputStyle:any = {
+  const lastInputStyle: any = {
     marginRight: "0",
   };
 
-  const otpContainerStyle:any = {
+  const otpContainerStyle: any = {
     display: "flex",
-      zIndex: 2000,
+    zIndex: 2000,
     margin: "50",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
   };
 
-  const handleChange = (index:number, value:string) => {
-      const newOtp = [...otp];
-      if (value.toString().length <=1) {
-          newOtp[index] = value;
-          setOtp(newOtp);
-      }
+  const handleChange = (index: number, value: string) => {
+    const newOtp = [...otp];
+    if (value.toString().length <= 1) {
+      newOtp[index] = value;
+      setOtp(newOtp);
+    }
   };
 
-  const handleKeyDown = (e:any, index:number) => {
+  const handleKeyDown = (e: any, index: number) => {
     if (e.key === "Backspace" && index > 0 && otp[index] === "") {
       // Nếu người dùng nhấn nút Backspace khi ô trống, chuyển con trỏ về ô trước đó
       document.getElementById(`otp_${index - 1}`)?.focus();
@@ -60,8 +67,8 @@ const InputOtp = ({ setVerify }:any) => {
     }
   };
   useEffect(() => {
-      document.getElementById(`otp_0`)?.focus();
-      commonServices.sendOtp();
+    document.getElementById(`otp_0`)?.focus();
+    commonServices.sendOtp();
     openNotificationWithIcon(
       "success",
       "Hệ thống đã gởi otp về mail của bạn, bạn vui lòng check mail."
@@ -92,57 +99,61 @@ const InputOtp = ({ setVerify }:any) => {
     //Truyền dô mỗi tài khoản sẽ có 1 kênh lắng nghe
     console.log(`notify.${user_type}.${user_id}`);
 
-    channel.bind("otp.new", function (data: {otp_code: string,expired:number}) {
-      setTrueOtp(data);
-    });
+    channel.bind(
+      "otp.new",
+      function (data: { otp_code: string; expired: number }) {
+        setTrueOtp(data);
+      }
+    );
 
     return () => {
       channel.unbind_all();
       channel.unsubscribe();
     };
-    };
-    
-    useEffect(() => {
-      if (otp.join("").replace(/\s+/g, '').length == 4) {
-        const currentTime = new Date().getTime()/1000;
-        console.log(currentTime,trueOtp.expired);
-        
-            if (otp.join("") == trueOtp.otp_code&&currentTime<=trueOtp.expired) {
-                openNotificationWithIcon(
-                    "success",
-                    "Xác thực thành công."
-                );
-                setVerify(true);
-            } else {
-              if (otp.join("") == trueOtp.otp_code&&currentTime > trueOtp.expired)
-                  openNotificationWithIcon(
-                    "error",
-                    "Mã xác thực hết hạn sử dụng. Vui lòng chọn gởi lại OTP để nhận mã mới."
-                );
-              else
-                openNotificationWithIcon(
-                    "error",
-                    "Mã xác thực không hợp lệ."
-                  );
-            }
-        }
-    },[otp])
+  };
+
+  useEffect(() => {
+    if (otp.join("").replace(/\s+/g, "").length == 4) {
+      const currentTime = new Date().getTime() / 1000;
+      console.log(currentTime, trueOtp.expired);
+
+      if (otp.join("") == trueOtp.otp_code && currentTime <= trueOtp.expired) {
+        openNotificationWithIcon("success", "Xác thực thành công.");
+        setVerify(true);
+      } else {
+        if (otp.join("") == trueOtp.otp_code && currentTime > trueOtp.expired)
+          openNotificationWithIcon(
+            "error",
+            "Mã xác thực hết hạn sử dụng. Vui lòng chọn gởi lại OTP để nhận mã mới."
+          );
+        else openNotificationWithIcon("error", "Mã xác thực không hợp lệ.");
+      }
+    }
+  }, [otp]);
   return (
     <div style={otpContainerStyle}>
       {contextHolder}
-      {otp.map((value:string, index:number) => (
-        <input
-          key={index}
-          id={`otp_${index}`}
-          type="text"
-          value={value}
-          //maxLength="1"
-          style={{ ...inputStyle, ...(index === 3 ? lastInputStyle : {}) }}
-          onChange={(e) => handleChange(index, e.target.value)}
-          onKeyDown={(e) => handleKeyDown(e, index)}
-        />
-      ))}
-      <Button style={{marginTop:9, marginLeft:20}} onClick={sendOtp}>Gởi lại OTP</Button>
+      <div>
+        {otp.map((value: string, index: number) => (
+          <input
+            key={index}
+            id={`otp_${index}`}
+            type="text"
+            value={value}
+            //maxLength="1"
+            style={{ ...inputStyle, ...(index === 3 ? lastInputStyle : {}) }}
+            onChange={(e) => handleChange(index, e.target.value)}
+            onKeyDown={(e) => handleKeyDown(e, index)}
+          />
+        ))}
+      </div>
+
+      <Button
+        className="bg-primary-color hover:bg-primary-color asChild  text-white mt-4 mx-auto"
+        onClick={sendOtp}
+      >
+        Gởi lại OTP
+      </Button>
     </div>
   );
 };

@@ -113,8 +113,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
     }
   };
 
-  console.log("infoAppli",infoApply);
-  
+  console.log("infoAppli", infoApply);
 
   useEffect(() => {
     if (imgSignature) {
@@ -263,7 +262,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
                 )}
               />
             </div>
-            <div className="grid grid-cols-1 gap-x-1">
+            <div className="grid grid-cols-1 gap-x-1 my-2">
               <PolicyViews setDisabledPolicy={setDisabledPolicy}></PolicyViews>
               <Checkbox
                 checked={checked}
@@ -311,9 +310,10 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
           </form>
         </Form>
         <Modal
+          className="text-center"
           title="Nhập mã OTP, mã OTP đã được gởi về mail của bạn"
           open={open}
-          onCancel={() => {}}
+          onCancel={hideModal}
           footer={[]}
         >
           <InputOtp setVerify={setVerify}></InputOtp>
