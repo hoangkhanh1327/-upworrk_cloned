@@ -607,7 +607,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
           className="text-center"
           title="Nhập mã OTP, mã OTP đã được gởi về mail của bạn"
           open={open}
-          onCancel={() => {}}
+          onCancel={hideModal}
           footer={[]}
         >
           <InputOtp setVerify={setVerify}></InputOtp>
