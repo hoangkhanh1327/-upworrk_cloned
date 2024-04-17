@@ -3,6 +3,7 @@ import { ProfileContext } from '../../context/ProfileContext';
 import { menuData } from '../../configs/menuData';
 import CommonInfo from './CommonInfoMenu';
 import PasswordInfoMenu from './PasswordInfoMenu';
+import VerifyInfoMenu from './VerifyInfoMenu';
 
 const MenuPannel = () => {
     const { menu } = useContext(ProfileContext);
@@ -16,7 +17,8 @@ const MenuPannel = () => {
                 {selectedMenu?.description || ''}
             </p>
             {selectedMenu?.key === menuData[0].key && <CommonInfo />}
-            {selectedMenu?.key === menuData[1].key && <PasswordInfoMenu />}
+            {selectedMenu?.key === menuData[1].key && <VerifyInfoMenu />}
+            {selectedMenu?.key === menuData[2].key && <PasswordInfoMenu />}
         </div>
     );
 };

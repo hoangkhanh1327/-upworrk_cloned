@@ -134,7 +134,7 @@ const SingleImageUpload = (props: SingleImageUploadProps) => {
                         imageClass
                     )}
                 >
-                    <div className='w-full h-[185px] relative'>
+                    <div className='w-full relative'>
                         <Image
                             className='rounded w-full object-cover'
                             src={imageSrc}
