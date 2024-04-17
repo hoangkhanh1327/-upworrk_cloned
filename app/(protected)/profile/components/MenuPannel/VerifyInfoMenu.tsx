@@ -45,6 +45,11 @@ const VerifyInfoMenu = () => {
 
     const onSubmit: SubmitHandler<any> = (data) => {
         console.log('data', data);
+        // Sau khi xác thực tài khoản thành công
+        // const res =
+        // if (res.data) {
+        //     window.location.reload();
+        // }
     };
 
     return (
