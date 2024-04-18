@@ -19,7 +19,7 @@ type CreateJobTaskRequest = {
     name: string;
     desc: string;
     deadline: string;
-    priority: string
+    priority: string;
 };
 
 type CreateJobTaskResponse = CommonResponse & {
@@ -88,6 +88,25 @@ const deleteJobTask = async (id: string) => {
     return ApiService._delete(`/job/task/${id}`);
 };
 
+type AddCommentRequest = {
+    task_id: string | number;
+    type: 'text' | 'file';
+    content: any;
+};
+
+const addComment = async (params: AddCommentRequest) => {
+    const { task_id, ...rest } = params;
+    return ApiService.postFormData<
+        CommonResponse & {
+            data: any;
+        }
+    >(`/job/task/${task_id}/add-cmt-task`, rest);
+};
+
+const deleteComment = async (commentId: string | number) => {
+    return ApiService._delete(`/job/task/${commentId}/delete-cmt-task`);
+};
+
 export const taskServices = {
     getJobTask,
     getDetailJobTask,
@@ -96,4 +115,6 @@ export const taskServices = {
     freelancerUpdateJobStatus,
     clientConfirmUpdateStatus,
     deleteJobTask,
+    addComment,
+    deleteComment,
 };

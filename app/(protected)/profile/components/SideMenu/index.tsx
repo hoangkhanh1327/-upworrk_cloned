@@ -17,10 +17,6 @@ const SideMenu = () => {
             <div>
                 <ul className='relative p-0 m-0 mb-2 list-none block'>
                     {menuData.map((menuItem, index) => {
-                        // Nếu profile đã complete thì ẩn menu xác thực đi
-                        // if (user?.is_completed_profile && index === 1) {
-                        //     return null;
-                        // }
                         return (
                             <li key={`menu-${index}`} className='border-none'>
                                 <span

@@ -8,13 +8,24 @@ import {
     DropResult,
     DraggableChildrenFn,
 } from 'react-beautiful-dnd';
-import BoardColumn from './BoardColumn';
 import { TaskColumns, useTaskBoardContext } from './TaskBoardContext';
 import { Dialog, DialogContent } from '@/app/components/ui/dialog';
 import { Task } from '@/app/types/task.types';
 import { taskServices } from '@/app/services/task.services';
 import { useToast } from '@/app/components/ui/use-toast';
 import { LucideLoader } from 'lucide-react';
+import BoardColumn from './BoardColumn';
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from '@/app/components/ui/drawer';
+import { Button } from '@/app/components/ui/button';
 
 const CreateTaskForm = lazy(() => import('./TaskForm'));
 
@@ -32,9 +43,10 @@ const TaskBoard = (props: TaskBoardProps) => {
         isOpenDialog,
         dialogType,
         onCloseDialog,
-        tasks,
+    tasks,
         setTasks,
         selectedTask,
+        isOpenDrawer,
     } = useTaskBoardContext();
     const {
         containerHeight,
@@ -200,6 +212,26 @@ const TaskBoard = (props: TaskBoardProps) => {
                     </Suspense>
                 </DialogContent>
             </Dialog>
+            <Drawer
+                open={isOpenDrawer}
+                onClose={() => onCloseDialog()}
+                direction='right'
+            >
+                <DrawerContent className='w-[30vw] top-0 right-0 h-screen overflow-y-auto'>
+                    <DrawerHeader>
+                        <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+                        <DrawerDescription>
+                            This action cannot be undone.
+                        </DrawerDescription>
+                    </DrawerHeader>
+                    <DrawerFooter>
+                        <Button>Submit</Button>
+                        <DrawerClose>
+                            <Button variant='outline'>Cancel</Button>
+                        </DrawerClose>
+                    </DrawerFooter>
+                </DrawerContent>
+            </Drawer>
             {showLoadingDialog && (
                 <div
                     className='fixed inset-0 z-50 bg-black/60 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0'

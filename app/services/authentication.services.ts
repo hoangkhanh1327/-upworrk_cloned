@@ -77,15 +77,15 @@ const getFreelancerInfo = async () => {
 };
 
 type IUpdateFreelancerInfoRequest = Partial<FreelancerInfo> & {
-    avatar_url?: File,
+    avatar_url?: File;
     skills?: {
         skill_id: string | number;
         point: string | number;
     }[];
-    username?: string,
-    company_name?: string,
-    last_name?: string,
-    first_name?: string,
+    username?: string;
+    company_name?: string;
+    last_name?: string;
+    first_name?: string;
 };
 
 type IUpdateFreelancerInfoReponse = CommonResponse & {
@@ -99,6 +99,13 @@ const updateFreelancerInfo = async (params: IUpdateFreelancerInfoRequest) => {
     );
 };
 
+const verifyIdentify = async (params: { image: File }) => {
+    return ApiService.postFormData<CommonResponse & { data: any }>(
+        `/verify-citizen-identification-card`,
+        params
+    );
+};
+
 export const loginServices = {
     login,
     signup,
@@ -106,4 +113,5 @@ export const loginServices = {
     getFreelancerInfo,
     updateUserInfo,
     updateFreelancerInfo,
+    verifyIdentify
 };

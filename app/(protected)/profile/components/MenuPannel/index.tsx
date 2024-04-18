@@ -17,8 +17,7 @@ const MenuPannel = () => {
                 {selectedMenu?.description || ''}
             </p>
             {selectedMenu?.key === menuData[0].key && <CommonInfo />}
-            {selectedMenu?.key === menuData[1].key && <VerifyInfoMenu />}
-            {selectedMenu?.key === menuData[2].key && <PasswordInfoMenu />}
+            {selectedMenu?.key === menuData[1].key && <PasswordInfoMenu />}
         </div>
     );
 };

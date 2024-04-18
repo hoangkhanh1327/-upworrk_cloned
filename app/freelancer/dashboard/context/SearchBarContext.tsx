@@ -83,7 +83,8 @@ export const SearchBarProvider = ({
         if (dates && skills && statusOpts && price && page) {
             const params = {
                 page,
-                status: statusOpts,
+                num: 4,
+                job_ap_status: statusOpts,
                 keyword: searchText || '',
                 skills: skills?.map((s: any) => s.id)?.toString(),
                 bids: price?.toString(),

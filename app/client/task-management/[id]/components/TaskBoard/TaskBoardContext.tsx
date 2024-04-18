@@ -6,7 +6,6 @@ import {
     createContext,
     useCallback,
     useContext,
-    useEffect,
     useState,
 } from 'react';
 
@@ -15,9 +14,11 @@ type TaskBoardDialogType = 'ADD_NEW_TASK' | 'UPDATE_TASK';
 interface ITaskBoardContext {
     loading: boolean;
     isOpenDialog: boolean;
+    isOpenDrawer: boolean;
     dialogType?: TaskBoardDialogType;
     tasks: Task[];
     onOpenDialog: (type: TaskBoardDialogType, data?: Task) => void;
+    onOpenDrawer: (data: Task) => void;
     onCloseDialog: () => void;
     onFetchTasks: (jobId: string) => void;
     setTasks?: Dispatch<SetStateAction<Task[]>>;
@@ -58,6 +59,7 @@ export const TaskColumns = [
 const TaskBoardProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState(false);
     const [isOpenDialog, setOpenDialog] = useState(false);
+    const [isOpenDrawer, setOpenDrawer] = useState(false);
     const [dialogType, setDialogType] = useState<
         TaskBoardDialogType | undefined
     >(undefined);
@@ -75,8 +77,14 @@ const TaskBoardProvider = ({ children }: { children: React.ReactNode }) => {
         []
     );
 
+    const handleOpenDrawer = useCallback((data: Task) => {
+        setOpenDrawer(true);
+        setSelectedTask(data);
+    }, []);
+
     const handleCloseDialogg = useCallback(() => {
         setOpenDialog(false);
+        setOpenDrawer(false);
         setDialogType(undefined);
     }, []);
 
@@ -97,10 +105,12 @@ const TaskBoardProvider = ({ children }: { children: React.ReactNode }) => {
             value={{
                 loading,
                 isOpenDialog,
+                isOpenDrawer,
                 dialogType,
                 tasks,
                 selectedTask,
                 onOpenDialog: handleOpenDialog,
+                onOpenDrawer: handleOpenDrawer,
                 onCloseDialog: handleCloseDialogg,
                 onFetchTasks: fetchTasks,
                 setTasks: setTasks,

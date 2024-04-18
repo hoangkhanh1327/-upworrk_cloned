@@ -21,6 +21,7 @@ import Cookies from 'js-cookie';
 import { format } from 'date-fns';
 import { ProfileContext } from '../../context/ProfileContext';
 import { FreelancerInfo } from '@/app/types/authentication.types';
+import VerifyInfoMenu from './VerifyInfoMenu';
 
 const CommonInfo = () => {
     const { user } = useContext(AuthContext);
@@ -181,7 +182,7 @@ const CommonInfo = () => {
                 </CardContent>
             </Card>
             {accoutType === 'freelancer' && (
-                <Card className='rounded-2xl'>
+                <Card className='rounded-2xl mb-8'>
                     <CardHeader>
                         <CardTitle className='flex items-start justify-between'>
                             Kỹ năng
@@ -221,6 +222,9 @@ const CommonInfo = () => {
                         </div>
                     </CardContent>
                 </Card>
+            )}
+            {user?.is_completed_profile?.toString() === '1' && (
+                <VerifyInfoMenu />
             )}
         </>
     );

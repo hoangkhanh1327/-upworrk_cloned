@@ -15,6 +15,7 @@ import {
     FormLabel,
     FormMessage,
 } from '@/app/components/ui/form';
+import { loginServices } from '@/app/services/authentication.services';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -46,7 +47,9 @@ const VerifyInfoMenu = () => {
     const onSubmit: SubmitHandler<any> = (data) => {
         console.log('data', data);
         // Sau khi xác thực tài khoản thành công
-        // const res =
+        const res = loginServices.verifyIdentify({
+            image: data.nationalIdFront
+        })
         // if (res.data) {
         //     window.location.reload();
         // }
