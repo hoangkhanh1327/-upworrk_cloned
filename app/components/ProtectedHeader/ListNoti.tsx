@@ -48,7 +48,7 @@ const ListNoti = React.forwardRef<HTMLAnchorElement, ListNotiProps>(
                                         }}
                                     ></div>
                                 </div>
-                                <div className='w-4 h-4 text-4xl text-blue-500'>
+                                <div className='w-4 h-4 text-4xl text-primary-color/75'>
                                     {isRead == 1 ? '' : '*'}
                                 </div>
                             </div>
@@ -74,7 +74,7 @@ const ListNoti = React.forwardRef<HTMLAnchorElement, ListNotiProps>(
                                     </div>
                                     <div>{truncatedChildren}</div>
                                 </div>
-                                <div className='w-4 h-4 text-4xl text-blue-500'>
+                                <div className='w-4 h-4 text-4xl text-primary-color/75'>
                                     {isRead == 1 ? '' : '*'}
                                 </div>
                             </div>
