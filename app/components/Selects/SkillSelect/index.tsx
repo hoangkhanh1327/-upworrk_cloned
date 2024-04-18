@@ -30,7 +30,15 @@ const MultiSkillSelect: React.FC<MultiSkillSelectProps> = ({
         }
     };
 
-    useEffect(() => {}, []);
+    useEffect(() => {
+        const fetchDefault = async () => {
+            const params = { page: 1, num: 5, search: '' };
+            const response = await commonServices.getSkill(params);
+            const options = response.data.data;
+            setDefaultOptionSkills(options);
+        };
+        fetchDefault();
+    }, []);
 
     return (
         <AsyncSelect

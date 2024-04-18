@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import dayjs from 'dayjs';
 import React, { useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 
@@ -8,7 +9,7 @@ interface IDateRangeSelect {
 
 const DateRangeSelect: React.FC<IDateRangeSelect> = ({ onChangeDate }) => {
     const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(null);
+    const [endDate, setEndDate] = useState(dayjs().add(1, 'day').toDate());
     const onChange = (dates: any) => {
         const [start, end] = dates;
         setStartDate(start);
