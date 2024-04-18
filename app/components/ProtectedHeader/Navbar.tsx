@@ -18,6 +18,8 @@ import { NotificationContext } from '@/app/providers/NotificationProvider';
 import { FiBell } from 'react-icons/fi';
 import { findTalentSubMenu, findWorkSubMenu } from './menuData';
 import ListNoti from './ListNoti';
+import { Label } from '../ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 
 const Navbar = () => {
     const { notifications } = useContext(NotificationContext);
@@ -38,7 +40,6 @@ const Navbar = () => {
                 }
             });
         }
-        console.log(notifications);
     }, [notifications]);
 
     const bellElement = React.useMemo(() => {
@@ -106,83 +107,25 @@ const Navbar = () => {
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>{bellElement}</NavigationMenuTrigger>
                     <NavigationMenuContent className='pt-4'>
-                        <div
-                            className='overflow-y-auto'
-                            style={{ maxHeight: 400 }}
-                        >
-                            <div
-                                style={{
-                                    marginTop: 15,
-                                    marginLeft: 13,
-                                    fontWeight: 700,
-                                    fontSize: 27,
-                                    width: 500,
-                                }}
-                            >
+                        <div className='overflow-y-auto h-[40vh] max-h-[40vh] p-4 z-50 fixed bg-white shadow-lg rounded-lg'>
+                            <Label className='text-lg font-semibold mb-3'>
                                 Thông Báo
-                            </div>
-                            <div style={{ marginLeft: 30 }}>
-                                <button
-                                    style={{
-                                        fontSize: 22,
-                                        fontWeight: 500,
-                                        color:
-                                            statusNoti == 0
-                                                ? '#75b6ff'
-                                                : 'gray',
-                                        borderRadius: '24%',
-                                        backgroundColor:
-                                            statusNoti == 0
-                                                ? '#aac9ff'
-                                                : '#aac9ff00',
-                                        padding: '15',
-                                        margin: '10px',
-                                    }}
-                                    onClick={() => {
-                                        setStatusNoti(0);
-                                    }}
-                                >
-                                    Tất cả
-                                </button>
-                                <button
-                                    style={{
-                                        fontSize: 22,
-                                        fontWeight: 500,
-                                        color:
-                                            statusNoti == 1
-                                                ? '#75b6ff'
-                                                : 'gray',
-                                        borderRadius: '24%',
-                                        backgroundColor:
-                                            statusNoti == 1
-                                                ? '#aac9ff'
-                                                : '#aac9ff00',
-                                        padding: '15',
-                                        margin: '10px',
-                                    }}
-                                    onClick={() => {
-                                        setStatusNoti(1);
-                                    }}
-                                >
-                                    {' '}
-                                    Chưa đọc
-                                </button>
-                            </div>
-                            <ul>
-                                {notifications.map((noti: any) => {
-                                    if (statusNoti == 0) {
-                                        return (
-                                            <ListNoti
-                                                key={noti.title}
-                                                title={noti.title}
-                                                linkable={noti.linkable}
-                                                isRead={noti.is_read}
-                                            >
-                                                {noti.message}
-                                            </ListNoti>
-                                        );
-                                    } else {
-                                        if (noti.is_read == 0) {
+                            </Label>
+                            <Tabs
+                                defaultValue='un-read'
+                                className='w-full mt-3'
+                            >
+                                <TabsList className='grid grid-cols-2 gap-x-2'>
+                                    <TabsTrigger value='all'>
+                                        Tất cả
+                                    </TabsTrigger>
+                                    <TabsTrigger value='un-read'>
+                                        Chưa đọc
+                                    </TabsTrigger>
+                                </TabsList>
+                                <TabsContent value='all'>
+                                    {notifications.map((noti: any) => {
+                                        if (statusNoti == 0) {
                                             return (
                                                 <ListNoti
                                                     key={noti.title}
@@ -193,11 +136,54 @@ const Navbar = () => {
                                                     {noti.message}
                                                 </ListNoti>
                                             );
-                                            return <></>;
+                                        } else {
+                                            if (noti.is_read == 0) {
+                                                return (
+                                                    <ListNoti
+                                                        key={noti.title}
+                                                        title={noti.title}
+                                                        linkable={noti.linkable}
+                                                        isRead={noti.is_read}
+                                                    >
+                                                        {noti.message}
+                                                    </ListNoti>
+                                                );
+                                                return <></>;
+                                            }
                                         }
-                                    }
-                                })}
-                            </ul>
+                                    })}
+                                </TabsContent>
+                                <TabsContent value='un-read'>
+                                    {notifications.map((noti: any) => {
+                                        if (statusNoti == 0) {
+                                            return (
+                                                <ListNoti
+                                                    key={noti.title}
+                                                    title={noti.title}
+                                                    linkable={noti.linkable}
+                                                    isRead={noti.is_read}
+                                                >
+                                                    {noti.message}
+                                                </ListNoti>
+                                            );
+                                        } else {
+                                            if (noti.is_read == 0) {
+                                                return (
+                                                    <ListNoti
+                                                        key={noti.title}
+                                                        title={noti.title}
+                                                        linkable={noti.linkable}
+                                                        isRead={noti.is_read}
+                                                    >
+                                                        {noti.message}
+                                                    </ListNoti>
+                                                );
+                                                return <></>;
+                                            }
+                                        }
+                                    })}
+                                </TabsContent>
+                            </Tabs>
                         </div>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
