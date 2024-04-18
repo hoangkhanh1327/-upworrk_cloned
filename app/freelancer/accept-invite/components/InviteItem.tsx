@@ -56,7 +56,7 @@ const InviteItem = ({ invite }: IInviteItem) => {
         sendNotification({
           title: "Thông báo",
           message: `${user?.username} đã đồng ý lời mời làm việc của bạn 😍`,
-          linkable: `/job/${invite.job_id}`,
+          linkable: `client/post/${invite.job_id}`,
           smail: 1,
           imagefile: null,
           user_type: "client",
@@ -81,7 +81,7 @@ const InviteItem = ({ invite }: IInviteItem) => {
         sendNotification({
           title: "Thông báo",
           message: `${user?.username} đã từ chối lời mời làm việc của bạn 😂`,
-          linkable: `/job/${invite.job_id}`,
+          linkable: `client/post/${invite.job_id}`,
           smail: 1,
           imagefile: null,
           user_type: "client",
