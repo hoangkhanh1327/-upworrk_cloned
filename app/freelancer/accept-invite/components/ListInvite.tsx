@@ -18,7 +18,7 @@ const ListInvite = () => {
           ? [...Array(5)].map((_, index) => (
               <InvitesSkeleton key={`invite-skeleton-${index}`} />
             ))
-          : invites.map((invite) => (
+          : invites?.map((invite) => (
               <InviteItem key={invite.id} invite={invite} />
             ))}
       </div>

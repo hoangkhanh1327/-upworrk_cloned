@@ -4,20 +4,97 @@ import { Skeleton } from "@/app/components/ui/skeleton";
 import { FreelancerInfo } from "@/app/types/authentication.types";
 import { FileIcon } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useContext } from "react";
 import { format, compareAsc } from "date-fns";
 import { Invite } from "@/app/types/freelancer.type";
+import { freelancerServices } from "@/app/services/freelancer.services";
+import constants from "@/app/utils/constants";
+import { notification } from "antd";
+import { commonServices } from "@/app/services/common.services";
+import { AuthContext } from "@/app/providers/AuthProvider";
 // import InviteFreelancerDialog from "./dialog/InviteFreelancerDialog";
 
 interface IInviteItem {
   invite: Invite;
 }
+type NotificationType = "success" | "info" | "warning" | "error";
 
 const InviteItem = ({ invite }: IInviteItem) => {
   const [showInviteModal, setShowInviteModal] = React.useState<boolean>(false);
-  const handleInviteFreelancer = (invite: Invite) => {
-    setShowInviteModal(true);
-    console.log("invite freelancer", invite);
+  const [api, contextHolder] = notification.useNotification();
+  const { user } = useContext(AuthContext);
+
+  const sendNotification = async (data: any) => {
+    try {
+      // setIsGettingPosts(true);
+      const res = await commonServices.sendNotication(data);
+      if (res.status === 200) {
+        console.log("send notification success", res);
+      }
+    } catch (error) {
+      console.log("error", error);
+    } finally {
+      // setIsGettingPosts(false);
+    }
+  };
+
+  const openNotification = (type: NotificationType, msg: string) => {
+    api[type]({
+      message: "Thông Báo",
+      description: msg,
+    });
+  };
+
+  const handleAcceptInvite = async (id: number) => {
+    console.log("id", id);
+    const res = await freelancerServices.handleResponseInvite(
+      id,
+      constants.ACCEPT_INVITE
+    );
+    try {
+      if (res.status === 200) {
+        sendNotification({
+          title: "Thông báo",
+          message: `${user?.username} đã đồng ý lời mời làm việc của bạn 😍`,
+          linkable: `/job/${invite.job_id}`,
+          smail: 1,
+          imagefile: null,
+          user_type: "client",
+          user_id: invite.client_id,
+        });
+        openNotification("success", "Đồng ý lời mời thành công");
+      } else {
+        openNotification("error", res.message || "Đã có lỗi xảy ra");
+      }
+      // if(res)
+    } catch (error) {
+      openNotification("error", res.message || "Đã có lỗi xảy ra");
+    }
+  };
+  const handleRejectInvite = async (id: number) => {
+    const res = await freelancerServices.handleResponseInvite(
+      id,
+      constants.REJECT_INVITE
+    );
+    try {
+      if (res.status === 200) {
+        sendNotification({
+          title: "Thông báo",
+          message: `${user?.username} đã từ chối lời mời làm việc của bạn 😂`,
+          linkable: `/job/${invite.job_id}`,
+          smail: 1,
+          imagefile: null,
+          user_type: "client",
+          user_id: invite.client_id,
+        });
+        openNotification("success", "Từ chối lời mời thành công");
+      } else {
+        openNotification("error", res.message || "Đã có lỗi xảy ra");
+      }
+      // if(res)
+    } catch (error) {
+      openNotification("error", res.message || "Đã có lỗi xảy ra");
+    }
   };
 
   return (
@@ -59,7 +136,7 @@ const InviteItem = ({ invite }: IInviteItem) => {
               >
                 <Link
                   // target="_blank"
-                  href={`/job/${invite.job_id}`}
+                  href={`freelancer/job/${invite.job_id}`}
                 >
                   Chi tiết công việc
                 </Link>
@@ -67,12 +144,22 @@ const InviteItem = ({ invite }: IInviteItem) => {
               <Button
                 asChild
                 variant="default"
-                className="text-white bg-blue-500 hover:bg-blue-400 cursor-pointer"
-                // onClick={() => {
-                //   handleInviteFreelancer(freelancer);
-                // }}
+                className="text-white bg-green-500 hover:bg-green-400 cursor-pointer mr-4"
+                onClick={() => {
+                  handleAcceptInvite(invite.id);
+                }}
               >
                 <span>Chấp nhận lời mời làm việc</span>
+              </Button>
+              <Button
+                asChild
+                variant="default"
+                className="text-white bg-red-400 hover:bg-red-200 cursor-pointer"
+                onClick={() => {
+                  handleRejectInvite(invite.id);
+                }}
+              >
+                <span>Từ chối lời mời làm việc</span>
               </Button>
             </div>
             {/* {!loading && post?.nominee?.attachment_url && ( */}

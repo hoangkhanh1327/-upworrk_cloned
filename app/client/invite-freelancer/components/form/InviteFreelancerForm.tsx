@@ -100,6 +100,7 @@ const InviteFreelancerForm = ({ freelancer, onClose }: ICreateInvite) => {
 
   const onSubmit: SubmitHandler<any> = async (data) => {
     const dataSubmit = {
+      title: data.title,
       job_id: idJob,
       freelancer_id: freelancer.id,
       mail_invite: data.mail_invite,

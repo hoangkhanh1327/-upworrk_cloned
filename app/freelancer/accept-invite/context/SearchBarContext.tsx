@@ -53,18 +53,28 @@ export const SearchBarProvider = ({
   };
 
   useEffect(() => {
-    const fecthPosts = async () => {
+    const fecthPosts = async (data: any) => {
       try {
         setIsGettingInvite(true);
-        const res = await freelancerServices.getListInvite();
+        const res = await freelancerServices.getListInvite({
+          page: data?.page || 1,
+          num: 999,
+        });
+        console.log("res", res);
+        // debugger
+        if (res.data && !isEmpty(res.data)) {
+          setInvites(res.data);
+          // setTotal(res.data.total);
+          // setTotalPage(res.data.total_page);
+        }
       } catch (error) {
         console.log("error", error);
       } finally {
         setIsGettingInvite(false);
       }
     };
-    fecthPosts();
-  }, [postedBy, statusOpts, type, visibility, page, searchText]);
+    fecthPosts({ page });
+  }, [page]);
 
   return (
     <SearchBarContext.Provider
@@ -75,7 +85,6 @@ export const SearchBarProvider = ({
         total,
         totalPage,
         setVisibility,
-        setStatus: setStatusOpts,
         setType,
         setPostedBy,
         setSearchText,
