@@ -123,7 +123,6 @@ const TaskBoard = (props: TaskBoardProps) => {
 
     const handleDeleteTaskFromList = useCallback(
         (data: string) => {
-
             setTasks?.((prev) =>
                 [...prev].filter((s) => s.id?.toString() !== data?.toString())
             );

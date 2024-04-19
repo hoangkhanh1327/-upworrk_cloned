@@ -135,7 +135,7 @@ const TaskForm = (props: ITaskForm) => {
             ? format(data.deadline, "yyyy-MM-dd")
             : initialData.deadline,
         });
-        console.log('data mới', res.data)
+        console.log("data mới", res.data);
         openNotification("success", "Cập nhật task thành công");
         onSuccess(res.data);
         onClose();
@@ -166,7 +166,7 @@ const TaskForm = (props: ITaskForm) => {
   };
 
   return (
-    <div className="max-w-[28vw] w-[28vw] mx-auto">
+    <div className="w-[100%] mx-auto">
       <div className="my-2">
         <h1 className="text-4xl -tracking-[1px] font-medium text-center">
           {type === "new" ? "Tạo task mới" : "Chỉnh sửa task"}
@@ -182,7 +182,11 @@ const TaskForm = (props: ITaskForm) => {
                 <FormLabel>Tên task</FormLabel>
                 <FormControl>
                   <Input
-                    className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline"
+                    className="border-2 border-solid border-[#e4ebe4]
+                     text-[#001e00] text-sm
+                      leading-[22px] transition-[border-color]
+                      focus-visible:ring-offset-0 focus-visible:ring-transparent focus-visible:ring-opacity-50
+                      no-underline"
                     placeholder="Tên task"
                     {...field}
                   />
@@ -199,7 +203,9 @@ const TaskForm = (props: ITaskForm) => {
                 <FormLabel>Mô tả task</FormLabel>
                 <FormControl>
                   <Textarea
-                    className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline"
+                    className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]
+                    focus-visible:ring-offset-0 focus-visible:ring-transparent focus-visible:ring-opacity-50
+                    transition-[border-color] no-underline"
                     placeholder="Tên task"
                     {...field}
                   />
@@ -221,12 +227,20 @@ const TaskForm = (props: ITaskForm) => {
                     defaultValue={field.value.toString()}
                   >
                     <FormControl>
-                      <SelectTrigger className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline">
+                      <SelectTrigger
+                        className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm
+                       focus-visible:ring-offset-0 focus-visible:ring-transparent focus-visible:ring-opacity-50
+                      leading-[22px] transition-[border-color] no-underline"
+                      >
                         <SelectValue placeholder="" />
                       </SelectTrigger>
                     </FormControl>
                     <FormMessage />
-                    <SelectContent className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline">
+                    <SelectContent
+                      className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]
+                     focus-visible:ring-offset-0 focus-visible:ring-transparent focus-visible:ring-opacity-50
+                    transition-[border-color] no-underline"
+                    >
                       <SelectItem value="1">Quan trọng</SelectItem>
                       <SelectItem value="2">Trung bình</SelectItem>
                       <SelectItem value="3">Ưu tiên thấp</SelectItem>
