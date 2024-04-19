@@ -1,5 +1,6 @@
 import { freelancerServices } from "@/app/services/freelancer.services";
 import { AppliedJob } from "@/app/types/freelancer.type";
+import constants from "@/app/utils/constants";
 import { isEmpty } from "lodash";
 import {
   Dispatch,
@@ -77,7 +78,7 @@ export const SearchBarProvider = ({
         setIsGettingJobs(true);
         const res = await freelancerServices.getAppliedJobs({
           page: data?.page || 1,
-          num: 2,
+          num: constants.PAGE_SIZE,
           status: 1,
         });
         if (res.data && !isEmpty(res.data)) {

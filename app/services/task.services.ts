@@ -85,7 +85,7 @@ const clientConfirmUpdateStatus = async (
 };
 
 const deleteJobTask = async (id: string) => {
-    return ApiService._delete(`/job/task/${id}`);
+    return ApiService._delete<CommonResponse>(`/job/task/${id}`);
 };
 
 type AddCommentRequest = {

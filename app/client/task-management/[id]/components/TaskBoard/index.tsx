@@ -23,7 +23,6 @@ import {
     DrawerFooter,
     DrawerHeader,
     DrawerTitle,
-    DrawerTrigger,
 } from '@/app/components/ui/drawer';
 import { Button } from '@/app/components/ui/button';
 
@@ -115,14 +114,15 @@ const TaskBoard = (props: TaskBoardProps) => {
 
     const handleUpdateTaskList = useCallback(
         (data: Task) => {
+            console.log('Có vô đây không ta')
             setTasks?.((prev) => [data, ...prev]);
         },
         [setTasks]
     );
+    
 
     const handleDeleteTaskFromList = useCallback(
         (data: string) => {
-            console.log('data', data);
 
             setTasks?.((prev) =>
                 [...prev].filter((s) => s.id?.toString() !== data?.toString())

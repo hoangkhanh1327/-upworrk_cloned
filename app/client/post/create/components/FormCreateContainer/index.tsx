@@ -92,12 +92,13 @@ const FormCreateContainer = () => {
       bids: 1,
       skill: [],
       content_file: null,
+      thumbnail: null,
       status: 0,
     },
   });
 
   const skills = form.watch("skill");
-  const fileContent = form.watch("content_file");
+  const fileThumbnail = form.watch("thumbnail");
 
   const onSubmit: SubmitHandler<ICreatePostData> = (data) =>
     handleCreatePost(data);
@@ -142,7 +143,7 @@ const FormCreateContainer = () => {
         goPreviousStep?.();
       }
     };
-    // handleValidate();
+    handleValidate();
   }, [step, form, goPreviousStep]);
 
   return (
@@ -350,22 +351,22 @@ const FormCreateContainer = () => {
                 />
                 <FormField
                   control={form.control}
-                  name="desc"
+                  name="thumbnail"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>{`Upload file description about your job`}</FormLabel>
                       <Upload
                         className="h-[66px]"
                         multiple={false}
-                        disabled={fileContent ? true : false}
+                        disabled={fileThumbnail ? true : false}
                         showList={true}
-                        fileList={fileContent ? [fileContent as File] : []}
+                        fileList={fileThumbnail ? [fileThumbnail as File] : []}
                         draggable={true}
                         onChange={(file) => {
-                          form.setValue("content_file", file[0]);
+                          form.setValue("thumbnail", file[0]);
                         }}
                         onFileRemove={() => {
-                          form.setValue("content_file", null);
+                          form.setValue("thumbnail", null);
                         }}
                       />
                     </FormItem>

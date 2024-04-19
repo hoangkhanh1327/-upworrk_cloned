@@ -149,9 +149,9 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 File đính kèm
                             </h3>
                             <div className='flex items-center gap-x-3 pl-3'>
-                                {!loading && post?.content_file && (
+                                {!loading && post?.thumbnail && (
                                     <Link
-                                        href={post?.content_file}
+                                        href={post?.thumbnail}
                                         target='_blank'
                                     >
                                         <div className='upload-file'>
@@ -165,7 +165,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                                 </div>
                                                 <div className='upload-file-info min-h-[2rem]'>
                                                     <h6 className='upload-file-name'>
-                                                        {`${post?.title}`}
+                                                        {`${post?.thumbnail}`}
                                                     </h6>
                                                 </div>
                                             </div>
@@ -179,14 +179,14 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 Hình ảnh
                             </h3>
                             <div className='flex items-center gap-x-3 pl-3'>
-                                {!loading && post?.thumbnail && (
+                                {!loading && post?.content_file && (
                                     <Link
-                                        href={post?.thumbnail}
+                                        href={post?.content_file}
                                         target='_blank'
                                     >
                                         <div className='w-[120px] h-[120px] relative'>
                                             <Image
-                                                src={post?.thumbnail}
+                                                src={post?.content_file}
                                                 alt=''
                                                 fill
                                             />
