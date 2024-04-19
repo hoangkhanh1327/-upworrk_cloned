@@ -60,9 +60,13 @@ const DetailFreelancerInfo: React.FC<IDetailFreelancerInfo> = ({
                         <div></div>
                         <div className='col-span-4'>
                             <div className='pt-8 mb-5'>
-                                <h3 className='text-xl font-medium'>
-                                    {`${freelancerInfo?.base_info.last_name} ${freelancerInfo?.base_info.first_name}`}
-                                </h3>
+                                {loading ? (
+                                    <Skeleton className='w-full h-8' />
+                                ) : (
+                                    <h3 className='text-xl font-medium'>
+                                        {`${freelancerInfo?.base_info.last_name} ${freelancerInfo?.base_info.first_name}`}
+                                    </h3>
+                                )}
                             </div>
                             <div className='mb-2'>
                                 <div className='flex items-center'>

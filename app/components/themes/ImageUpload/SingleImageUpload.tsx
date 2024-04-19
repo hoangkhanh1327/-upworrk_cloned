@@ -60,9 +60,9 @@ const SingleImageUpload = (props: SingleImageUploadProps) => {
         showPlaceholder = true,
         link,
     } = props;
-    const [image, setImage] = useState<File | string>(
-        defaultImageSrc as string
-    );
+    const [image, setImage] = useState<File | string>(defaultImageSrc as any);
+
+    console.log('image', image);
 
     const validateOpt = {
         ...defaultValidateOptions,
@@ -79,17 +79,14 @@ const SingleImageUpload = (props: SingleImageUploadProps) => {
         let valid: boolean | string = true;
 
         const allowedFileType = validateOpt.allowedFileType || [];
-        const maxFileSize = validateOpt.maxFileSize || 0;
 
         if (file) {
             const cur = file[0];
+            console.log('cur', cur);
+
             if (!allowedFileType.includes(cur.type)) {
                 valid =
                     'Vui lòng chọn hình có định dạng .jpeg hoặc .png hoặc .webp !';
-            }
-
-            if (cur.size >= maxFileSize) {
-                valid = `Dụng lượng hình không quá ${maxFileSize / 1000}kb!`;
             }
         }
         return valid;
@@ -134,7 +131,7 @@ const SingleImageUpload = (props: SingleImageUploadProps) => {
                         imageClass
                     )}
                 >
-                    <div className='w-full relative'>
+                    <div className='w-full relative min-w-[250px] min-h-[186px]'>
                         <Image
                             className='rounded w-full object-cover'
                             src={imageSrc}
