@@ -33,7 +33,7 @@ const NotificationProvider: FC<INotificationProvider> = ({ children }) => {
   useEffect(() => {
     if (user.isAuthenticated) {
       const fetchData = async () => {
-        const data = await getNotification({ user_id: 9 });
+        const data = await getNotification({ user_id: user.user?.id });
         
         return setNotifications(data);
         // console.log('notifications ------------->', notifications)
@@ -75,10 +75,21 @@ console.log(`notify.${user_type}.${user_id}`);
       channel.unsubscribe();
     };
   };
+  const markNotificationAsRead = () => {
+    if (user.isAuthenticated) {
+      const fetchData = async () => {
+        const data = await getNotification({ user_id: user.user?.id });
+        
+        return setNotifications(data);
+        // console.log('notifications ------------->', notifications)
+      };
+      fetchData();
+    }
+  };
   
 
   return (
-    <NotificationContext.Provider value={{ notifications }}>
+    <NotificationContext.Provider value={{ notifications,markNotificationAsRead }}>
       {children}
     </NotificationContext.Provider>
   );

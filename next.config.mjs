@@ -8,6 +8,7 @@ const __dirname = dirname(__filename);
 const nextConfig = {
     reactStrictMode: false,
     images: {
+        domains: ['*'],
         remotePatterns: [
             {
                 protocol: 'https',
