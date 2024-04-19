@@ -25,6 +25,10 @@ interface ISearchBarContext {
 
 export const statusOpts = [
   {
+    value: "-2",
+    label: "Tất cả",
+  },
+  {
     value: "1",
     label: "Đã apply",
   },
@@ -79,7 +83,7 @@ export const SearchBarProvider = ({
         const res = await freelancerServices.getAppliedJobs({
           page: data?.page || 1,
           num: constants.PAGE_SIZE,
-          status: 1,
+          status: data?.statusOpts === "-2" ? "" : data?.statusOpts,
         });
         if (res.data && !isEmpty(res.data)) {
           setJobs(res.data.data);

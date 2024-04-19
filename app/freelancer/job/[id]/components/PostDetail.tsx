@@ -127,7 +127,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 File đính kèm
                             </h3>
                             <div className='flex items-center gap-x-3 pl-3'>
-                                <p>
+                                <div>
                                     {!loading && post?.content_file && (
                                         <Link
                                             href={post?.content_file}
@@ -151,7 +151,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                             </div>
                                         </Link>
                                     )}
-                                </p>
+                                </div>
                             </div>
                         </div>
                         <div className='mb-6 flex items-start'>
@@ -159,7 +159,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                 Hình ảnh
                             </h3>
                             <div className='flex items-center gap-x-3 pl-3'>
-                                <p>
+                                <div>
                                     {!loading && post?.thumbnail && (
                                         <Link
                                             href={post?.thumbnail}
@@ -174,7 +174,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                                             </div>
                                         </Link>
                                     )}
-                                </p>
+                                </div>
                             </div>
                         </div>
                     </div>

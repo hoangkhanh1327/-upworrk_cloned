@@ -18,7 +18,7 @@ const SelectAccountType: React.FC<ISelectAccountType> = ({
     return (
         <div className=''>
             <h1 className='text-4xl text-center  text-input-title font-medium mt-6 mb-10 pb-2 tracking-[-1px] font-rza'>
-                Join as a client or freelancer
+                Bạn là người đang tìm việc hay bạn là nhà tuyển dụng?
             </h1>
             <div className='flex gap-x-9 max-w-[562px]'>
                 <div
@@ -104,7 +104,7 @@ const SelectAccountType: React.FC<ISelectAccountType> = ({
                     </div>
                     <div className='pr-3'>
                         <h4 className='mt-4 mb-3 text-2xl'>
-                            {`I’m a client, hiring for a project`}
+                            {`Tôi là nhà tuyển dụng, tôi đang tìm người thực hiện project.`}
                         </h4>
                     </div>
                 </div>
@@ -191,7 +191,7 @@ const SelectAccountType: React.FC<ISelectAccountType> = ({
                     </div>
                     <div className='pr-3'>
                         <h4 className='mt-4 mb-3 text-2xl'>
-                            {`I’m a freelancer, looking for work`}
+                            {`Tôi là freelancer, tôi đang tìm kiếm công việc cho bản thân.`}
                         </h4>
                     </div>
                 </div>
@@ -204,19 +204,19 @@ const SelectAccountType: React.FC<ISelectAccountType> = ({
                     onClick={() => handleGoToSignUpForm()}
                 >
                     {accountType === null
-                        ? 'Create Account'
+                        ? 'Tạo tài khoản'
                         : accountType === AccountType.client
-                        ? 'Join as a Client'
-                        : 'Apply as a Freelancer'}
+                        ? 'Tạo tài khoản(client)'
+                        : 'Tạo tài khoản(freelancer)'}
                 </Button>
 
                 <p className='text-center text-base leading-[22px] text-input-title tracking-[0.02em] mt-4 mb-6'>
-                    Already have an account?{` `}
+                    Bạn đã có tài khoản?{` `}
                     <Link
                         className='text-link hover:text-link/80 underline'
                         href={`/dang-nhap`}
                     >
-                        Login
+                        Đăng nhập
                     </Link>
                 </p>
             </div>

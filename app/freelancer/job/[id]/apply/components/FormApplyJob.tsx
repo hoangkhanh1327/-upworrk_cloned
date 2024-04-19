@@ -32,6 +32,7 @@ import { commonServices } from "@/app/services/common.services";
 import { AuthContext } from "@/app/providers/AuthProvider";
 import { DetailClientPost } from "@/app/types/client.types";
 import { toast } from "@/app/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const signUpFormSchema = yup.object({
   attachmentUrl: yup.mixed().nullable(),
@@ -57,6 +58,8 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
       coverLetter: "",
     },
   });
+
+  const router = useRouter();
 
   const sendNotification = async (data: any) => {
     try {
@@ -103,7 +106,7 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
         sendNotification({
           title: `Có 1 ứng viên mới đã ứng tuyển công việc ${job.title} của bạn`,
           message: `Ứng viên ${user.user?.username} đã ứng tuyển công việc ${job.title} của bạn`,
-          linkable: `/freelancer/info-contract/${job.id}`,
+          linkable: `/client/post/${job.id}`,
           smail: 1,
           imagefile: null,
           user_type: "client", //type cua nguoi nhan
@@ -117,6 +120,7 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
           ),
           duration: 3000,
         });
+        router.push("/freelancer/dashboard");
       } else {
         toast({
           title: "Thất bại",
@@ -183,7 +187,7 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
                 </FormItem>
               )}
             />
-            
+
             <div className="flex justify-center items-center gap-x-1 mt-20">
               <Button
                 disabled={loading}
