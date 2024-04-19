@@ -88,7 +88,7 @@ export const SearchBarProvider = ({
         if (res.data && !isEmpty(res.data)) {
           setJobs(res.data.data);
           setTotal(res.data.total);
-          setTotalPage(res.data.current_page);
+          setTotalPage(res.data.total_page);
         }
       } catch (error) {
         console.log("error", error);
