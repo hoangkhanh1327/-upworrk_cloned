@@ -50,7 +50,8 @@ const ListNoti = React.forwardRef<HTMLAnchorElement, ListNotiProps>(
             <div className='px-2 mt-3 py-2 border-b border-solid rounded-sm border-stone-200 hover:bg-gray-100'>
                 <NavigationMenuLink asChild>
                     
-                        <div
+                    <div
+                        style={{width:'500px',cursor: 'pointer'}}
                             onClick={(e) => {
                                 handleClick(e,linkable,idNoti)
                             }}
