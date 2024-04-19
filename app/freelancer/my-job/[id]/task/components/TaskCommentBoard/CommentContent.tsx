@@ -45,7 +45,7 @@ const CommentContent = ({ comment }: { comment: any[] }) => {
                                     </div>
                                 ) : (
                                     <Link href={data?.content}>
-                                        {`Tệp đính kèm Tệp đính kèmTệp đính kèmTệp đính kèmTệp đính kèmTệp đính kèmTệp đính kèmTệp đính kèmTệp đính kèmTệp đính kèmTệp đính kèmTệp đính kèm`}
+                                        {`Tệp đính kèm`}
                                         <Paperclip className='inline ml-1 w-4 h-4' />
                                     </Link>
                                 )
