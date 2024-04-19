@@ -34,7 +34,7 @@ const SignUpContainer = () => {
             password: data?.password,
             typeUser: accountType || 'client',
             email: data?.email,
-            userName: (data?.email || '').toString().replace('@gmail.com', ''),
+            userName: data?.userName,
         };
         if (accountType) {
             const res = await loginServices.signup(params);
