@@ -46,7 +46,7 @@ const Navbar = () => {
         return (
             <div style={{ position: 'relative' }}>
                 <FiBell size={24} /> {/* Notification icon */}
-                {noties && noties.length > 0 && (
+                {noties && noties.filter((i:any)=>i.is_read==0).length > 0 && (
                     <span
                         className='text-xs w-5 h-5 absolute flex items-center justify-center'
                         style={{
@@ -132,6 +132,8 @@ const Navbar = () => {
                                                     title={noti.title}
                                                     linkable={noti.linkable}
                                                     isRead={noti.is_read}
+                                                    idNoti={noti.id}
+                                                    image={noti.image}
                                                 >
                                                     {noti.message}
                                                 </ListNoti>
@@ -144,6 +146,8 @@ const Navbar = () => {
                                                         title={noti.title}
                                                         linkable={noti.linkable}
                                                         isRead={noti.is_read}
+                                                        idNoti={noti.id}
+                                                        image={noti.image}
                                                     >
                                                         {noti.message}
                                                     </ListNoti>
@@ -155,31 +159,21 @@ const Navbar = () => {
                                 </TabsContent>
                                 <TabsContent value='un-read'>
                                     {notifications.map((noti: any) => {
-                                        if (statusNoti == 0) {
+                                        if (noti.is_read == 0) {
                                             return (
                                                 <ListNoti
                                                     key={noti.title}
                                                     title={noti.title}
                                                     linkable={noti.linkable}
                                                     isRead={noti.is_read}
+                                                    idNoti={noti.id}
+                                                    image={noti.image}
                                                 >
                                                     {noti.message}
                                                 </ListNoti>
                                             );
                                         } else {
-                                            if (noti.is_read == 0) {
-                                                return (
-                                                    <ListNoti
-                                                        key={noti.title}
-                                                        title={noti.title}
-                                                        linkable={noti.linkable}
-                                                        isRead={noti.is_read}
-                                                    >
-                                                        {noti.message}
-                                                    </ListNoti>
-                                                );
-                                                return <></>;
-                                            }
+                                            return <></>;
                                         }
                                     })}
                                 </TabsContent>

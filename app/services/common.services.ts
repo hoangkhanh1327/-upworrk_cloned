@@ -30,6 +30,10 @@ const sendNotication = async (params: INotiParams) => {
   });
 };
 
+const pushSeenNoti = async (id: number) => { 
+  return ApiService.put<any>(`/notifications/${id}/seen`);
+}
+
 const getInfoUser = async (params:any): Promise<any>=>{
   return ApiService.get<any>(`/info-user?id=${params.id}&typeUser=${params.type}`)
   
@@ -87,5 +91,6 @@ export const commonServices = {
   getNotification,
   getInfoUser,
   getInfoJob,
-  sendOtp
+  sendOtp,
+  pushSeenNoti
 };

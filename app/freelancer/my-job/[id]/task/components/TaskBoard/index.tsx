@@ -10,20 +10,18 @@ import {
 } from "react-beautiful-dnd";
 import BoardColumn from "./BoardColumn";
 import { TaskColumns, useTaskBoardContext } from "./TaskBoardContext";
-import { Dialog, DialogClose, DialogContent } from "@/app/components/ui/dialog";
+import { Dialog, DialogContent } from "@/app/components/ui/dialog";
 import { Task } from "@/app/types/task.types";
 import { taskServices } from "@/app/services/task.services";
 import { useToast } from "@/app/components/ui/use-toast";
 import { LucideLoader } from "lucide-react";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-  DrawerTrigger,
 } from "@/app/components/ui/drawer";
 import { Button } from "@/app/components/ui/button";
 import TaskCommentBoard from "../TaskCommentBoard";
@@ -114,9 +112,18 @@ const TaskBoard = (props: TaskBoardProps) => {
 
   const handleUpdateTaskList = useCallback(
     (data: Task) => {
-      setTasks?.((prev) => [data, ...prev]);
+      const isExisted = tasks?.findIndex(
+        (t) => t.id.toString() === data?.id?.toString()
+      );
+      if (isExisted > -1) {
+        let updatedTask = [...tasks];
+        updatedTask?.splice(isExisted, 1, data);
+        setTasks?.(updatedTask);
+      } else {
+        setTasks?.((prev) => [data, ...prev]);
+      }
     },
-    [setTasks]
+    [tasks, setTasks]
   );
 
   const handleDeleteTaskFromList = useCallback(
@@ -180,13 +187,14 @@ const TaskBoard = (props: TaskBoardProps) => {
         </Droppable>
       </DragDropContext>
       <Dialog open={isOpenDialog} onOpenChange={() => onCloseDialog()}>
-        <DialogContent className="max-w-[30vw]">
+        <DialogContent className="max-w-[35vw]">
           <Suspense fallback={<></>}>
             {dialogType === "ADD_NEW_TASK" && (
               <CreateTaskForm
                 jobId={props.jobId}
                 type="new"
                 onSuccess={(data) => handleUpdateTaskList(data as Task)}
+                onDeleteSuccess={(data) => handleDeleteTaskFromList(data)}
                 onClose={() => onCloseDialog()}
               />
             )}
@@ -194,7 +202,8 @@ const TaskBoard = (props: TaskBoardProps) => {
               <CreateTaskForm
                 jobId={props.jobId}
                 type="edit"
-                onSuccess={(data) => handleDeleteTaskFromList(data as string)}
+                onSuccess={(data) => handleUpdateTaskList(data as Task)}
+                onDeleteSuccess={(data) => handleDeleteTaskFromList(data)}
                 onClose={() => onCloseDialog()}
                 initialData={selectedTask}
               />

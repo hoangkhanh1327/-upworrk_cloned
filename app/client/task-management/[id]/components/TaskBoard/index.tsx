@@ -42,7 +42,7 @@ const TaskBoard = (props: TaskBoardProps) => {
         isOpenDialog,
         dialogType,
         onCloseDialog,
-    tasks,
+        tasks,
         setTasks,
         selectedTask,
         isOpenDrawer,
@@ -114,12 +114,19 @@ const TaskBoard = (props: TaskBoardProps) => {
 
     const handleUpdateTaskList = useCallback(
         (data: Task) => {
-            console.log('Có vô đây không ta')
-            setTasks?.((prev) => [data, ...prev]);
+            const isExisted = tasks?.findIndex(
+                (t) => t.id.toString() === data?.id?.toString()
+            );
+            if (isExisted > -1) {
+                let updatedTask = [...tasks];
+                updatedTask?.splice(isExisted, 1, data);
+                setTasks?.(updatedTask);
+            } else {
+                setTasks?.((prev) => [data, ...prev]);
+            }
         },
-        [setTasks]
+        [tasks, setTasks]
     );
-    
 
     const handleDeleteTaskFromList = useCallback(
         (data: string) => {
@@ -194,6 +201,9 @@ const TaskBoard = (props: TaskBoardProps) => {
                                 onSuccess={(data) =>
                                     handleUpdateTaskList(data as Task)
                                 }
+                                onDeleteSuccess={(data) =>
+                                    handleDeleteTaskFromList(data)
+                                }
                                 onClose={() => onCloseDialog()}
                             />
                         )}
@@ -202,7 +212,10 @@ const TaskBoard = (props: TaskBoardProps) => {
                                 jobId={props.jobId}
                                 type='edit'
                                 onSuccess={(data) =>
-                                    handleDeleteTaskFromList(data as string)
+                                    handleUpdateTaskList(data as Task)
+                                }
+                                onDeleteSuccess={(data) =>
+                                    handleDeleteTaskFromList(data)
                                 }
                                 onClose={() => onCloseDialog()}
                                 initialData={selectedTask}

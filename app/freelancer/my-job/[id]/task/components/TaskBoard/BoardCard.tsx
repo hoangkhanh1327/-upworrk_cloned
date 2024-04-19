@@ -44,7 +44,11 @@ const BoardCard = forwardRef<HTMLDivElement, BoardCardProps>((props, ref) => {
                     <span className='float-right p-2'>
                         <CiEdit
                             className='font-bold text-lg cursor-pointer'
-                            onClick={() => onCardClick()}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                onCardClick();
+                            }}
                         />
                     </span>
                 </div>

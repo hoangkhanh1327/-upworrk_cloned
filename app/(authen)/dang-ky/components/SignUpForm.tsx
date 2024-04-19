@@ -29,6 +29,7 @@ const signUpFormSchema = yup.object({
     firstName: yup.string().required(),
     lastName: yup.string().required(),
     password: yup.string().min(8).required(),
+    userName: yup.string().required(),
     email: yup.string().email().required(),
     country: yup.number().required(),
     allowPolicy: yup.bool(),
@@ -50,6 +51,7 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
             firstName: '',
             lastName: '',
             email: '',
+            userName:'',
             country: 84,
             allowPolicy: true,
             allowSendMail: false,
@@ -68,7 +70,7 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
             <div className='max-w-[464px] w-[464px] mx-auto'>
                 <div className='my-6'>
                     <h1 className='text-4xl -tracking-[1px] font-medium text-center'>
-                        Sign up to hire talent
+                        Thông tin đăng kí
                     </h1>
                 </div>
                 <Form {...form}>
@@ -82,7 +84,7 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                                 name='firstName'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>First name</FormLabel>
+                                        <FormLabel>Họ và tên đệm</FormLabel>
                                         <FormControl>
                                             <Input
                                                 className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'
@@ -99,7 +101,7 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                                 name='lastName'
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Last name</FormLabel>
+                                        <FormLabel>Tên</FormLabel>
                                         <FormControl>
                                             <Input
                                                 className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'
@@ -114,10 +116,27 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                         </div>
                         <FormField
                             control={form.control}
+                            name='userName'
+                            render={({ field }) => (
+                                <FormItem className='mt-6'>
+                                    <FormLabel>Tên đăng nhập</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'
+                                            placeholder=''
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
                             name='email'
                             render={({ field }) => (
                                 <FormItem className='mt-6'>
-                                    <FormLabel>Work email address</FormLabel>
+                                    <FormLabel>Email công việc</FormLabel>
                                     <FormControl>
                                         <Input
                                             className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'
@@ -134,7 +153,7 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                             name='password'
                             render={({ field }) => (
                                 <FormItem className='mt-6'>
-                                    <FormLabel>Password</FormLabel>
+                                    <FormLabel>Mật Khẩu</FormLabel>
                                     <FormControl>
                                         <Input
                                             type='password'
@@ -147,7 +166,7 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                                 </FormItem>
                             )}
                         />
-                        <FormField
+                        {/* <FormField
                             control={form.control}
                             name='country'
                             render={({ field }) => (
@@ -178,10 +197,10 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                                     </Select>
                                 </FormItem>
                             )}
-                        />
+                        /> */}
 
                         <div className='mt-6'>
-                            <label
+                            {/* <label
                                 className='relative my-2 mb-3 flex gap-x-2 items-start justify-center cursor-pointer'
                                 htmlFor='send-email'
                             >
@@ -236,7 +255,7 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                                     Send me emails with tips on how to find
                                     talent that fits my needs.
                                 </span>
-                            </label>
+                            </label> */}
                             <label
                                 className='relative my-2 mb-3 flex gap-x-2 items-start justify-center cursor-pointer'
                                 htmlFor='policy'
@@ -289,26 +308,26 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                                     </div>
                                 </span>
                                 <span className='text-base font-normal'>
-                                    Yes, I understand and agree to the ITWork
+                                    Vâng, Tôi đã hiểu và đồng ý với
                                     <Link
                                         className='text-link font-medium underline transition-[color]'
                                         href={'/docs/terms-of-use'}
                                     >
-                                        {` `}Terms of Service{` `}
+                                        {` `}điều khoảng dịch vụ{` `}
                                     </Link>
-                                    , including the{' '}
+                                    của ITWORK , bao gồm{' '}
                                     <Link
                                         className='text-link font-medium underline transition-[color]'
                                         href={`/docs/user-agreement`}
                                     >
-                                        {` `}User Agreement{` `}
+                                        {` `}thỏa thuận người dùng{` `}
                                     </Link>
-                                    and
+                                    và 
                                     <Link
                                         className='text-link font-medium underline transition-[color]'
                                         href={`/docs/privacy-policy`}
                                     >
-                                        {` `}Privacy Policy{' '}
+                                        {` `}chính sách bảo mật{' '}
                                     </Link>
                                     .
                                 </span>
@@ -322,16 +341,16 @@ const SignUpForm: React.FC<ISignUpForm> = ({ handleCreateAccount }) => {
                                     form.handleSubmit(onSubmit, onError);
                                 }}
                             >
-                                {'Create my account'}
+                                {'Tạo tài khoản'}
                             </Button>
 
                             <p className='text-center text-base leading-[22px] text-input-title tracking-[0.02em] mt-4 mb-6'>
-                                Already have an account?{` `}
+                                Bạn đã có tài khoản?{` `}
                                 <Link
                                     className='text-link hover:text-link/80 underline'
                                     href={`/dang-nhap`}
                                 >
-                                    Login
+                                    Đăng nhập tại đây
                                 </Link>
                             </p>
                         </div>
