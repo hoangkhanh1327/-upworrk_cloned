@@ -9,7 +9,6 @@ const Pagiantion = () => {
         useContext(SearchBarContext);
     const start = Math.max((page - 1) * 4, 1);
     const end = Math.min(start + (4 - 1), total - 1);
-    ``;
     return (
         <div className='py-6 flex items-center justify-between'>
             <div>

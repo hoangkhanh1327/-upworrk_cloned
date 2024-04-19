@@ -24,7 +24,7 @@ const MyJobDetail: React.FC<IMyJobDetail> = ({ jobId }) => {
     useEffect(() => {
         const fetchFreelancerJobs = async () => {
             const res = await freelancerServices.getAppliedJobs({});
-            setJobs(res.data);
+            setJobs(res.data.data);
         };
         fetchFreelancerJobs();
     }, []);

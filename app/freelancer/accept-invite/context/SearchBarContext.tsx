@@ -2,6 +2,7 @@ import { clientServices } from "@/app/services/client.services";
 import { freelancerServices } from "@/app/services/freelancer.services";
 import { FreelancerInfo } from "@/app/types/authentication.types";
 import { Invite } from "@/app/types/freelancer.type";
+import constants from "@/app/utils/constants";
 import { isEmpty } from "lodash";
 import {
   Dispatch,
@@ -58,14 +59,14 @@ export const SearchBarProvider = ({
         setIsGettingInvite(true);
         const res = await freelancerServices.getListInvite({
           page: data?.page || 1,
-          num: 999,
+          num: constants.PAGE_SIZE,
         });
         console.log("res", res);
         // debugger
         if (res.data && !isEmpty(res.data)) {
-          setInvites(res.data);
-          // setTotal(res.data.total);
-          // setTotalPage(res.data.total_page);
+          setInvites(res.data.data);
+          setTotal(res.data.total);
+          setTotalPage(res.data.current_page);
         }
       } catch (error) {
         console.log("error", error);
@@ -73,8 +74,8 @@ export const SearchBarProvider = ({
         setIsGettingInvite(false);
       }
     };
-    fecthPosts({ page });
-  }, [page]);
+    fecthPosts({ page, searchText });
+  }, [page, searchText]);
 
   return (
     <SearchBarContext.Provider

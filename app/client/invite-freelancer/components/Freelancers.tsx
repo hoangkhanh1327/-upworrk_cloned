@@ -12,7 +12,7 @@ const Freelancers = () => {
   console.log("freelancers", freelancers);
   return (
     <section className="py-6 border-b border-solid border-[#d5e0d5]">
-      <h1>Danh sách các ứng viên</h1>
+       <h1 className="text-sm font-bold">Danh sách ứng viên đề xuất</h1>
       <div className="flex flex-col">
         {isGettingFreelancers
           ? [...Array(5)].map((_, index) => (

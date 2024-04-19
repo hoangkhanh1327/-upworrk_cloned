@@ -1,5 +1,6 @@
 import { clientServices } from '@/app/services/client.services';
 import { FreelancerInfo } from '@/app/types/authentication.types';
+import constants from '@/app/utils/constants';
 import { isEmpty } from 'lodash';
 import {
     Dispatch,
@@ -66,7 +67,7 @@ export const SearchBarProvider = ({
                 setIsGettingFreelancers(true);
                 const res = await clientServices.getListFreeLancer({
                     page: data?.page || 1,
-                    num: 999,
+                    num: constants.PAGE_SIZE,
                     status:
                         data?.statusOpts === '-1' ? undefined : data.statusOpts,
                 });

@@ -40,22 +40,27 @@ const applyJob = async (params: any) => {
 
 type GetAppliedJobsRequest = {
   page?: number;
+  num?: number;
   status?: number;
 };
 
 type GetAppliedJobsResponse = CommonResponse & {
-  data: AppliedJob[];
+  data: {
+    data: AppliedJob[];
+    total: number;
+    current_page: number;
+  };
 };
 
 const getAppliedJobs = async (params: GetAppliedJobsRequest) => {
-  return ApiService.get<GetAppliedJobsResponse>(`/freelancer/job/applied`);
+  return ApiService.get<GetAppliedJobsResponse>(`/freelancer/job/applied`, params);
 };
 type GetInviteListResponse = CommonResponse & {
-  //   data: {
-  data: Invite[];
-  // total: number;
-  // total_page: number;
-  //   };
+  data: {
+    data: Invite[];
+    total: number;
+    current_page: number;
+  };
 };
 const getListInvite = async (params: any) => {
   return ApiService.get<GetInviteListResponse>(`/client/invite/list`, params);

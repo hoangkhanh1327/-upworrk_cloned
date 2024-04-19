@@ -1,5 +1,6 @@
 import { clientServices } from '@/app/services/client.services';
 import { ClientPostList } from '@/app/types/client.types';
+import constants from '@/app/utils/constants';
 import { isEmpty } from 'lodash';
 import {
     Dispatch,
@@ -54,7 +55,7 @@ export const SearchBarProvider = ({
                 setIsGettingPosts(true);
                 const res = await clientServices.getPosts({
                     page: data?.page || 1,
-                    num: 999,
+                    num: constants.PAGE_SIZE,
                     status:
                         data?.statusOpts === '-1' ? undefined : data.statusOpts,
                 });
@@ -75,7 +76,7 @@ export const SearchBarProvider = ({
                 statusOpts,
                 searchText,
             });
-    }, [, statusOpts, page, searchText]);
+    }, [statusOpts, page, searchText]);
 
     return (
         <SearchBarContext.Provider

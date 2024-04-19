@@ -1,8 +1,8 @@
 'use client';
 import React from 'react'
 import { SearchBarProvider } from './context/SearchBarContext'
-import Pagiantion from '../dashboard/components/Pagination'
 import ListInvite from './components/ListInvite'
+import Pagiantion from './components/Pagination';
 
 const page = () => {
   return (

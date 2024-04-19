@@ -5,6 +5,7 @@ import SearchBar from './components/Searchbar';
 
 import { SearchBarProvider } from './context/MyJobSearchBarContext';
 import AppliedJobs from './components/AppliedJobs';
+import Pagiantion from './components/Pagination';
 
 const FreelancerDashboard = () => {
     return (
@@ -13,6 +14,7 @@ const FreelancerDashboard = () => {
                 <SubHeader />
                 <SearchBar />
                 <AppliedJobs />
+                <Pagiantion />
             </div>
         </SearchBarProvider>
     );
