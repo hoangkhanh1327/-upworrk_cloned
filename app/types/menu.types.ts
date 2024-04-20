@@ -1,1 +1,1 @@
-export interface IMenu { title: string; href: string }
+export interface IMenu { title: string; href: string, description: string }
