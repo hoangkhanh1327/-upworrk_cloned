@@ -46,20 +46,22 @@ const Navbar = () => {
         return (
             <div style={{ position: 'relative' }}>
                 <FiBell size={24} /> {/* Notification icon */}
-                {noties && noties.filter((i:any)=>i.is_read==0).length > 0 && (
-                    <span
-                        className='text-xs w-5 h-5 absolute flex items-center justify-center'
-                        style={{
-                            top: '-8px',
-                            right: '-8px',
-                            borderRadius: '50%',
-                            background: 'red',
-                            color: 'white',
-                        }}
-                    >
-                        {unread} {/* {noties.length} Number of notifications */}
-                    </span>
-                )}
+                {noties &&
+                    noties.filter((i: any) => i.is_read == 0).length > 0 && (
+                        <span
+                            className='text-xs w-5 h-5 absolute flex items-center justify-center'
+                            style={{
+                                top: '-8px',
+                                right: '-8px',
+                                borderRadius: '50%',
+                                background: 'red',
+                                color: 'white',
+                            }}
+                        >
+                            {unread}{' '}
+                            {/* {noties.length} Number of notifications */}
+                        </span>
+                    )}
             </div>
         );
     }, [noties]);
@@ -67,7 +69,7 @@ const Navbar = () => {
     return (
         <NavigationMenu className='tww-full'>
             <NavigationMenuList>
-                <NavigationMenuItem>
+                <NavigationMenuItem key={`navigation-item-1`}>
                     <NavigationMenuTrigger>Find Talent</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className='min-w-[250px]'>
@@ -81,13 +83,13 @@ const Navbar = () => {
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                <NavigationMenuItem key={`navigation-item-2`}>
                     <NavigationMenuTrigger>Find Work</NavigationMenuTrigger>
                     <NavigationMenuContent className='pt-4 pb-8'>
                         <ul className='min-w-[250px]'>
-                            {findWorkSubMenu.map((menu) => (
+                            {findWorkSubMenu.map((menu, index) => (
                                 <ListItem
-                                    key={menu.title}
+                                    key={`find-talent-2-menu-${index}`}
                                     title={menu.title}
                                     href={menu.href}
                                 />
@@ -95,7 +97,7 @@ const Navbar = () => {
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                <NavigationMenuItem key={`navigation-item-3`}>
                     <Link href='/docs/why-us' legacyBehavior passHref>
                         <NavigationMenuLink
                             className={navigationMenuTriggerStyle()}
@@ -104,7 +106,7 @@ const Navbar = () => {
                         </NavigationMenuLink>
                     </Link>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                <NavigationMenuItem key={`navigation-item-4`}>
                     <NavigationMenuTrigger>{bellElement}</NavigationMenuTrigger>
                     <NavigationMenuContent className='pt-4'>
                         <div className='overflow-y-auto h-[40vh] max-h-[40vh] p-4 z-50 fixed bg-white shadow-lg rounded-lg'>
@@ -128,7 +130,7 @@ const Navbar = () => {
                                         if (statusNoti == 0) {
                                             return (
                                                 <ListNoti
-                                                    key={noti.title}
+                                                    key={`${noti.title}-${noti.id}-${noti.is_read}`}
                                                     title={noti.title}
                                                     linkable={noti.linkable}
                                                     isRead={noti.is_read}
@@ -142,7 +144,7 @@ const Navbar = () => {
                                             if (noti.is_read == 0) {
                                                 return (
                                                     <ListNoti
-                                                        key={noti.title}
+                                                        key={`${noti.title}-${noti.id}-${noti.is_read}`}
                                                         title={noti.title}
                                                         linkable={noti.linkable}
                                                         isRead={noti.is_read}
@@ -162,7 +164,7 @@ const Navbar = () => {
                                         if (noti.is_read == 0) {
                                             return (
                                                 <ListNoti
-                                                    key={noti.title}
+                                                    key={`${noti.title}-${noti.id}-${noti.is_read}`}
                                                     title={noti.title}
                                                     linkable={noti.linkable}
                                                     isRead={noti.is_read}
@@ -172,8 +174,6 @@ const Navbar = () => {
                                                     {noti.message}
                                                 </ListNoti>
                                             );
-                                        } else {
-                                            return <></>;
                                         }
                                     })}
                                 </TabsContent>

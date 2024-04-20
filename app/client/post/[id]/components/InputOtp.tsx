@@ -19,7 +19,8 @@ const InputOtp = ({ setVerify }: any) => {
       description: msg,
     });
   };
-  const [otp, setOtp] = useState<any>(["", "", "", ""]);
+  const [disable, setDisable] = useState(true);
+  const [otp, setOtp] = useState<any>(["", "", "", "", "", ""]);
   const [trueOtp, setTrueOtp] = useState<{ otp_code: string; expired: number }>(
     { otp_code: "", expired: 0 }
   );
@@ -61,7 +62,7 @@ const InputOtp = ({ setVerify }: any) => {
     if (e.key === "Backspace" && index > 0 && otp[index] === "") {
       // Nếu người dùng nhấn nút Backspace khi ô trống, chuyển con trỏ về ô trước đó
       document.getElementById(`otp_${index - 1}`)?.focus();
-    } else if (index < 3 && otp[index] !== "" && otp[index + 1] === "") {
+    } else if (index < 5 && otp[index] !== "" && otp[index + 1] === "") {
       // Nếu người dùng đã nhập số vào ô hiện tại và ô tiếp theo trống, chuyển con trỏ sang ô tiếp theo
       document.getElementById(`otp_${index + 1}`)?.focus();
     }
@@ -75,7 +76,17 @@ const InputOtp = ({ setVerify }: any) => {
     );
   }, []);
 
+  useEffect(() => {
+    if (otp.join("").replace(/\s+/g, "").length == 6) {
+      setDisable(false);
+    } else {
+      setDisable(true);
+    }
+  }, [otp]);
+
   const sendOtp = () => {
+    setOtp(["", "", "", "", "", ""]);
+    document.getElementById(`otp_0`)?.focus();
     commonServices.sendOtp();
     openNotificationWithIcon(
       "success",
@@ -112,24 +123,40 @@ const InputOtp = ({ setVerify }: any) => {
     };
   };
 
-  useEffect(() => {
-    if (otp.join("").replace(/\s+/g, "").length == 4) {
-      const currentTime = new Date().getTime() / 1000;
-      console.log(currentTime, trueOtp.expired);
+  // useEffect(() => {
+  //   if (otp.join("").replace(/\s+/g, "").length == 4) {
+  //     const currentTime = new Date().getTime() / 1000;
+  //     console.log(currentTime, trueOtp.expired);
 
-      if (otp.join("") == trueOtp.otp_code && currentTime <= trueOtp.expired) {
-        openNotificationWithIcon("success", "Xác thực thành công.");
-        setVerify(true);
-      } else {
-        if (otp.join("") == trueOtp.otp_code && currentTime > trueOtp.expired)
-          openNotificationWithIcon(
-            "error",
-            "Mã xác thực hết hạn sử dụng. Vui lòng chọn gởi lại OTP để nhận mã mới."
-          );
-        else openNotificationWithIcon("error", "Mã xác thực không hợp lệ.");
-      }
+  //     if (otp.join("") == trueOtp.otp_code && currentTime <= trueOtp.expired) {
+  //       openNotificationWithIcon("success", "Xác thực thành công.");
+  //       setVerify(true);
+  //     } else {
+  //       if (otp.join("") == trueOtp.otp_code && currentTime > trueOtp.expired)
+  //         openNotificationWithIcon(
+  //           "error",
+  //           "Mã xác thực hết hạn sử dụng. Vui lòng chọn gởi lại OTP để nhận mã mới."
+  //         );
+  //       else openNotificationWithIcon("error", "Mã xác thực không hợp lệ.");
+  //     }
+  //   }
+  // }, [otp]);
+
+  const checkOtp =  () => {
+    const currentTime = new Date().getTime() / 1000;
+
+    if (otp.join("") == trueOtp.otp_code && currentTime <= trueOtp.expired) {
+      openNotificationWithIcon("success", "Xác thực thành công.");
+      setVerify(true);
+    } else {
+      if (otp.join("") == trueOtp.otp_code && currentTime > trueOtp.expired)
+        openNotificationWithIcon(
+          "error",
+          "Mã xác thực hết hạn sử dụng. Vui lòng chọn gởi lại OTP để nhận mã mới."
+        );
+      else openNotificationWithIcon("error", "Mã xác thực không hợp lệ.");
     }
-  }, [otp]);
+  };
   return (
     <div style={otpContainerStyle}>
       {contextHolder}
@@ -141,19 +168,27 @@ const InputOtp = ({ setVerify }: any) => {
             type="text"
             value={value}
             //maxLength="1"
-            style={{ ...inputStyle, ...(index === 3 ? lastInputStyle : {}) }}
+            style={{ ...inputStyle, ...(index === 5 ? lastInputStyle : {}) }}
             onChange={(e) => handleChange(index, e.target.value)}
             onKeyDown={(e) => handleKeyDown(e, index)}
           />
         ))}
       </div>
-
-      <Button
-        className="bg-primary-color hover:bg-primary-color asChild  text-white mt-4 mx-auto"
-        onClick={sendOtp}
-      >
-        Gởi lại OTP
-      </Button>
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <Button
+          disabled={disable}
+          className="bg-blue-500  hover:bg-primary-color asChild  text-white mt-4 mx-auto"
+          onClick={checkOtp}
+        >
+          Xác thực
+        </Button>
+        <Button
+          className="bg-primary-color hover:bg-primary-color asChild  text-white mt-4 mx-auto"
+          onClick={sendOtp}
+        >
+          Gởi lại OTP
+        </Button>
+      </div>
     </div>
   );
 };

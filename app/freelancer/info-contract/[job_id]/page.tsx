@@ -14,6 +14,8 @@ import { DetailClientPost } from "@/app/types/freelancer.type";
 import { BaseInfo } from "@/app/types/authentication.types";
 import InputOtp from "@/app/client/post/[id]/components/InputOtp";
 import PolicyViews from "@/app/client/post/[id]/components/PolicyViews";
+import SignaturePadSimple from "@/app/client/post/[id]/components/SignaturePad";
+import { ReloadIcon } from "@radix-ui/react-icons";
 interface IContractDetail {
   params: {
     job_id: string;
@@ -325,11 +327,19 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
     console.log("RES", responseContract);
   };
   useEffect(() => {
-    if (imgSignature != null) {
+    
+      if (imgSignature) {
+        if (!verify) {
+          setOpen(true);
+        } else {
+          setOpen(false);
+        }
+      }
+  }, [imgSignature, verify]);
+  const onSubmit = async() => { 
       setLoading(true);
       callAceptContract();
-    }
-  }, [imgSignature]);
+  }
 
   return (
     <div style={{ height: "auto", minHeight: "1700px", display: "block" }}>
@@ -565,44 +575,47 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
                 ) : (
                   ""
                 )}
-                {contractInfo && checked && contractInfo.status <= 0 ? (
-                  // <Tooltip title={"Kết nối Ví Để Kí Hợp Đồng"} >
+               
+              </div>
+              {contractInfo && checked && contractInfo.status <= 0?<div className="grid grid-cols-1 gap-x-1 justify-items-center">
+                <div style={{ width: '400px', height: '300px' }}><SignaturePadSimple setImg={setImgSignature}></SignaturePadSimple></div>
+                
+              </div>:''}
+              {contractInfo && contractInfo.status <= 0 ?
+                <div className="text-center mt-6">
+                {verify && imgSignature != '' ? (
                   <Button
-                    style={{ backgroundColor: "blue", marginLeft: 10 }}
-                    type="primary"
+                    disabled={loading}
+                    className="bg-button-primary hover:bg-button-primary/80 px-6 border-2 border-solid border-transparent rounded-[10rem] transition-all inline-flex justify-center items-center max-h-10 leading-[calc_2.5rem_-_1px] text-base font-medium disabled:bg-button-disabled disabled:text-[#9aaa97] disabled:!cursor-not-allowed disabled:pointer-events-auto"
                     onClick={() => {
-                      if (address == null || address == "") {
-                        connect();
-                      } else {
-                        setOpen(true);
-                      }
+                      onSubmit();
                     }}
                   >
-                    {address == null || address == ""
-                      ? "Kết Nối Ví"
-                      : "Ký Hợp Đồng"}
+                    {loading && (
+                      <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+                    )}
+                    {address ? "Tạo hợp đồng" : "Kết nối ví MetaMask"}
                   </Button>
                 ) : (
-                  ""
+                  <Button
+                    disabled={true}
+                    className="bg-button-primary hover:bg-button-primary/80 px-6 border-2 border-solid border-transparent rounded-[10rem] transition-all inline-flex justify-center items-center max-h-10 leading-[calc_2.5rem_-_1px] text-base font-medium disabled:bg-button-disabled disabled:text-[#9aaa97] disabled:!cursor-not-allowed disabled:pointer-events-auto"
+                    onClick={() => {
+                      onSubmit();
+                    }}
+                  >
+                    {loading && (
+                      <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+                    )}
+                    {address ? "Tạo hợp đồng" : "Kết nối ví MetaMask"}
+                  </Button>
                 )}
-              </div>
+              </div>:""}
             </div>
           </div>
         </div>
       </Spin>
-      {verify ? (
-        <Modal
-          title="Hãy Ký Khi Đã Đọc Kỹ Điều Khoản Hợp Đồng"
-          open={open}
-          onCancel={hideModal}
-          footer={[]}
-        >
-          <SignaturePad
-            setImg={setImgSignature}
-            closePopup={setOpen}
-          ></SignaturePad>
-        </Modal>
-      ) : (
+      
         <Modal
           className="text-center"
           title="Nhập mã OTP, mã OTP đã được gởi về mail của bạn"
@@ -612,7 +625,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
         >
           <InputOtp setVerify={setVerify}></InputOtp>
         </Modal>
-      )}
+     
     </div>
   );
 };
