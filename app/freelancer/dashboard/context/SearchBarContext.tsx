@@ -67,6 +67,7 @@ export const SearchBarProvider = ({
                 setIsGettingPosts(true);
                 const res = await freelancerServices.getPosts({
                     ...data,
+                    status: 1,
                     // page: data?.page || 1,
                     // num: 999,
                 });

@@ -167,7 +167,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
               {post.applied?.length > 0 && (
                 <>
                   <h3 className="text-lg font-medium mb-2 min-w-[130px]">
-                    Số lượng ứng viên: {post?.applied?.length || 0}
+                    Số lượng ứng viên đã ứng tuyển: {post?.applied?.length || 0}
                   </h3>
                   <div className="flex items-center gap-x-3 pl-3 w-full">
                     <AppliedTable appliedList={post?.applied || []} />
@@ -177,7 +177,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
               {post.list_invite?.length > 0 && (
                 <>
                   <h3 className="text-lg font-medium mb-2 min-w-[130px]">
-                    Số lượng ứng viên: {post?.applied?.length || 0}
+                    Số lượng ứng viên được mời: {post?.list_invite?.length || 0}
                   </h3>
                   <div className="flex items-center gap-x-3 pl-3 w-full">
                     <InviteTable inviteList={post?.list_invite || []} />
