@@ -31,7 +31,7 @@ const LoginForm: React.FC<ILoginForm> = ({ setUsername }) => {
                     setUsername(userNameRef.current?.value);
                 }
               }}
-              className="w-full !border-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 "
+              className="w-full !border-1 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 "
             />
           </div>
 

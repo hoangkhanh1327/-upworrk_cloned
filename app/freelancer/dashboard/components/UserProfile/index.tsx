@@ -22,7 +22,7 @@ const UserProfile = () => {
               <Image
                 src={user?.avatar_url.toString()}
                 alt=""
-                className="w-[150px] h-[150px] rounded-full"
+                className="w-[150px] h-[150px] rounded-full object-cover"
               />
             </div>
           ) : (

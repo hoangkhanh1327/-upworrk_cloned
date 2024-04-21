@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Textarea } from "@/app/components/ui/textarea";
+// import { Textarea } from "@/app/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -12,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/app/components/ui/form";
-import { Input } from "@/app/components/ui/input";
+import { Input } from "antd";
 import { Button } from "@/app/components/ui/button";
 import { useAddress, useMetamask, useContract } from "@thirdweb-dev/react";
 import { useStateContext } from "@/context";
@@ -28,6 +28,7 @@ import { Button as ButtonAnt, Checkbox, CheckboxProps, Modal } from "antd";
 import SignaturePadSimple from "./SignaturePad";
 import InputOtp from "./InputOtp";
 // import Link from "next/link";
+const Textarea = Input.TextArea;
 
 const CreateFormContractSchema = yup.object({
   title: yup.string().required(""),
@@ -219,6 +220,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
                     <FormLabel>Title</FormLabel>
                     <FormControl>
                       <Input
+                        size="large"
                         className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
                         placeholder="Title"
                         {...field}
@@ -236,6 +238,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
                     <FormLabel>Số bids</FormLabel>
                     <FormControl>
                       <Input
+                        size="large"
                         type="number"
                         className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
                         placeholder="bids"

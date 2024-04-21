@@ -141,7 +141,7 @@ const UpdateAvatarDialog = () => {
             type="file"
             placeholder="Nhập đường dẫn ảnh"
             id="avatar"
-            className=" hidden flex-1 col-span-3"
+            className=" hidden flex-1 col-span-3  !border-1 focus-visible:!ring-transparent focus-visible:!ring-offset-0"
             ref={avatarRef}
             onChange={(e) => handleUploadFile(e)}
           />
