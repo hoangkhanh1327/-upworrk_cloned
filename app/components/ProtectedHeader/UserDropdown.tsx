@@ -20,7 +20,7 @@ const UserDropdown = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         {/* <CircleUserRound className="ml-3 cursor-pointer w-7 h-7" /> */}
-        <div className="w-[30px] h-[30px] relative rounded-full overflow-hidden  ml-3">
+        <div className="w-[30px] h-[30px] relative rounded-full overflow-hidden cursor-pointer  ml-3">
           <img
             src={
               (user?.avatar_url && user?.avatar_url.toString()) ||
