@@ -1,321 +1,304 @@
-import { useForm, SubmitHandler, SubmitErrorHandler } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from '@/app/components/ui/form';
-import { taskServices } from '@/app/services/task.services';
-import { Input } from '@/app/components/ui/input';
-import { Textarea } from '@/app/components/ui/textarea';
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/app/components/ui/form";
+import { taskServices } from "@/app/services/task.services";
+import { Input } from "antd";
+import { Textarea } from "@/app/components/ui/textarea";
 import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from '@/app/components/ui/popover';
-import { Button } from '@/app/components/ui/button';
-import { cn } from '@/lib/utils';
-import { format } from 'date-fns';
-import { CalendarIcon } from 'lucide-react';
-import { Calendar } from '@/app/components/ui/calendar';
-import { Task } from '@/app/types/task.types';
-import React, { useState } from 'react';
-import { ReloadIcon } from '@radix-ui/react-icons';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/app/components/ui/popover";
+import { Button } from "@/app/components/ui/button";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@/app/components/ui/calendar";
+import { Task } from "@/app/types/task.types";
+import React, { useState } from "react";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogTitle,
-    DialogTrigger,
-} from '@/app/components/ui/dialog';
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogTitle,
+  DialogTrigger,
+} from "@/app/components/ui/dialog";
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/app/components/ui/select';
-import { notification } from 'antd';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/components/ui/select";
+import { notification } from "antd";
+
+const { TextArea } = Input;
 
 const taskFormSchema = yup.object({
-    name: yup.string().required('Vui lòng nhập tên task'),
-    desc: yup.string().required('Vui lòng nhập mô tả'),
-    deadline: yup.string().required('Vui lòng chọn deadline'),
-    priority: yup.string().required('Vui lòng chọn mức độ quan trọng'),
+  name: yup.string().required("Vui lòng nhập tên task"),
+  desc: yup.string().required("Vui lòng nhập mô tả"),
+  deadline: yup.string().required("Vui lòng chọn deadline"),
+  priority: yup.string().required("Vui lòng chọn mức độ quan trọng"),
 });
 
 interface ITaskForm {
-    jobId: string;
-    type: 'edit' | 'new';
-    initialData?: any;
-    onSuccess: (data: Task) => void;
-    onDeleteSuccess: (data: string) => void;
-    onClose: () => void;
+  jobId: string;
+  type: "edit" | "new";
+  initialData?: any;
+  onSuccess: (data: Task) => void;
+  onDeleteSuccess: (data: string) => void;
+  onClose: () => void;
 }
 
 interface CreateTaskSubmitValue {
-    name: string;
-    desc: string;
-    priority: string;
-    deadline: string;
+  name: string;
+  desc: string;
+  priority: string;
+  deadline: string;
 }
 
 interface IDeleteButton {
-    onDelete: () => void;
+  onDelete: () => void;
 }
 
 const DeleteButton: React.FC<IDeleteButton> = ({ onDelete }) => {
-    return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant='destructive' type='button'>
-                    Xoá task
-                </Button>
-            </DialogTrigger>
-            <DialogContent>
-                <DialogTitle>Xoá task</DialogTitle>
-                <DialogDescription>
-                    {`Bạn chắc chắn muốn xoá task này?`}
-                </DialogDescription>
-                <DialogFooter>
-                    <Button variant='destructive' onClick={onDelete}>
-                        Xác nhận xoá
-                    </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
-    );
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="destructive" type="button">
+          Xoá task
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogTitle>Xoá task</DialogTitle>
+        <DialogDescription>
+          {`Bạn chắc chắn muốn xoá task này?`}
+        </DialogDescription>
+        <DialogFooter>
+          <Button variant="destructive" onClick={onDelete}>
+            Xác nhận xoá
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
 };
-type NotificationType = 'success' | 'info' | 'warning' | 'error';
+type NotificationType = "success" | "info" | "warning" | "error";
 const TaskForm = (props: ITaskForm) => {
-    const { jobId, type, initialData, onClose, onSuccess, onDeleteSuccess } =
-        props;
-    const [loading, setLoading] = useState(false);
-    const [api] = notification.useNotification();
+  const { jobId, type, initialData, onClose, onSuccess, onDeleteSuccess } =
+    props;
+  const [loading, setLoading] = useState(false);
+  const [api] = notification.useNotification();
 
-    const openNotification = (type: NotificationType, msg: string) => {
-        api[type]({
-            message: 'Thông Báo',
-            description: msg,
-        });
-    };
-
-    const form = useForm({
-        resolver: yupResolver(taskFormSchema),
-        defaultValues: {
-            name: initialData?.name || '',
-            desc: initialData?.desc || '',
-            deadline: initialData?.deadline || '',
-            priority: initialData?.priority || '1',
-        },
+  const openNotification = (type: NotificationType, msg: string) => {
+    api[type]({
+      message: "Thông Báo",
+      description: msg,
     });
+  };
 
-    const onSubmit: SubmitHandler<CreateTaskSubmitValue> = async (data) => {
-        try {
-            setLoading(true);
-            if (type === 'new') {
-                const res = await taskServices.createJobTask({
-                    id: jobId,
-                    ...data,
-                    deadline: format(data.deadline, 'yyyy-MM-dd'),
-                });
-                openNotification('success', 'Thêm task thành công');
-                onSuccess(res.data);
-                onClose();
-            }
-            if (type === 'edit' && initialData.id) {
-                const res = await taskServices.updateJobTask({
-                    task_id: initialData.id,
-                    ...data,
-                    deadline: data.deadline
-                        ? format(data.deadline, 'yyyy-MM-dd')
-                        : initialData.deadline,
-                });
-                openNotification('success', 'Cập nhật task thành công');
-                onSuccess(res.data);
-                onClose();
-            }
-        } catch (error) {
-            openNotification('success', 'Thêm task thất bại');
-        } finally {
-            setLoading(false);
-        }
-    };
+  const form = useForm({
+    resolver: yupResolver(taskFormSchema),
+    defaultValues: {
+      name: initialData?.name || "",
+      desc: initialData?.desc || "",
+      deadline: initialData?.deadline || "",
+      priority: initialData?.priority || "1",
+    },
+  });
 
-    const handleDelete = async () => {
-        try {
-            setLoading(true);
-            const res = await taskServices.deleteJobTask(
-                initialData.id.toString()
-            );
-            if (res.status === 200) {
-                openNotification('success', 'Xóa task thành công');
-                onDeleteSuccess(initialData.id);
-            } else {
-                openNotification('error', res.message || 'Xóa task thất bại');
-            }
-            onClose();
-        } catch (error) {
-            openNotification('error', 'Xóa task thất bại');
-        } finally {
-            setLoading(false);
-        }
-    };
+  const onSubmit: SubmitHandler<CreateTaskSubmitValue> = async (data) => {
+    try {
+      setLoading(true);
+      if (type === "new") {
+        const res = await taskServices.createJobTask({
+          id: jobId,
+          ...data,
+          deadline: format(data.deadline, "yyyy-MM-dd"),
+        });
+        openNotification("success", "Thêm task thành công");
+        onSuccess(res.data);
+        onClose();
+      }
+      if (type === "edit" && initialData.id) {
+        const res = await taskServices.updateJobTask({
+          task_id: initialData.id,
+          ...data,
+          deadline: data.deadline
+            ? format(data.deadline, "yyyy-MM-dd")
+            : initialData.deadline,
+        });
+        openNotification("success", "Cập nhật task thành công");
+        onSuccess(res.data);
+        onClose();
+      }
+    } catch (error) {
+      openNotification("success", "Thêm task thất bại");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    return (
-        <div className='max-w-[28vw] w-[28vw] mx-auto'>
-            <div className='my-2'>
-                <h1 className='text-4xl -tracking-[1px] font-medium text-center'>
-                    {type === 'new' ? 'Tạo task mới' : 'Chỉnh sửa task'}
-                </h1>
-            </div>
-            <Form {...form}>
-                <form className='' onSubmit={form.handleSubmit(onSubmit)}>
-                    <FormField
-                        control={form.control}
-                        name='name'
-                        render={({ field }) => (
-                            <FormItem className='mt-6'>
-                                <FormLabel>Tên task</FormLabel>
-                                <FormControl>
-                                    <Input
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+      const res = await taskServices.deleteJobTask(initialData.id.toString());
+      if (res.status === 200) {
+        openNotification("success", "Xóa task thành công");
+        onDeleteSuccess(initialData.id);
+      } else {
+        openNotification("error", res.message || "Xóa task thất bại");
+      }
+      onClose();
+    } catch (error) {
+      openNotification("error", "Xóa task thất bại");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="w-[100%] mx-auto">
+      <div className="my-2">
+        <h1 className="text-4xl -tracking-[1px] font-medium text-center">
+          {type === "new" ? "Tạo task mới" : "Chỉnh sửa task"}
+        </h1>
+      </div>
+      <Form {...form}>
+        <form className="" onSubmit={form.handleSubmit(onSubmit)}>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem className="mt-6">
+                <FormLabel>Tên task</FormLabel>
+                <FormControl>
+                  <Input
+                    size="large"
+                    // className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'
+                    placeholder="Tên task"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="desc"
+            render={({ field }) => (
+              <FormItem className="mt-6">
+                <FormLabel>Mô tả task</FormLabel>
+                <FormControl>
+                  {/* <Textarea
                                         className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'
-                                        placeholder='Tên task'
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                        
+                                        
+                                    /> */}
+                  <TextArea rows={4} placeholder="Mô tả task" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="priority"
+            render={({ field }) => {
+              return (
+                <FormItem className="mt-6">
+                  <FormLabel>Độ ưu tiên</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value?.toString()}
+                    defaultValue={field.value.toString()}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline">
+                        <SelectValue placeholder="" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <FormMessage />
+                    <SelectContent className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline">
+                      <SelectItem value="1">Quan trọng</SelectItem>
+                      <SelectItem value="2">Trung bình</SelectItem>
+                      <SelectItem value="3">Ưu tiên thấp</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              );
+            }}
+          />
+          <FormField
+            control={form.control}
+            name="deadline"
+            render={({ field }) => (
+              <FormItem className="mt-6">
+                <FormLabel className="mr-3 block">Ngày đến hạn </FormLabel>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant={"outline"}
+                        className={cn(
+                          "w-full pl-3 text-left font-normal",
+                          !field.value && "text-muted-foreground"
                         )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name='desc'
-                        render={({ field }) => (
-                            <FormItem className='mt-6'>
-                                <FormLabel>Mô tả task</FormLabel>
-                                <FormControl>
-                                    <Textarea
-                                        className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'
-                                        placeholder='Tên task'
-                                        {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                      >
+                        {field.value ? (
+                          format(field.value, "dd-MM-yyyy")
+                        ) : (
+                          <span>Chọn ngày hết hạn</span>
                         )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value as any}
+                      onSelect={field.onChange}
+                      disabled={(date) => date < new Date("1900-01-01")}
+                      initialFocus
                     />
-                    <FormField
-                        control={form.control}
-                        name='priority'
-                        render={({ field }) => {
-                            return (
-                                <FormItem className='mt-6'>
-                                    <FormLabel>Độ ưu tiên</FormLabel>
-                                    <Select
-                                        onValueChange={field.onChange}
-                                        value={field.value?.toString()}
-                                        defaultValue={field.value.toString()}
-                                    >
-                                        <FormControl>
-                                            <SelectTrigger className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'>
-                                                <SelectValue placeholder='' />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <FormMessage />
-                                        <SelectContent className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'>
-                                            <SelectItem value='1'>
-                                                Quan trọng
-                                            </SelectItem>
-                                            <SelectItem value='2'>
-                                                Trung bình
-                                            </SelectItem>
-                                            <SelectItem value='3'>
-                                                Ưu tiên thấp
-                                            </SelectItem>
-                                        </SelectContent>
-                                    </Select>
-                                </FormItem>
-                            );
-                        }}
-                    />
-                    <FormField
-                        control={form.control}
-                        name='deadline'
-                        render={({ field }) => (
-                            <FormItem className='mt-6'>
-                                <FormLabel className='mr-3 block'>
-                                    Ngày đến hạn{' '}
-                                </FormLabel>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <FormControl>
-                                            <Button
-                                                variant={'outline'}
-                                                className={cn(
-                                                    'w-full pl-3 text-left font-normal',
-                                                    !field.value &&
-                                                        'text-muted-foreground'
-                                                )}
-                                            >
-                                                {field.value ? (
-                                                    format(
-                                                        field.value,
-                                                        'dd-MM-yyyy'
-                                                    )
-                                                ) : (
-                                                    <span>
-                                                        Chọn ngày hết hạn
-                                                    </span>
-                                                )}
-                                                <CalendarIcon className='ml-auto h-4 w-4 opacity-50' />
-                                            </Button>
-                                        </FormControl>
-                                    </PopoverTrigger>
-                                    <PopoverContent
-                                        className='w-auto p-0'
-                                        align='start'
-                                    >
-                                        <Calendar
-                                            mode='single'
-                                            selected={field.value as any}
-                                            onSelect={field.onChange}
-                                            disabled={(date) =>
-                                                date < new Date('1900-01-01')
-                                            }
-                                            initialFocus
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <div className='mt-6 flex justify-end gap-x-3'>
-                        <Button type='button' onClick={onClose}>
-                            Đóng
-                        </Button>
-                        {<DeleteButton onDelete={handleDelete} />}
-                        <Button
-                            disabled={loading}
-                            className='block bg-[#108a00] hover:bg-[#14a800]'
-                            type='submit'
-                        >
-                            {loading && (
-                                <ReloadIcon className='mr-2 h-4 w-4 animate-spin inline-flex' />
-                            )}
-                            Lưu
-                        </Button>
-                    </div>
-                </form>
-            </Form>
-        </div>
-    );
+                  </PopoverContent>
+                </Popover>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="mt-6 flex justify-end gap-x-3">
+            <Button type="button" onClick={onClose}>
+              Đóng
+            </Button>
+            {<DeleteButton onDelete={handleDelete} />}
+            <Button
+              disabled={loading}
+              className="block bg-[#108a00] hover:bg-[#14a800]"
+              type="submit"
+            >
+              {loading && (
+                <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+              )}
+              Lưu
+            </Button>
+          </div>
+        </form>
+      </Form>
+    </div>
+  );
 };
 
 export default TaskForm;

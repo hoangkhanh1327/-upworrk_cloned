@@ -1,5 +1,5 @@
 import { ClientInfo } from "./authentication.types";
-import { ClientPost } from "./client.types";
+import { ClientPost, Invited } from "./client.types";
 
 export type DetailJobPost = {
   id: number;
@@ -44,6 +44,7 @@ export type DetailClientPost = {
   applied: [];
   applied_count: number;
   nominee: string | number;
+  list_invite: Invited[];
 };
 
 export type AppliedJob = {

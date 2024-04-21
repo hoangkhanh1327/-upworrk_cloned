@@ -1,5 +1,6 @@
 import { freelancerServices } from '@/app/services/freelancer.services';
 import { DetailJobPost } from '@/app/types/freelancer.type';
+import constants from '@/app/utils/constants';
 import { isEmpty } from 'lodash';
 import {
     Dispatch,
@@ -46,7 +47,7 @@ export const SearchBarProvider = ({
     children: React.ReactNode;
 }) => {
     const [price, setPrice] = useState(['']);
-    const [statusOpts, setStatusOpts] = useState<string>('0');
+    const [statusOpts, setStatusOpts] = useState<string>('1');
     const [dates, setDates] = useState(['']);
     const [skills, setSkills] = useState<any[]>([]);
     const [searchText, setSearchText] = useState('');
@@ -83,8 +84,8 @@ export const SearchBarProvider = ({
         if (dates && skills && statusOpts && price && page) {
             const params = {
                 page,
-                num: 4,
-                job_ap_status: statusOpts,
+                num: constants.PAGE_SIZE,
+                status: statusOpts,
                 keyword: searchText || '',
                 skills: skills?.map((s: any) => s.id)?.toString(),
                 bids: price?.toString(),

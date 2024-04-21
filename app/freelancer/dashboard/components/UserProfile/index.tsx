@@ -19,8 +19,8 @@ const UserProfile = () => {
         <div className="text-center mb-4">
           {user?.avatar_url ? (
             <div className="w-[150px] h-[150px] relative rounded-full overflow-hidden inline-block">
-              <img
-                src={user.avatar_url.toString()}
+              <Image
+                src={user?.avatar_url.toString()}
                 alt=""
                 className="w-[150px] h-[150px] rounded-full"
               />

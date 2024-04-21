@@ -22,8 +22,8 @@ interface ICommentInput {
 }
 
 const CommentInput: React.FC<ICommentInput> = ({ onSubmit, loading }) => {
-  const commentText = useRef<any>(null);
   const { user } = useContext(AuthContext);
+  const commentText = useRef<any>(null);
   return (
     <div className="border-blue-50 border-b-2 mb-4">
       <div className="w-[100%] m-0">

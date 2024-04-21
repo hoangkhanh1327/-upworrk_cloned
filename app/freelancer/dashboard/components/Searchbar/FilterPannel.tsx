@@ -42,7 +42,7 @@ const FilterPannel = () => {
                 <h5 className='mb-3 font-semibold'>Giá tiền</h5>
                 <PriceSelect onChange={handleSelectPrice} />
             </div>
-            <div>
+            {/* <div>
                 <h5 className='mb-3 font-semibold'>Trạng thái</h5>
                 <div className='flex flex-col gap-y-4 '>
                     <Select
@@ -66,7 +66,7 @@ const FilterPannel = () => {
                         </SelectContent>
                     </Select>
                 </div>
-            </div>
+            </div> */}
             <div>
                 <h5 className='mb-3 font-semibold'>Deadline</h5>
                 <DateRangeSelect onChangeDate={handleSelectDeadline} />

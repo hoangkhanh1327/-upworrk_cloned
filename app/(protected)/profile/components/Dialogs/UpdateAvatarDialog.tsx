@@ -70,7 +70,7 @@ const UpdateAvatarDialog = () => {
       }
       if (accountType === "freelancer") {
         const res = await loginServices.updateFreelancerInfo({
-          avatar_url: selectedFile as any,
+          avatar: selectedFile as any,
         });
         if (res.data) {
           toast({
@@ -147,10 +147,18 @@ const UpdateAvatarDialog = () => {
           />
         </div>
         <DialogFooter>
-          <Button type="button" onClick={() => onCloseModal?.()}>
+          <Button
+            type="button"
+            className=" bg-primary-color hover:bg-primary-color hover:text-white"
+            onClick={() => onCloseModal?.()}
+          >
             Đóng
           </Button>
-          <Button type="submit" onClick={() => handleSubmit()}>
+          <Button
+            type="submit"
+            className="bg-primary-color hover:bg-primary-color"
+            onClick={() => handleSubmit()}
+          >
             Cập nhật
           </Button>
         </DialogFooter>

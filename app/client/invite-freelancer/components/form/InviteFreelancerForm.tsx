@@ -20,7 +20,6 @@ import { commonServices } from "@/app/services/common.services";
 import { AuthContext } from "@/app/providers/AuthProvider";
 import { FreelancerInfo } from "@/app/types/authentication.types";
 import JobItem from "@/app/freelancer/my-job/components/AppliedJobs/JobItem";
-import { Select } from "@/app/components/ui/select";
 import { clientServices } from "@/app/services/client.services";
 import { ClientPostList } from "@/app/types/client.types";
 import { isEmpty } from "lodash";
@@ -83,7 +82,7 @@ const InviteFreelancerForm = ({ freelancer, onClose }: ICreateInvite) => {
     setIdJob(Number(postId));
     // ...
   };
-  
+
   const sendNotification = async (data: any) => {
     try {
       // setIsGettingPosts(true);
@@ -104,13 +103,13 @@ const InviteFreelancerForm = ({ freelancer, onClose }: ICreateInvite) => {
       job_id: idJob,
       freelancer_id: freelancer.id,
       mail_invite: data.mail_invite,
-    }
+    };
     const res = await clientServices.sendInviteWorkToFreelancer(dataSubmit);
     try {
       setLoading(true);
       if (res.status === 200) {
         sendNotification({
-          title:  `Lời mời làm việc từ ${user?.username} 😍`,
+          title: `Lời mời làm việc từ ${user?.username} 😍`,
           message: data.mail_invite,
           linkable: `/job/${idJob}`,
           smail: 1,
