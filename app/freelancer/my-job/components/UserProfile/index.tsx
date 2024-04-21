@@ -8,8 +8,6 @@ import React from 'react';
 
 const UserProfile = () => {
     const { user } = useAuth();
-    console.log('user', user);
-
     return (
         <div
             className='span-3  ml-[100px] d-none d-lg-block the-sidebar flex flex-col justify-between h-full sticky top-0'
