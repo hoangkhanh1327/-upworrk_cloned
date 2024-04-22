@@ -35,6 +35,8 @@ const FreelancerItem = ({ freelancer }: IFreelancerItem) => {
                   }
                   alt="avatar"
                   className="w-[150px] h-[150px] rounded-full"
+                  width={150}
+                  height={150}
                 />
               </div>
               <div>

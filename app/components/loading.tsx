@@ -1,6 +1,6 @@
 import { LoadingSpinner } from '@/app/components/themes/LoadingSpin';
 
-const LoadingDetailPage = () => {
+const LoadingComponent = () => {
     return (
         <div className='w-[100%] h-[100%] flex items-center justify-center'>
             <LoadingSpinner size={100} />
@@ -8,4 +8,4 @@ const LoadingDetailPage = () => {
     );
 };
 
-export default LoadingDetailPage;
+export default LoadingComponent;

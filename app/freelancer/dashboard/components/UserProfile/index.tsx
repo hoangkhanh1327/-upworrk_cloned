@@ -8,7 +8,6 @@ import React from "react";
 
 const UserProfile = () => {
   const { user } = useAuth();
-  console.log("user", user);
 
   return (
     <div

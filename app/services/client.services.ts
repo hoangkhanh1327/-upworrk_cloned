@@ -70,7 +70,7 @@ type GetListFreelancerInfoResponse = CommonResponse & {
 };
 
 type InviteJobToFreelancerRequest = {
-  job_id: number;
+  job_id: number | string;
   freelancer_id: number;
   mail_invite: string;
 };

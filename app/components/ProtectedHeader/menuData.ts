@@ -13,7 +13,7 @@ const findTalentSubMenu: IMenu[] = [
     },
     {
         title: 'Công việc đang làm',
-        href: '/job-working',
+        href: '/my-job',
         description: 'Sub 3 description',
     },
 ];

@@ -11,6 +11,7 @@ import {
 } from "react";
 
 interface ISearchBarContext {
+  status: string;
   searchText: string;
   posts: ClientPostList;
   isGettingPosts: boolean;
@@ -22,6 +23,7 @@ interface ISearchBarContext {
   handleGoPage?: (page: number) => void;
 }
 export const SearchBarContext = createContext<ISearchBarContext>({
+  status,
   searchText: "",
   page: 1,
   posts: [],
@@ -76,6 +78,7 @@ export const SearchBarProvider = ({
   return (
     <SearchBarContext.Provider
       value={{
+        status,
         page,
         searchText,
         posts,

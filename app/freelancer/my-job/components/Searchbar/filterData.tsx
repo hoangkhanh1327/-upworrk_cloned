@@ -1,65 +1,24 @@
 import { CommonSelectOptions } from '@/app/types/common.types';
 
-export const PostedOptions: CommonSelectOptions[] = [
-    {
-        label: 'All coworkers',
-        value: '0',
-    },
-    {
-        label: 'Me',
-        value: '1',
-    },
-];
-
-export const VisibilityOptions: CommonSelectOptions[] = [
-    {
-        label: 'All',
-        value: '0',
-    },
-    {
-        label: 'Invite-only',
-        value: '1',
-    },
-    {
-        label: 'Public',
-        value: '2',
-    },
-];
-
 export const StatusOptions: CommonSelectOptions[] = [
     {
-        label: 'All',
-        value: '0',
+        label: 'Tất cả',
+        value: '-2',
     },
     {
-        label: 'Draft',
-        value: '1',
+        label: 'Đã bị loại',
+        value: '-1',
     },
     {
-        label: 'Open',
+        label: 'Được mời',
         value: '2',
     },
     {
-        label: 'Filled',
+        label: 'Đang trong thời gian thực hiện',
         value: '3',
     },
     {
-        label: 'Closed',
+        label: 'Công việc hoàn tất',
         value: '4',
-    },
-];
-
-export const TypeOptions: CommonSelectOptions[] = [
-    {
-        label: 'All',
-        value: '0',
-    },
-    {
-        label: 'Fixed-price',
-        value: '1',
-    },
-    {
-        label: 'Hourly',
-        value: '2',
     },
 ];

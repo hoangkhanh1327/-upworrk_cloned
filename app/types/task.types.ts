@@ -6,7 +6,7 @@ export type Task = {
     id: number;
     job_id: number | string;
     name: string;
-    status:  number;
+    status:  number | string;
     updated_at: string;
     priority: number | string;
 };
