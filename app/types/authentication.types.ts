@@ -35,6 +35,7 @@ export interface ClientInfo {
     updated_at?: string;
     is_completed_profile: number | string;
     intro?: string;
+    avatar?: File;
 }
 
 export interface FreelancerInfo {

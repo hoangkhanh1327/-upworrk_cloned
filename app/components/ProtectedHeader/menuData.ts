@@ -2,18 +2,18 @@ import { IMenu } from '@/app/types/menu.types';
 
 const findTalentSubMenu: IMenu[] = [
     {
-        title: 'Sub 1',
-        href: '/docs/find-ta;ent/sub-1',
-        description: 'Sub 1 description',
+        title: 'Tất cả các công việc',
+        href: '/dashboard',
+        description: 'Danh sách các list công việc',
     },
     {
-        title: 'Sub 2',
-        href: '/docs/find-ta;ent/sub-2',
-        description: 'Sub 2 description',
+        title: 'Tạo công việc mới',
+        href: '/post/create',
+        description: 'Tạo một công việc mới',
     },
     {
-        title: 'Sub 3',
-        href: '/docs/find-ta;ent/sub-3',
+        title: 'Công việc đang làm',
+        href: '/job-working',
         description: 'Sub 3 description',
     },
 ];

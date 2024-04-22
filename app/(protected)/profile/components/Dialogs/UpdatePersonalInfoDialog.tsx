@@ -31,8 +31,11 @@ import {
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/app/components/ui/calendar";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { set } from "lodash";
 
 const UpdatePersonalInfoDialog = () => {
+  const [loading, setLoading] = useState(false);
   const { onCloseModal } = useContext(ProfileContext);
   const { user, setUser } = useContext(AuthContext);
   const { toast } = useToast();
@@ -46,6 +49,7 @@ const UpdatePersonalInfoDialog = () => {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       if (accountType === "client") {
         const res = await loginServices.updateUserInfo({
           sex: sex,
@@ -96,6 +100,8 @@ const UpdatePersonalInfoDialog = () => {
           "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
         ),
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -119,7 +125,10 @@ const UpdatePersonalInfoDialog = () => {
               }}
               defaultValue={user?.sex}
             >
-              <SelectTrigger id="sex" className="w-full focus:ring-!transparent col-span-3 focus-visible:!ring-transparent focus-visible:!ring-offset-0">
+              <SelectTrigger
+                id="sex"
+                className="w-full focus:ring-!transparent col-span-3 focus-visible:!ring-transparent focus-visible:!ring-offset-0"
+              >
                 <SelectValue placeholder="Chọn giới tính" />
               </SelectTrigger>
               <SelectContent>
@@ -193,10 +202,15 @@ const UpdatePersonalInfoDialog = () => {
             Đóng
           </Button>
           <Button
+            disabled={loading}
             type="submit"
             className="bg-primary-color hover:bg-primary-color"
             onClick={() => handleSubmit()}
           >
+            {" "}
+            {loading && (
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+            )}
             Cập nhật
           </Button>
         </DialogFooter>

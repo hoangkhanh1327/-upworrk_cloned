@@ -9,15 +9,19 @@ import {
 } from "@/app/components/ui/dialog";
 import { Input } from "@/app/components/ui/input";
 import { Label } from "@/app/components/ui/label";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useState } from "react";
 import { ProfileContext } from "../../context/ProfileContext";
 import { AuthContext } from "@/app/providers/AuthProvider";
 import { loginServices } from "@/app/services/authentication.services";
 import { useToast } from "@/app/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import Cookies from "js-cookie";
+import { set } from "lodash";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 const UpdateCommonInfoDialog = () => {
+  const [loading, setLoading] = useState(false);
+
   const { onCloseModal } = useContext(ProfileContext);
   const { user, setUser } = useContext(AuthContext);
   const { toast } = useToast();
@@ -45,6 +49,7 @@ const UpdateCommonInfoDialog = () => {
   const handleSubmit = async () => {
     try {
       if (checkValid()) {
+        setLoading(true);
         if (accountType === "client") {
           const res = await loginServices.updateUserInfo({
             username: usernameRef.current?.value,
@@ -96,6 +101,8 @@ const UpdateCommonInfoDialog = () => {
           "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
         ),
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -163,10 +170,14 @@ const UpdateCommonInfoDialog = () => {
             Đóng
           </Button>
           <Button
+            disabled={loading}
             type="submit"
             className="bg-primary-color hover:bg-primary-color"
             onClick={() => handleSubmit()}
           >
+            {loading && (
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+            )}
             Cập nhật
           </Button>
         </DialogFooter>

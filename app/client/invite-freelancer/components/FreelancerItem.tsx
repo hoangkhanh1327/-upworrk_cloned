@@ -7,6 +7,7 @@ import Link from "next/link";
 import React from "react";
 import { format, compareAsc } from "date-fns";
 import InviteFreelancerDialog from "./dialog/InviteFreelancerDialog";
+import Image from "next/image";
 
 interface IFreelancerItem {
   freelancer: FreelancerInfo;
@@ -26,7 +27,7 @@ const FreelancerItem = ({ freelancer }: IFreelancerItem) => {
           <div className="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div className="flex items-center content-center">
               <div className="mr-4">
-                <img
+                <Image
                   src={
                     freelancer?.avatar_url
                       ? freelancer?.avatar_url.toString()

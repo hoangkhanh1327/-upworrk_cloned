@@ -33,9 +33,9 @@ const PostItem: React.FC<IPostItem> = ({ post }) => {
           </p>
           <span className="ml-4">{`${post.bids}$`}</span>
         </div>
-        <p className="text-[12px] text-[#5e6d55] font-medium">
-          Proposals: <span>{`${post.min_proposals}+`}</span>
-        </p>
+        {/* <p className='text-[12px] text-[#5e6d55] font-medium'>
+                Proposals: <span>{`${post.min_proposals}+`}</span>
+            </p> */}
       </Link>
     </div>
   );

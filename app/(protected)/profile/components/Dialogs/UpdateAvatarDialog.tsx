@@ -18,12 +18,14 @@ import { Input } from "@/app/components/ui/input";
 import Image from "next/image";
 import { Label } from "@/app/components/ui/label";
 import { MessageCircleX, XCircle } from "lucide-react";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 const UpdateAvatarDialog = () => {
   const { onCloseModal } = useContext(ProfileContext);
   const { user, setUser } = useContext(AuthContext);
   const { toast } = useToast();
   const accountType = Cookies.get("account_type");
+  const [loading, setLoading] = useState(false);
   // const phoneRef = useRef<HTMLInputElement | null>(null);
   const avatarRef = useRef<HTMLInputElement | null>(null);
   const [avatar, setAvatar] = useState<{ imgSrc: string }>({ imgSrc: "" });
@@ -49,9 +51,10 @@ const UpdateAvatarDialog = () => {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       if (accountType === "client") {
         const res = await loginServices.updateUserInfo({
-          avatar_url: selectedFile as any,
+          avatar: selectedFile as any,
         });
         if (res.data) {
           toast({
@@ -97,6 +100,8 @@ const UpdateAvatarDialog = () => {
           "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
         ),
       });
+    }finally{
+      setLoading(false)
     }
   };
 
@@ -155,10 +160,14 @@ const UpdateAvatarDialog = () => {
             Đóng
           </Button>
           <Button
+            disabled={loading}
             type="submit"
             className="bg-primary-color hover:bg-primary-color"
             onClick={() => handleSubmit()}
           >
+             {loading && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+                  )}
             Cập nhật
           </Button>
         </DialogFooter>

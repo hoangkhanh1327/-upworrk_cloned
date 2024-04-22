@@ -17,8 +17,11 @@ import { cn } from "@/lib/utils";
 import MultiSkillSelect from "@/app/components/Selects/SkillSelect";
 import { FreelancerInfo } from "@/app/types/authentication.types";
 import { Skill, SkillInProfile } from "@/app/types/common.types";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { set } from "lodash";
 
 const UpdateSkillDialog = () => {
+  const [loading, setLoading] = useState(false);
   const { onCloseModal } = useContext(ProfileContext);
   const { user, setUser } = useContext(AuthContext);
   const { toast } = useToast();
@@ -32,6 +35,7 @@ const UpdateSkillDialog = () => {
 
   const handleSubmit = async () => {
     try {
+      setLoading(true);
       const convertParams = skills?.map((s) => ({
         skill_id: s.skill_id,
         point: 100,
@@ -61,6 +65,8 @@ const UpdateSkillDialog = () => {
           "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4"
         ),
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -133,10 +139,14 @@ const UpdateSkillDialog = () => {
             Đóng
           </Button>
           <Button
+            disabled={loading}
             type="submit"
             className="bg-primary-color hover:bg-primary-color"
             onClick={() => handleSubmit()}
           >
+            {loading && (
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+            )}
             Cập nhật
           </Button>
         </DialogFooter>
