@@ -40,7 +40,7 @@ const BoardCard = forwardRef<HTMLDivElement, BoardCardProps>((props, ref) => {
   const { data, ...rest } = props;
 
   const { onOpenDialog, onOpenDrawer } = useTaskBoardContext();
-  const { name, desc, deadline, priority, status } = data;
+  const { name, desc, deadline, priority, status, id, job_id } = data;
 
   const onCardClick = () => {
     onOpenDialog("UPDATE_TASK", data);
@@ -100,7 +100,8 @@ const BoardCard = forwardRef<HTMLDivElement, BoardCardProps>((props, ref) => {
       </Card>
       <DialogConfirmTask
         open={open}
-       
+        id_task={id}
+        job_id={job_id}
         onClosed={handleCancel}
       
       />

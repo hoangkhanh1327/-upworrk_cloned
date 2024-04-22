@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 import { useTaskBoardContext } from "./TaskBoardContext";
 import PriorityLabel from "./PriorityLabel";
 import { CiEdit } from "react-icons/ci";
-import { Select } from "antd";
+import { Button, Select } from "antd";
 import { CommonSelectOptions } from "@/app/types/common.types";
 
 interface BoardCardProps {
@@ -80,12 +80,14 @@ const BoardCard = forwardRef<HTMLDivElement, BoardCardProps>((props, ref) => {
       <CardFooter className="block">
         <PriorityLabel priority={priority} />
         {status === "1" && (
-          <Select
-            disabled
-            defaultValue={Options[0].value}
-            options={Options}
-            style={{ width: 150, marginTop: 10 }}
-          />
+          <Button
+            disabled={true}
+            // onClick={() => setOpen(true)}
+            size="middle"
+            className="bg-primary-foreground my-4"
+          >
+            Xác nhận công việc
+          </Button>
         )}
       </CardFooter>
     </Card>

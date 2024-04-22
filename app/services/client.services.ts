@@ -94,7 +94,27 @@ const getListFreeLancer = async (params: any) => {
 const sendInviteWorkToFreelancer = async (
   params: InviteJobToFreelancerRequest
 ) => {
-  return ApiService.post<InviteJobToFreelancerResponse>(`/client/freelancers/invite`, params);
+  return ApiService.post<InviteJobToFreelancerResponse>(
+    `/client/freelancers/invite`,
+    params
+  );
+};
+// confirm status
+
+type ConfirmStatusRequest = {
+  id: number | string;
+  status: number | string;
+  job_id: number | string;
+};
+
+const confirmStatus = async (params: ConfirmStatusRequest) => {
+  return ApiService.post<CommonResponse>(
+    `/job/task/${params.id}/confirm-status`,
+    {
+      // id: params.id,
+      confirm_status: params.status,
+    }
+  );
 };
 
 export const clientServices = {
@@ -106,4 +126,5 @@ export const clientServices = {
   getDetailFreelancersInfo,
   getListFreeLancer,
   sendInviteWorkToFreelancer,
+  confirmStatus,
 };
