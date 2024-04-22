@@ -101,7 +101,7 @@ const UpdatePersonalInfoDialog = () => {
 
   return (
     <Dialog open={true} onOpenChange={() => onCloseModal?.()}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Cập nhật thông tin</DialogTitle>
           <DialogDescription>
@@ -119,7 +119,7 @@ const UpdatePersonalInfoDialog = () => {
               }}
               defaultValue={user?.sex}
             >
-              <SelectTrigger id="sex" className="w-full col-span-3">
+              <SelectTrigger id="sex" className="w-full focus:ring-!transparent col-span-3 focus-visible:!ring-transparent focus-visible:!ring-offset-0">
                 <SelectValue placeholder="Chọn giới tính" />
               </SelectTrigger>
               <SelectContent>
@@ -138,7 +138,7 @@ const UpdatePersonalInfoDialog = () => {
                   id="birthday"
                   variant={"outline"}
                   className={cn(
-                    "w-[280px] justify-start text-left font-normal",
+                    "w-[280px] justify-start text-left font-normal focus-visible:!ring-transparent focus-visible:!ring-offset-0",
                     !birthDay && "text-muted-foreground"
                   )}
                 >
