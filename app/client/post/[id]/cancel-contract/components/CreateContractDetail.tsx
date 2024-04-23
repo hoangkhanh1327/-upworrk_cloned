@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { DetailPostContext } from "../../context/PostDetailProvider";
 import { Skeleton } from "@/app/components/ui/skeleton";
-import CreateFormContract from "../../components/FormCreate";
-interface ICreateContract {
+import CancelFormContract from "./FormCancel";
+interface ICancelContract {
   postId: string;
 }
-const CreateContractDetail = ({ postId }: ICreateContract) => {
+const CancelContractDetail = ({ postId }: ICancelContract) => {
   const { post, loading, handleGetPostDetail } = useContext(DetailPostContext);
   useEffect(() => {
     if (postId) {
@@ -19,10 +19,15 @@ const CreateContractDetail = ({ postId }: ICreateContract) => {
       <Skeleton className="w-20 h-7" />
     </>
   ) : (
-      <section>
-        {post&&post?.nominee? <CreateFormContract nominee={post?.nominee} />:<></>}
+    <section>
+
+      {post && post?.nominee ? (
+        <CancelFormContract nominee={post?.nominee} />
+      ) : (
+        <></>
+      )}
     </section>
   );
 };
 
-export default CreateContractDetail;
+export default CancelContractDetail;

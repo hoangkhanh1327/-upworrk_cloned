@@ -21,14 +21,15 @@ import { commonServices } from "@/app/services/common.services";
 import { AuthContext } from "@/app/providers/AuthProvider";
 import { Nominee } from "@/app/types/client.types";
 import { clientServices } from "@/app/services/client.services";
-import PolicyViews from "./PolicyViews";
 import { Button as ButtonAnt, Checkbox, Modal } from "antd";
-import SignaturePadSimple from "./SignaturePad";
-import InputOtp from "./InputOtp";
+import PolicyViews from "../../components/PolicyViews";
+import SignaturePadSimple from "../../components/SignaturePad";
+import constants from "@/app/utils/constants";
+import InputOtp from "../../components/InputOtp";
 // import Link from "next/link";
 const Textarea = Input.TextArea;
 
-const CreateFormContractSchema = yup.object({
+const CancelFormContractSchema = yup.object({
   title: yup.string().required(""),
   description: yup.string().required(""),
   // deadline: yup.date().required(),
@@ -39,34 +40,16 @@ const CreateFormContractSchema = yup.object({
 
 export interface SignUpSubmitValue {}
 
-interface ICreateFormContract {
-  handleCreateAccount: (data: SignUpSubmitValue) => void;
+interface ICancelFormContract {
+  handleCancelAccount: (data: SignUpSubmitValue) => void;
 }
-interface ICreateContract {
+interface ICancelContract {
   nominee: Nominee;
 }
-const inputContainerStyle = {
-  display: "inline-block",
-  border: "1px solid #ccc",
-  borderRadius: "5px",
-  overflow: "hidden",
-};
 
-const inputStyle = {
-  width: "100%",
-  height: "100%",
-  padding: "0",
-  margin: "0",
-  border: "none",
-  textAlign: "center",
-  fontSize: "20px",
-  outline: "none",
-};
-
-const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
+const CancelFormContract: React.FC<ICancelContract> = ({ nominee }) => {
   const [loading, setLoading] = useState(false);
   const user = useContext(AuthContext);
-  const [contractFile, setContractFile] = useState(null);
   const [imgSignature, setImgSignature] = useState<String>("");
   const [acceptedPolicy, setAcceptedPolicy] = useState<boolean>(false);
   const [checked, setChecked] = useState(false);
@@ -82,19 +65,13 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
     setChecked(e.target.checked);
   };
 
-  const { contract } = useContract(
-    "0x141F9921217A5e6f0f34341077d831482db29d00"
-  );
+  const { contract } = useContract(constants.ADDRESS_META_MASK);
   const { address, connect } = useStateContext();
-  console.log("address", address);
   const form = useForm({
-    resolver: yupResolver(CreateFormContractSchema),
+    resolver: yupResolver(CancelFormContractSchema),
     defaultValues: {
       title: "",
       description: "",
-      // deadline: new Date(),
-      bids: 0,
-      // signature: "",
     },
   });
 
@@ -150,7 +127,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
         ]);
 
         const responseContract = await contract?.call(
-          "createContract",
+          "cancelContract",
           [
             data.title,
             data.description,
@@ -178,7 +155,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
         //send notification
         // await notiRes =
         sendNotification({
-          title: `Create contract ${data.title} success`,
+          title: `Đã hủy hợp đồng ${data.title} success`,
           message: `${data.description}`,
           linkable: `info-contract/${nominee.job_id}`,
           smail: 1,
@@ -194,7 +171,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
     }
     // console.log(data);
   };
-  // handleCreateAccount(data);
+  // handleCancelAccount(data);
   const onError: SubmitErrorHandler<SignUpSubmitValue> = (errors) => {
     console.log("error", errors);
   };
@@ -202,28 +179,23 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
   return (
     <>
       <div className="">
+        <div className="my-6">
+          <h2 className="text-3xl -tracking-[1px] font-medium text-center">
+            Quy định hủy hợp đồng
+          </h2>
+          <span>
+            <p className="text-[#001e00] text-lg text-center">
+              Hãy cân nhắc trước khi thực hiện việc hủy hợp đồng,
+              <br />
+              việc này sẽ ảnh hưởng đến uy tín của bạn trong tương lai. Thêm vào
+              đó, số tiền bạn đã đặt cọc sẽ không được hoàn lại mà nó sẽ được
+              chuyển cho freelancer.
+            </p>
+          </span>
+        </div>
         <Form {...form}>
           <form className="" onSubmit={form.handleSubmit(onSubmit, onError)}>
-            <div className="grid grid-cols-2 gap-x-2">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Title</FormLabel>
-                    <FormControl>
-                      <Input
-                        size="large"
-                        className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
-                        placeholder="Title"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name="bids"
                 render={({ field }) => (
@@ -241,17 +213,19 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
                     <FormMessage />
                   </FormItem>
                 )}
-              />
-            </div>
+              /> */}
             <div className="grid grid-cols-1 gap-x-1">
               <FormField
                 control={form.control}
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Hãy viết mô tả ngắn về hợp đồng</FormLabel>
+                    <FormLabel className="text-lg">
+                      Hãy cho chúng tôi biết một vài lý do khiến bạn hủy hợp
+                      đồng
+                    </FormLabel>
                     <FormControl>
-                      <Textarea rows={5} {...field} />
+                      <Textarea rows={6} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -293,7 +267,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
                       {loading && (
                         <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
                       )}
-                      {address ? "Tạo hợp đồng" : "Kết nối ví MetaMask"}
+                      {address ? "Hủy hợp đồng" : "Kết nối ví MetaMask"}
                     </Button>
                   ) : (
                     ""
@@ -319,4 +293,4 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
   );
 };
 
-export default CreateFormContract;
+export default CancelFormContract;

@@ -289,7 +289,6 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
       console.log("có lỗi khi thực hiện dữ liệu chưa đồng bộ");
     }
 
-    // c
   };
   useEffect(() => {
     if (contractInfo.contract_id >= 0) {

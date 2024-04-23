@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 import PostDetailProvider from "../context/PostDetailProvider";
-import CreateContractDetail from "./components/CreateContractDetail";
+import CancelContractDetail from "./components/CreateContractDetail";
+// import CreateContractDetail from "./components/CreateContractDetail";
 
 interface ICreateContract {
   params: {
@@ -12,7 +13,7 @@ const CreateContract: React.FC<ICreateContract> = ({ params }) => {
   return (
     <main className="container w-[80%]">
       <PostDetailProvider>
-        <CreateContractDetail postId={params.id} />
+        <CancelContractDetail postId={params.id} />
       </PostDetailProvider>
     </main>
   );
