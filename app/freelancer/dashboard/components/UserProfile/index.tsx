@@ -21,6 +21,8 @@ const UserProfile = () => {
               <Image
                 src={user?.avatar_url.toString()}
                 alt=""
+                width={150}
+                height={150}
                 className="w-[150px] h-[150px] rounded-full object-cover"
               />
             </div>
@@ -44,8 +46,8 @@ const UserProfile = () => {
               <p className="mb-2 text-base font-semibold">
                 {user?.company_name || ""}
               </p>
-              <p className="text-sm font-medium text-gray-500">
-                {user?.intro || ""}
+              <p className="text-sm font-medium text-gray-500" dangerouslySetInnerHTML={{ __html: `${user?.intro || ""}` }}>
+                
               </p>
             </div>
           </div>

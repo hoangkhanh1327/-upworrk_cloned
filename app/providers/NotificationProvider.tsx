@@ -5,15 +5,28 @@ import Pusher from 'pusher-js';
 import Cookies from 'js-cookie';
 import { commonServices } from '../services/common.services';
 import { AuthContext } from './AuthProvider';
+import { notification } from 'antd';
 
 export const NotificationContext = createContext<any>(null);
 
 interface INotificationProvider {
     children: React.ReactNode;
 }
+type NotificationType = "success" | "info" | "warning" | "error";
 
 const NotificationProvider: FC<INotificationProvider> = ({ children }) => {
     const [notifications, setNotifications] = useState<any>([]);
+    const [api, contextHolder] = notification.useNotification();
+    const openNotificationWithIcon = (
+        type: NotificationType,
+        message: string,
+        desc: string
+      ) => {
+        api[type]({
+          message: message,
+          description: desc,
+        });
+      };
     const user = useContext(AuthContext);
     // getNotification
     const getNotification = async (data: any) => {
@@ -89,8 +102,9 @@ const NotificationProvider: FC<INotificationProvider> = ({ children }) => {
 
     return (
         <NotificationContext.Provider
-            value={{ notifications, markNotificationAsRead }}
+            value={{ notifications, markNotificationAsRead,openNotificationWithIcon }}
         >
+            {contextHolder}
             {children}
         </NotificationContext.Provider>
     );

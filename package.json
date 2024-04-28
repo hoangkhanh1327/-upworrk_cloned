@@ -26,6 +26,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@thirdweb-dev/react": "^4.4.23",
+    "@tinymce/tinymce-react": "^5.0.1",
     "@types/file-saver": "^2.0.7",
     "@types/pusher-js": "^5.1.0",
     "antd": "^5.16.1",
