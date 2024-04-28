@@ -17,7 +17,7 @@ import DoneUpdate from './components/DoneUpdate/DoneUpdate';
 const AddProfileInfo = () => {
     const [accountType, setAccountType] = useState('');
     const router = useRouter();
-    const [process, setProcess] = useState(0);
+    const [process, setProcess] = useState(3);
 
     useEffect(() => {
         const accountType = Cookies.get('account_type');

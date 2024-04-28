@@ -4,16 +4,19 @@ import { Button } from '@/app/components/ui/button';
 import { BookOpenText } from 'lucide-react';
 import Link from 'next/link';
 import Cookies from 'js-cookie';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { AuthContext } from '@/app/providers/AuthProvider';
 
 const DoneUpdate = () => {
     const [accountType, setAccountType] = useState('');
     const router = useRouter();
+    let { reLoadData } = useContext(AuthContext);
 
     useEffect(() => {
         const accountType = Cookies.get('account_type');
         setAccountType(accountType || '');
+        reLoadData(accountType);
     }, []);
 
     return (
