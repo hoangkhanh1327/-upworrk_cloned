@@ -87,6 +87,10 @@ const verifyCard = async (image:any) => {
   return await ApiService.postFormData<any>('/verify-citizen-identification-card', {image:image});
 }
 
+const getDataChart = async (url: any, params: any) => { 
+  return await ApiService.get<any>(url, params);
+}
+
 export type GetProvinces = any;
 
 export type INotiParams = {
@@ -135,6 +139,7 @@ export const commonServices = {
   getDistricts,
   UpdateInfo,
   getMajor,
-  verifyCard
+  verifyCard,
+  getDataChart
 
 };
