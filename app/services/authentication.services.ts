@@ -106,6 +106,12 @@ const verifyIdentify = async (params: { image: File }) => {
         params
     );
 };
+const changePassword = async (params:any) => {
+    return ApiService.post<any>(
+        `/change-pass`,
+        params
+    );
+};
 
 export const loginServices = {
     login,
@@ -114,5 +120,6 @@ export const loginServices = {
     getFreelancerInfo,
     updateUserInfo,
     updateFreelancerInfo,
-    verifyIdentify
+    verifyIdentify,
+    changePassword
 };

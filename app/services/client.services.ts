@@ -81,6 +81,11 @@ const getDetailFreelancersInfo = (freelancerId: GetFreelancerInfoRequest) => {
     `/info-user?id=${freelancerId}&typeUser=freelancer`
   );
 };
+const getDetailInfo = (userType:string,user_id: GetFreelancerInfoRequest) => {
+  return ApiService.get<GetFreelancerInfoResponse>(
+    `/info-user?id=${user_id}&typeUser=${userType}`
+  );
+};
 const confirmJob = async (id: any) => {
   return ApiService.postFormData<any>(`/client/job/${id}/recruit-confirm`);
 };
@@ -127,4 +132,5 @@ export const clientServices = {
   getListFreeLancer,
   sendInviteWorkToFreelancer,
   confirmStatus,
+  getDetailInfo
 };
