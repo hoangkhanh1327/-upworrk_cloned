@@ -67,7 +67,7 @@ export type DetailClientPost = {
     skill_desc: string;
     skill_id: string;
     skill_name: string;
-    skill_points: string;
+    skill_points?: string;
   }[];
   applied: Applied[];
   statusText: string;

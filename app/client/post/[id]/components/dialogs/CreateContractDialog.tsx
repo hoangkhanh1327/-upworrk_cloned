@@ -6,13 +6,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/app/components/ui/dialog";
-import { Applied } from "@/app/types/client.types";
+import { Applied, Nominee } from "@/app/types/client.types";
 import { Dialog } from "@radix-ui/react-dialog";
 import Link from "next/link";
 import CreateFormContract from "../FormCreate";
 
 interface IAppliedInfoDialog {
-  info: Applied;
+  info: Nominee;
   onClose: () => void;
 }
 
@@ -29,7 +29,7 @@ const CreateContractDialog: React.FC<IAppliedInfoDialog> = ({
           <DialogTitle>Tạo 1 hợp đồng làm việc mới</DialogTitle>
         </DialogHeader>
         <div>
-          <CreateFormContract infoApply={info} />
+          <CreateFormContract nominee={info} />
         </div>
         <DialogFooter>
           <Button type="button" onClick={() => onClose()}>

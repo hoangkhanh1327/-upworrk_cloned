@@ -21,7 +21,7 @@ export type Skill = {
   skill_id: number;
   skill_desc: string;
   skill_name: string;
-  skill_points: number;
+  skill_points?: number;
 };
 
 export type DetailClientPost = {
