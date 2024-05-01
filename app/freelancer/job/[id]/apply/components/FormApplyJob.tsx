@@ -101,7 +101,7 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
       setLoading(true);
       const dataApplyJob = {
         ...data,
-        proposal: 0,
+        // proposal: 0,
         jobId: job.id,
       };
       const res = await freelancerServices.applyJob({
