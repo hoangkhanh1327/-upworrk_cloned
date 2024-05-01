@@ -180,7 +180,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
         sendNotification({
           title: `Create contract ${data.title} success`,
           message: `${data.description}`,
-          linkable: `info-contract/${nominee.job_id}`,
+          linkable: `/info-contract/${nominee.job_id}`,
           smail: 1,
           imagefile: null,
           user_type: "freelancer",

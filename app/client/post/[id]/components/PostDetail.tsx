@@ -265,7 +265,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                   <Button className="cursor-pointer flex items-center border-solid border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4 ">
                   <Link
                       href={{
-                        pathname: `/freelancer/info-contract/${post?.id}`,
+                        pathname: `/info-contract/${post?.id}`,
                       }}
                     >
                       Xem chi tiết hợp đồng
