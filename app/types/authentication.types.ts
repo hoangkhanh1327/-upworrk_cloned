@@ -79,6 +79,7 @@ export type BaseInfo = {
     expected_salary?: number | string;
     first_name: string;
     intro?: string;
+    introduce?: string;
     last_name: string;
     phone_num: string;
     position?: string;

@@ -1,5 +1,5 @@
 'use client';
-
+import { useRouter } from 'next/navigation';
 import MenuPannel from './components/MenuPannel';
 import DialogProvider from './components/Providers/DialogProviders';
 import SideMenu from './components/SideMenu';
@@ -13,7 +13,7 @@ const ProfilePage = () => {
                     <SideMenu />
                 </div>
                 <div className='col-span-4'>
-                    <MenuPannel />
+                    <MenuPannel/>
                 </div>
             </div>
             <DialogProvider />
