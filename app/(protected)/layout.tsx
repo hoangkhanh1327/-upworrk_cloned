@@ -8,7 +8,7 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <>
             <ProtectedHeader />
-            <main className='container py-8'>{children}</main>
+            <main className='container py-8 w-full h-full'>{children}</main>
         </>
     );
 };

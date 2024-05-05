@@ -91,6 +91,10 @@ const getDataChart = async (url: any, params: any) => {
   return await ApiService.get<any>(url, params);
 }
 
+const feedback = async (params: any) => { 
+  return await ApiService.get<any>('/feedback', params);
+}
+
 export type GetProvinces = any;
 
 export type INotiParams = {
@@ -140,6 +144,7 @@ export const commonServices = {
   UpdateInfo,
   getMajor,
   verifyCard,
-  getDataChart
+  getDataChart,
+  feedback
 
 };
