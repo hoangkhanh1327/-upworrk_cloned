@@ -7,9 +7,9 @@ interface QABussinessDataItem {
 }
 const QABussinessData: QABussinessDataItem[] = [
     {
-        title: 'Proof of quality',
+        title: 'Thông tin xác minh được bảo mật',
         subTitle:
-            'Check any pro’s work samples, client reviews, and identity verification.',
+            'Cam kết thông tin xác minh của bạn sẽ được chúng tôi bảo mật.',
         icon: (
             <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -41,9 +41,9 @@ const QABussinessData: QABussinessDataItem[] = [
         ),
     },
     {
-        title: 'No cost until you hire',
+        title: 'Không tốn phí khi tìm công việc',
         subTitle:
-            'Interview potential fits for your job, negotiate rates, and only pay for work you approve.',
+            'Quá trình tìm việc hoàn toàn không tốn phí.',
         icon: (
             <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -72,9 +72,9 @@ const QABussinessData: QABussinessDataItem[] = [
         ),
     },
     {
-        title: 'Safe and secure',
+        title: 'An toàn và bảo mật',
         subTitle:
-            'Focus on your work knowing we help protect your data and privacy. We’re here with 24/7 support if you need it.',
+            'Bằng cách tận dụng sức mạnh của các hợp đồng thông minh trên Blockchain, IT Work tự động hóa quy trình giao dịch, nâng cao hiệu suất và giảm rủi ro tranh chấp. Phương pháp phi tập trung này đảm bảo tính minh bạch và niềm tin giữa tất cả các bên liên quan.            ',
         icon: (
             <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -111,9 +111,9 @@ const QABussiness = () => {
                     <div>
                         <h2 className='my-[30px] pr-[100px] text-[72px] leading-[72px] -tracking-[1px] font-rza'>
                             <span>
-                                Why businesses
+                                Tại sao Freelancer
                                 <br />
-                                turn to ITWork
+                                nên tìm đến ITWork
                             </span>
                         </h2>
                         <div className='pr-[285px]'>
@@ -144,14 +144,16 @@ const QABussiness = () => {
                     <div className='relative items-end pl-[30px]'>
                         <h3 className='mb-[30px] text-[33px] leading-[100%] text-white'>
                             <span>
-                                {`We’re`}
+                                {`     Chúng tôi`}
                                 <br />
-                                {`the world’s work`}
+                                {`sẽ tạo ra một môi trường`}
                                 <br />
-                                {`marketplace`}
+                                {`An toàn`}
+                                <br />
+                                {``}
                             </span>
                         </h3>
-                        <div className='flex'>
+                        {/* <div className='flex'>
                             <div className='inline-flex w-8 h-8 text-white'>
                                 <svg
                                     xmlns='http://www.w3.org/2000/svg'
@@ -179,8 +181,8 @@ const QABussiness = () => {
                                 </h3>
                                 <p className='p-0 text-base leading-[22px] text-white'>{`Clients rate professionals on ITWork`}</p>
                             </div>
-                        </div>
-                        <div className='flex'>
+                        </div> */}
+                        {/* <div className='flex'>
                             <div className='inline-flex w-8 h-8 text-white relative'>
                                 <Image
                                     fill
@@ -195,13 +197,13 @@ const QABussiness = () => {
                                 <p className='p-0 text-base leading-[22px] text-white'>{`G2’s 2021 Best Software Awards`}</p>
                             </div>
                         </div>
-                        <Image
+                        */}<Image
                             width={866}
                             height={1388}
-                            className='absolute top-0 -left-8 translate-x-[-268px] translate-y-[-225px] rotate-[-5deg]  align-middle'
+                            className='absolute top-0 -left-8 translate-x-[-208px] translate-y-[-425px] rotate-[-5deg]  align-middle'
                             src={`/images/home-page/person-with-headset.webp`}
                             alt=''
-                        />
+                        /> 
                     </div>
                 </div>
             </div>
