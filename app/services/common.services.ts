@@ -92,7 +92,7 @@ const getDataChart = async (url: any, params: any) => {
 }
 
 const feedback = async (params: any) => { 
-  return await ApiService.get<any>('/feedback', params);
+  return await ApiService.post<any>('/feedback', params);
 }
 
 export type GetProvinces = any;
