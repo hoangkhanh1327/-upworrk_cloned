@@ -13,6 +13,9 @@ import { VscFile } from "react-icons/vsc";
 import AppliedTable from "./AppliedTable";
 import _, { isEmpty } from "lodash";
 import InviteTable from "./InviteTable";
+import { useContract } from "@thirdweb-dev/react";
+import { appConfig } from "@/app/configs/app.config";
+import { Spin } from "antd";
 interface IPostDetail {
   postId: string;
 }
@@ -20,18 +23,23 @@ interface IPostDetail {
 const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
   const [loading, setLoading] = useState(false);
   const [post, setPost] = useState<DetailClientPost | null>(null);
+  const [reload, setReload] = useState(false);
+  const [isSignContract, setIsSignContract] = useState(false);
+  const { contract } = useContract(
+    "0x12C33E9f080907dfF4BFaE4A841f4F2cA7E975eD"
+  );
   useEffect(() => {
     const fetchPostData = async (postId: string) => {
-      try {
-        setLoading(true);
-        const res = await clientServices.getPost(postId);
-        if (res.data) {
-          setPost(res.data);
-        }
-      } catch (error) {
-      } finally {
-        setLoading(false);
+      setLoading(true);
+      const res = await clientServices.getPost(postId);
+      if (res.data) {
+        setPost(res.data);
       }
+      console.log("-->", appConfig.contractId);
+
+      const data = await contract?.call("getJobInfoByCurrentJobId", [postId]);
+      if (data != undefined) setIsSignContract(true);
+      setLoading(false);
     };
     if (postId) {
       fetchPostData(postId);
@@ -40,8 +48,10 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
 
   console.log("post?.nominee", post?.nominee);
 
-  return (
+  return (<>
+    {loading ? <Spin fullscreen></Spin> :<></>}
     <section className="px-20">
+      
       <div>
         <h2 className="text-4xl font-semibold -tracking-[1px]">
           Chi tiết công việc
@@ -173,87 +183,91 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
               </div>
             </div>
             {/* Nominal */}
-            {post?.status?.toString() === "3" && !isEmpty(post?.nominee) && (
-              <div className="mb-6 items-start">
-                <h3 className="text-lg font-medium mb-2 min-w-[130px]">
-                  Ứng viên đã kí hợp đồng: {/* {post?.applied?.length || 0} */}
-                </h3>
-                <div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                  {/* <h3>Name: {post?.nominee?.username}</h3> */}
-                  <div className="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    {/* <a href="#"> */}
-                    <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                      Thông tin ứng viên
-                    </h5>
-                    {/* </a> */}
-                    <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
-                      <strong>Tên ứng viên:</strong> {post?.nominee?.username}
-                    </p>
-                    <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
-                      <strong>Email:</strong> {post?.nominee?.email}
-                    </p>
-                    <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
-                      <strong>Thư giới thiệu:</strong>{" "}
-                      {post?.nominee?.cover_letter}
-                    </p>
+            {post?.status?.toString() === "3" &&
+              isSignContract &&
+              !isEmpty(post?.nominee) && (
+                <div className="mb-6 items-start">
+                  <h3 className="text-lg font-medium mb-2 min-w-[130px]">
+                    Ứng viên đã kí hợp đồng:{" "}
+                    {/* {post?.applied?.length || 0} */}
+                  </h3>
+                  <div className="w-full bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    {/* <h3>Name: {post?.nominee?.username}</h3> */}
+                    <div className="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                      {/* <a href="#"> */}
+                      <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                        Thông tin ứng viên
+                      </h5>
+                      {/* </a> */}
+                      <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
+                        <strong>Tên ứng viên:</strong> {post?.nominee?.username}
+                      </p>
+                      <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
+                        <strong>Email:</strong> {post?.nominee?.email}
+                      </p>
+                      <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
+                        <strong>Thư giới thiệu:</strong>{" "}
+                        {post?.nominee?.cover_letter}
+                      </p>
 
-                    {!loading &&
-                      post?.nominee &&
-                      post?.nominee?.attachment_url && (
-                        <div className="mb-6 flex items-center">
-                          <h3 className="text-lg font-medium min-w-[130px]">
-                            File đính kèm
-                          </h3>
-                          <div className="flex items-center gap-x-3 pl-3">
-                            <Link
-                              href={post?.nominee.attachment_url}
-                              target="_blank"
-                            >
-                              <div className="upload-file">
-                                <div className="flex px-3 py-3">
-                                  <div className="upload-file-thumbnail !p-0 w-8 h-8">
-                                    {
-                                      <FileIcon>
-                                        <VscFile />
-                                      </FileIcon>
-                                    }
-                                  </div>
-                                  <div className="upload-file-info min-h-[2rem]">
-                                    <h6 className="upload-file-name">
-                                      {`${post?.nominee?.username}`}
-                                    </h6>
+                      {!loading &&
+                        post?.nominee &&
+                        post?.nominee?.attachment_url && (
+                          <div className="mb-6 flex items-center">
+                            <h3 className="text-lg font-medium min-w-[130px]">
+                              File đính kèm
+                            </h3>
+                            <div className="flex items-center gap-x-3 pl-3">
+                              <Link
+                                href={post?.nominee.attachment_url}
+                                target="_blank"
+                              >
+                                <div className="upload-file">
+                                  <div className="flex px-3 py-3">
+                                    <div className="upload-file-thumbnail !p-0 w-8 h-8">
+                                      {
+                                        <FileIcon>
+                                          <VscFile />
+                                        </FileIcon>
+                                      }
+                                    </div>
+                                    <div className="upload-file-info min-h-[2rem]">
+                                      <h6 className="upload-file-name">
+                                        {`${post?.nominee?.username}`}
+                                      </h6>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
-                            </Link>
+                              </Link>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    <div>
-                      <Button
-                        asChild
-                        variant="default"
-                        // className="text-white bg-primary-color hover:bg-primary-color"
-                        className="text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800"
-                      >
-                        <Link
-                          target="_blank"
-                          href={`/client/show-freelancer-info/${post.nominee?.freelancer_id}`}
+                        )}
+                      <div>
+                        <Button
+                          asChild
+                          variant="default"
+                          // className="text-white bg-primary-color hover:bg-primary-color"
+                          className="text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800"
                         >
-                          Xem thông tin chi tiết
-                        </Link>
-                      </Button>
+                          <Link
+                            target="_blank"
+                            href={`/client/show-freelancer-info/${post.nominee?.freelancer_id}`}
+                          >
+                            Xem thông tin chi tiết
+                          </Link>
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
             <div className="mb-6 flex items-start justify-end">
-              {post?.status?.toString() === "3" && (
+              {post?.status?.toString() === "3" && isSignContract && (
                 <div className="flex flex-row justify-end">
-                  <Button className="cursor-pointer flex items-center border-solid border-transparent text-sm font-medium
-                    bg-[#108a00] hover:bg-[#14a800] text-white mx-4">
-                    
+                  <Button
+                    className="cursor-pointer flex items-center border-solid border-transparent text-sm font-medium
+                    bg-[#108a00] hover:bg-[#14a800] text-white mx-4"
+                  >
                     <Link
                       href={{
                         pathname: `/client/task-management/${post?.id}`,
@@ -263,7 +277,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                     </Link>
                   </Button>
                   <Button className="cursor-pointer flex items-center border-solid border-transparent text-sm font-medium  bg-[#108a00] hover:bg-[#14a800] text-white mr-4 ">
-                  <Link
+                    <Link
                       href={{
                         pathname: `/info-contract/${post?.id}`,
                       }}
@@ -272,7 +286,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                     </Link>
                   </Button>
                   <Button className="cursor-pointer flex items-center border-solid border-transparent text-sm font-medium  bg-[red] hover:bg-red-300 text-white mr-4 ">
-                  <Link
+                    <Link
                       href={{
                         pathname: `/client/post/${post?.id}/cancel-contract`,
                       }}
@@ -293,7 +307,10 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                       {post?.applied?.length || 0}
                     </h3>
                     <div className="flex items-center gap-x-3 pl-3 w-full">
-                      <AppliedTable appliedList={post?.applied || []} />
+                      <AppliedTable
+                        statusJob={parseInt(post?.status.toString())}
+                        appliedList={post?.applied || []}
+                      />
                     </div>
                   </>
                 )}
@@ -310,10 +327,17 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                 )}
               </div>
             )}
+            {!isSignContract && post?.status?.toString() === "3" && (
+              <Button>
+                <Link href={`/client/post/${postId}/create-contract`}>
+                  Ký hợp đồng
+                </Link>
+              </Button>
+            )}
           </div>
         </article>
       </div>
-    </section>
+    </section></>
   );
 };
 
