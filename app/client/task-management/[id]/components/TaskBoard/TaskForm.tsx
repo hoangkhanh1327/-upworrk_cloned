@@ -10,8 +10,7 @@ import {
   FormMessage,
 } from "@/app/components/ui/form";
 import { taskServices } from "@/app/services/task.services";
-import { Input } from "@/app/components/ui/input";
-import { Textarea } from "@/app/components/ui/textarea";
+import { Input } from "antd";
 import {
   Popover,
   PopoverContent,
@@ -23,7 +22,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/app/components/ui/calendar";
 import { Task } from "@/app/types/task.types";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import {
   Dialog,
@@ -41,7 +40,8 @@ import {
   SelectValue,
 } from "@/app/components/ui/select";
 import { notification } from "antd";
-import { useTaskBoardContext } from "./TaskBoardContext";
+
+const { TextArea } = Input;
 
 const taskFormSchema = yup.object({
   name: yup.string().required("Vui lòng nhập tên task"),
@@ -54,7 +54,8 @@ interface ITaskForm {
   jobId: string;
   type: "edit" | "new";
   initialData?: any;
-  onSuccess: (data: Task | string) => void;
+  onSuccess: (data: Task) => void;
+  onDeleteSuccess: (data: string) => void;
   onClose: () => void;
 }
 
@@ -93,9 +94,10 @@ const DeleteButton: React.FC<IDeleteButton> = ({ onDelete }) => {
 };
 type NotificationType = "success" | "info" | "warning" | "error";
 const TaskForm = (props: ITaskForm) => {
-  const { jobId, type, initialData, onClose, onSuccess } = props;
+  const { jobId, type, initialData, onClose, onSuccess, onDeleteSuccess } =
+    props;
   const [loading, setLoading] = useState(false);
-  const [api, contextHolder] = notification.useNotification();
+  const [api] = notification.useNotification();
 
   const openNotification = (type: NotificationType, msg: string) => {
     api[type]({
@@ -135,7 +137,6 @@ const TaskForm = (props: ITaskForm) => {
             ? format(data.deadline, "yyyy-MM-dd")
             : initialData.deadline,
         });
-        console.log('data mới', res.data)
         openNotification("success", "Cập nhật task thành công");
         onSuccess(res.data);
         onClose();
@@ -153,7 +154,7 @@ const TaskForm = (props: ITaskForm) => {
       const res = await taskServices.deleteJobTask(initialData.id.toString());
       if (res.status === 200) {
         openNotification("success", "Xóa task thành công");
-        onSuccess(initialData.id);
+        onDeleteSuccess(initialData.id);
       } else {
         openNotification("error", res.message || "Xóa task thất bại");
       }
@@ -166,7 +167,7 @@ const TaskForm = (props: ITaskForm) => {
   };
 
   return (
-    <div className="max-w-[28vw] w-[28vw] mx-auto">
+    <div className="w-[100%] mx-auto">
       <div className="my-2">
         <h1 className="text-4xl -tracking-[1px] font-medium text-center">
           {type === "new" ? "Tạo task mới" : "Chỉnh sửa task"}
@@ -182,7 +183,8 @@ const TaskForm = (props: ITaskForm) => {
                 <FormLabel>Tên task</FormLabel>
                 <FormControl>
                   <Input
-                    className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline"
+                    size="large"
+                    // className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'
                     placeholder="Tên task"
                     {...field}
                   />
@@ -198,11 +200,12 @@ const TaskForm = (props: ITaskForm) => {
               <FormItem className="mt-6">
                 <FormLabel>Mô tả task</FormLabel>
                 <FormControl>
-                  <Textarea
-                    className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline"
-                    placeholder="Tên task"
-                    {...field}
-                  />
+                  {/* <Textarea
+                                        className='border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px] transition-[border-color] no-underline'
+                                        
+                                        
+                                    /> */}
+                  <TextArea rows={4} placeholder="Mô tả task" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

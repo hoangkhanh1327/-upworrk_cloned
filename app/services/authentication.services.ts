@@ -77,7 +77,7 @@ const getFreelancerInfo = async () => {
 };
 
 type IUpdateFreelancerInfoRequest = Partial<FreelancerInfo> & {
-    avatar_url?: File;
+    avatar_url?: string;
     skills?: {
         skill_id: string | number;
         point: string | number;
@@ -86,6 +86,7 @@ type IUpdateFreelancerInfoRequest = Partial<FreelancerInfo> & {
     company_name?: string;
     last_name?: string;
     first_name?: string;
+    avatar?: File;
 };
 
 type IUpdateFreelancerInfoReponse = CommonResponse & {
@@ -105,6 +106,12 @@ const verifyIdentify = async (params: { image: File }) => {
         params
     );
 };
+const changePassword = async (params:any) => {
+    return ApiService.post<any>(
+        `/change-pass`,
+        params
+    );
+};
 
 export const loginServices = {
     login,
@@ -113,5 +120,6 @@ export const loginServices = {
     getFreelancerInfo,
     updateUserInfo,
     updateFreelancerInfo,
-    verifyIdentify
+    verifyIdentify,
+    changePassword
 };

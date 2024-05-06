@@ -48,7 +48,7 @@ type GetAppliedJobsResponse = CommonResponse & {
   data: {
     data: AppliedJob[];
     total: number;
-    current_page: number;
+    total_page: number;
   };
 };
 
@@ -59,7 +59,7 @@ type GetInviteListResponse = CommonResponse & {
   data: {
     data: Invite[];
     total: number;
-    current_page: number;
+    total_page: number;
   };
 };
 const getListInvite = async (params: any) => {

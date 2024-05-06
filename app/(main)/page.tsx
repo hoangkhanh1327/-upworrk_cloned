@@ -11,8 +11,8 @@ export default function Home() {
         <Introduction />
         <CategoriesSection />
         <div className='mx-[9px]'>
-            <QAEnterpriseSection />
-            <QAClientSection />
+            {/* <QAEnterpriseSection />
+            <QAClientSection /> */}
             <QABussiness />
         </div>
     </div>;

@@ -11,8 +11,12 @@ const ApiService = {
                 .then((response: AxiosResponse<Response>) => {
                     resolve(response as Response);
                 })
-                .catch((error: AxiosError) => {
-                    reject(error);
+                .catch((error: any) => {
+                    if (error.status == 422) {
+                        const lstKey = Object.keys(error.data);
+                        resolve({ result: -1, message: error.data[lstKey[0]], data: null, status: -1 }as Response);
+                    }
+                    resolve({ result: -1, message: 'Có lỗi khi thực hiện', data: null, status: -1 }as Response);
                 });
         });
     },
@@ -24,8 +28,14 @@ const ApiService = {
                 .then((response: AxiosResponse<Response>) => {
                     resolve(response as Response);
                 })
-                .catch((error: AxiosError) => {
-                    reject(error);
+                .catch((error: any) => {
+                    //reject(error);
+                    console.log('==>',error);
+                    if (error.status == 422) {
+                        const lstKey = Object.keys(error.data);
+                        resolve({ result: -1, message: error.data[lstKey[0]], data: null, status: -1 }as Response);
+                    }
+                    resolve({ result: -1, message: 'Có lỗi khi thực hiện', data: null, status: -1 }as Response);
                 });
         });
     },
@@ -37,8 +47,12 @@ const ApiService = {
                 .then((response: AxiosResponse<Response>) => {
                     resolve(response as Response);
                 })
-                .catch((error: AxiosError) => {
-                    reject(error);
+                .catch((error: any) => {
+                    if (error.status == 422) {
+                        const lstKey = Object.keys(error.data);
+                        resolve({ result: -1, message: error.data[lstKey[0]], data: null, status: -1 }as Response);
+                    }
+                    resolve({ result: -1, message: 'Có lỗi khi thực hiện', data: null, status: -1 }as Response);
                 });
         });
     },
@@ -64,8 +78,12 @@ const ApiService = {
                 .then((response: AxiosResponse<Response>) => {
                     resolve(response as Response);
                 })
-                .catch((error: AxiosError) => {
-                    reject(error);
+                .catch((error: any) => {
+                    if (error.status == 422) {
+                        const lstKey = Object.keys(error.data);
+                        resolve({ result: -1, message: error.data[lstKey[0]], data: null, status: -1 }as Response);
+                    }
+                    resolve({ result: -1, message: 'Có lỗi khi thực hiện', data: null, status: -1 }as Response);
                 });
         });
     },
@@ -80,8 +98,12 @@ const ApiService = {
                 .then((response: AxiosResponse<Response>) => {
                     resolve(response as Response);
                 })
-                .catch((error: AxiosError) => {
-                    reject(error);
+                .catch((error: any) => {
+                    if (error.status == 422) {
+                        const lstKey = Object.keys(error.data);
+                        resolve({ result: -1, message: error.data[lstKey[0]], data: null, status: -1 }as Response);
+                    }
+                    resolve({ result: -1, message: 'Có lỗi khi thực hiện', data: null, status: -1 }as Response);
                 });
         });
     },
@@ -96,8 +118,12 @@ const ApiService = {
                 .then((response: AxiosResponse<Response>) => {
                     resolve(response as Response);
                 })
-                .catch((error: AxiosError) => {
-                    reject(error);
+                .catch((error: any) => {
+                    if (error.status == 422) {
+                        const lstKey = Object.keys(error.data);
+                        resolve({ result: -1, message: error.data[lstKey[0]], data: null, status: -1 }as Response);
+                    }
+                    resolve({ result: -1, message: 'Có lỗi khi thực hiện', data: null, status: -1 }as Response);
                 });
         });
     },

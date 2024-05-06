@@ -31,7 +31,7 @@ const LoginForm: React.FC<ILoginForm> = ({ setUsername }) => {
                     setUsername(userNameRef.current?.value);
                 }
               }}
-              className="w-full !border-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 "
+              className="w-full !border-1 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 "
             />
           </div>
 
@@ -59,7 +59,7 @@ const LoginForm: React.FC<ILoginForm> = ({ setUsername }) => {
         <div className="mb-10 pb-10 pt-3"></div>
 
         <div className='w-full bg-white text-[#5e6d55] overflow-hidden text-center font-light my-3 pb-3 before:relative before:right-2.5 before:-ml-[50%] before:bg-[#8f8e8e] before:content-[""] before:inline-block before:h-[1px] before:align-middle before:w-1/2 after:content-[""] after:left-[10px] after:-mr-[50%] after:bg-[#8f8e8e] after:inline-block after:h-[1px] after:relative after:align-middle after:w-1/2'>
-          {`Bạn chưa có tài khoản ITWork?`}
+          {`Bạn chưa có tài khoản IT Work?`}
         </div>
 
         <div className="text-center">
@@ -67,7 +67,7 @@ const LoginForm: React.FC<ILoginForm> = ({ setUsername }) => {
             href={`/dang-ky`}
             className="text-[#108a00] hover:text-[#108a00] md:w-[218px] md:min-w-[218px] md:max-w-none text-center border-2 border-solid border-[#108a00] hover:bg-[#f7faf7] inline-flex items-center justify-center rounded-[10rem] text-base leading-10 mx-auto px-8 mt-3 mb-6 "
           >
-            Sign Up
+            Đăng kí
           </Link>
         </div>
       </div>

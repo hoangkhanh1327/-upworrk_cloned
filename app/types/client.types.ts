@@ -34,6 +34,19 @@ export type Applied = {
   updated_at: string;
   username: string;
 };
+export type Invited = {
+  id: number;
+  title: string;
+  mail_invite: string;
+  job_id: string;
+  client_id: string;
+  freelancer_id: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  username: string;
+  email: string;
+};
 
 export type DetailClientPost = {
   id: number;
@@ -54,11 +67,12 @@ export type DetailClientPost = {
     skill_desc: string;
     skill_id: string;
     skill_name: string;
-    skill_points: string;
+    skill_points?: string;
   }[];
   applied: Applied[];
   statusText: string;
   task: Task[];
+  list_invite: Invited[];
 };
 
 export type Nominee = {

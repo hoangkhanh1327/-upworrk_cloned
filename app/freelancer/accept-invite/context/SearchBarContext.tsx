@@ -62,11 +62,10 @@ export const SearchBarProvider = ({
           num: constants.PAGE_SIZE,
         });
         console.log("res", res);
-        // debugger
         if (res.data && !isEmpty(res.data)) {
           setInvites(res.data.data);
           setTotal(res.data.total);
-          setTotalPage(res.data.current_page);
+          setTotalPage(res.data.total_page);
         }
       } catch (error) {
         console.log("error", error);

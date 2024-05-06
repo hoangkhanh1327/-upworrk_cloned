@@ -10,8 +10,8 @@ import {
   FormMessage,
 } from "@/app/components/ui/form";
 import { taskServices } from "@/app/services/task.services";
-import { Input } from "@/app/components/ui/input";
-import { Textarea } from "@/app/components/ui/textarea";
+import { Input } from "antd";
+// import { Textarea } from '@/app/components/ui/textarea';
 import {
   Popover,
   PopoverContent,
@@ -49,11 +49,13 @@ const taskFormSchema = yup.object({
   priority: yup.string().required("Vui lòng chọn mức độ quan trọng"),
 });
 
+const Textarea = Input.TextArea;
 interface ITaskForm {
   jobId: string;
   type: "edit" | "new";
   initialData?: any;
-  onSuccess: (data: Task | string) => void;
+  onSuccess: (data: Task) => void;
+  onDeleteSuccess: (data: string) => void;
   onClose: () => void;
 }
 
@@ -92,7 +94,8 @@ const DeleteButton: React.FC<IDeleteButton> = ({ onDelete }) => {
 };
 
 const TaskForm = (props: ITaskForm) => {
-  const { jobId, type, initialData, onClose, onSuccess } = props;
+  const { jobId, type, initialData, onClose, onSuccess, onDeleteSuccess } =
+    props;
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const form = useForm({
@@ -152,7 +155,7 @@ const TaskForm = (props: ITaskForm) => {
         title: "Xoá task thành công",
       });
       const res = await taskServices.deleteJobTask(initialData.id.toString());
-      onSuccess(initialData.id);
+      onDeleteSuccess(initialData.id);
       onClose();
     } catch (error) {
       toast({

@@ -15,6 +15,16 @@ type GetSkillResponse = CommonResponse & {
     total_page: number;
   };
 };
+type GetMajorResponse = CommonResponse & {
+  
+    data:any;
+    total: number;
+    total_page: number;
+};
+
+const getMajor = (params: GetSkillRequest) => {
+  return ApiService.get<GetMajorResponse>(`/majors`, params);
+ }
 const getSkill = (params: GetSkillRequest) => {
   return ApiService.get<GetSkillResponse>(`/administrator/skill`, params);
 };
@@ -29,6 +39,10 @@ const sendNotication = async (params: INotiParams) => {
     user_id: params.user_id,
   });
 };
+
+const pushSeenNoti = async (id: number) => { 
+  return ApiService.put<any>(`/notifications/${id}/seen`);
+}
 
 const getInfoUser = async (params:any): Promise<any>=>{
   return ApiService.get<any>(`/info-user?id=${params.id}&typeUser=${params.type}`)
@@ -48,6 +62,40 @@ const getNotification = async (params: any) => {
 const sendOtp = async () => {
   return ApiService.post<GetNotificationResponse>(`/send-otp`);
 }
+const verifyOtp = async (otp:any) => {
+  return ApiService.post<GetNotificationResponse>(`/verify-otp`,{otp:otp});
+}
+const getProvinces = async () => { 
+  return ApiService.get<GetProvinces>(`https://vapi.vnappmob.com/api/province/`);
+}
+
+const getDistricts = async (province_id:number) => { 
+  return ApiService.get<GetProvinces>(`https://vapi.vnappmob.com/api/province/district/${province_id}`);
+}
+const getWarks= async (district_id:number) => { 
+  return ApiService.get<GetProvinces>(`https://vapi.vnappmob.com/api/province/ward/${district_id}`);
+}
+
+const UpdateInfo = async (user_type:string,atributeUpdate:any) => {
+  if (user_type == 'client')
+    return await ApiService.postFormData<any>('/client/info/update',atributeUpdate);
+  else
+    return await ApiService.postFormData<any>('/freelancer/info/update',atributeUpdate);
+}
+
+const verifyCard = async (image:any) => {
+  return await ApiService.postFormData<any>('/verify-citizen-identification-card', {image:image});
+}
+
+const getDataChart = async (url: any, params: any) => { 
+  return await ApiService.get<any>(url, params);
+}
+
+const feedback = async (params: any) => { 
+  return await ApiService.post<any>('/feedback', params);
+}
+
+export type GetProvinces = any;
 
 export type INotiParams = {
   title: string;
@@ -87,5 +135,16 @@ export const commonServices = {
   getNotification,
   getInfoUser,
   getInfoJob,
-  sendOtp
+  sendOtp,
+  pushSeenNoti,
+  verifyOtp,
+  getProvinces,
+  getWarks,
+  getDistricts,
+  UpdateInfo,
+  getMajor,
+  verifyCard,
+  getDataChart,
+  feedback
+
 };

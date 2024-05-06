@@ -21,10 +21,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/app/components/ui/form";
-import { Input } from "@/app/components/ui/input";
+import { Input } from "antd";
 import { Button } from "@/app/components/ui/button";
 import Link from "next/link";
-import { Textarea } from "@/app/components/ui/textarea";
+// import { Textarea } from "@/app/components/ui/textarea";
 import Upload from "@/app/components/themes/Upload";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { freelancerServices } from "@/app/services/freelancer.services";
@@ -32,6 +32,9 @@ import { commonServices } from "@/app/services/common.services";
 import { AuthContext } from "@/app/providers/AuthProvider";
 import { DetailClientPost } from "@/app/types/client.types";
 import { toast } from "@/app/components/ui/use-toast";
+import { useRouter } from "next/navigation";
+
+const Textarea = Input.TextArea;
 
 const signUpFormSchema = yup.object({
   attachmentUrl: yup.mixed().nullable(),
@@ -50,6 +53,10 @@ interface ISignUpForm {
 const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
   const user = useContext(AuthContext);
   const [loading, setLoading] = useState<boolean>(false);
+  const checkUserHaveApllied = job?.applied?.find(
+    (item) => item.freelancer_id.toString() === user.user?.id.toString()
+  );
+
   const form = useForm({
     resolver: yupResolver(signUpFormSchema),
     defaultValues: {
@@ -57,6 +64,8 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
       coverLetter: "",
     },
   });
+
+  const router = useRouter();
 
   const sendNotification = async (data: any) => {
     try {
@@ -92,7 +101,7 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
       setLoading(true);
       const dataApplyJob = {
         ...data,
-        proposal: 0,
+        // proposal: 0,
         jobId: job.id,
       };
       const res = await freelancerServices.applyJob({
@@ -103,7 +112,7 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
         sendNotification({
           title: `Có 1 ứng viên mới đã ứng tuyển công việc ${job.title} của bạn`,
           message: `Ứng viên ${user.user?.username} đã ứng tuyển công việc ${job.title} của bạn`,
-          linkable: `/freelancer/info-contract/${job.id}`,
+          linkable: `/client/post/${job.id}`,
           smail: 1,
           imagefile: null,
           user_type: "client", //type cua nguoi nhan
@@ -117,6 +126,7 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
           ),
           duration: 3000,
         });
+        router.push("/freelancer/dashboard");
       } else {
         toast({
           title: "Thất bại",
@@ -183,19 +193,32 @@ const FormApplyJob: React.FC<ISignUpForm> = ({ handleApplyJob, job }) => {
                 </FormItem>
               )}
             />
-            
-            <div className="flex justify-center items-center gap-x-1 mt-20">
-              <Button
-                disabled={loading}
-                className="block bg-[#108a00] hover:bg-[#14a800]"
-                type="submit"
-              >
-                {loading && (
-                  <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
-                )}
-                Gửi thông tin ứng tuyển
-              </Button>
-            </div>
+            {checkUserHaveApllied ? (
+              <div className="flex justify-center items-center gap-x-1 mt-20">
+                <Button
+                  disabled={true}
+                  className="block bg-[#108a00] hover:bg-[#14a800]"
+                >
+                  {loading && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+                  )}
+                  Bạn đã ứng tuyển công việc này
+                </Button>
+              </div>
+            ) : (
+              <div className="flex justify-center items-center gap-x-1 mt-20">
+                <Button
+                  disabled={loading}
+                  className="block bg-[#108a00] hover:bg-[#14a800]"
+                  type="submit"
+                >
+                  {loading && (
+                    <ReloadIcon className="mr-2 h-4 w-4 animate-spin inline-flex" />
+                  )}
+                  Gửi thông tin ứng tuyển
+                </Button>
+              </div>
+            )}
           </form>
         </Form>
       </div>

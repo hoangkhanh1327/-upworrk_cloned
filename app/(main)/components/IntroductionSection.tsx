@@ -15,7 +15,7 @@ const Introduction = () => {
                         </div>
                     </div>
                     <div className='col-start-7 col-end-12'>
-                        <h2 className='text-[40px] mb-4 -tracking-[1px] leading-10 font-medium'>{`Up your work game, it’s easy`}</h2>
+                        <h2 className='text-[40px] mb-4 -tracking-[1px] leading-10 font-medium'>{`Đăng việc trên ITWORKS`}</h2>
                         <div className='mb-6 flex items-centers'>
                             <div className='mr-4 inline-flex w-6 h-6'>
                                 <svg
@@ -45,11 +45,10 @@ const Introduction = () => {
                             </div>
                             <div>
                                 <h5 className='mb-0 text-xl tracking-[.4px] break-words font-medium'>
-                                    No cost to join
+                                    Hoàn toàn không tốn phí
                                 </h5>
                                 <p className='mt-1 text-sm mb-0'>
-                                    Register and browse professionals, explore
-                                    projects, or even book a consultation.
+                                    Đăng kí tài khoản với trình duyệt của bạn,
                                 </p>
                             </div>
                         </div>
@@ -84,11 +83,10 @@ const Introduction = () => {
                             </div>
                             <div>
                                 <h5 className='mb-0 text-xl tracking-[.4px] break-words font-medium'>
-                                    Post a job and hire top talent
+                                    Đăng bài để tìm kiếm tài năng
                                 </h5>
                                 <p className='mt-1 text-sm mb-0'>
-                                    Finding talent doesn’t have to be a chore.
-                                    Post a job or we can search for you!
+                                    Lựa chọn người phù hợp để hoàn thành công việc của bạn.
                                 </p>
                             </div>
                         </div>
@@ -123,11 +121,10 @@ const Introduction = () => {
                             </div>
                             <div>
                                 <h5 className='mb-0 text-xl tracking-[.4px] break-words font-medium'>
-                                    Work with the best—without breaking the bank
+                                    IT Work tự động hóa quy trình giao dịch
                                 </h5>
                                 <p className='mt-1 text-sm mb-0'>
-                                    ITWork makes it affordable to up your work
-                                    and take advantage of low transaction rates.
+                                    Sử dụng SmartContract đảm bảo tính minh bạch và niềm tin giữa tất cả các bên liên quan.
                                 </p>
                             </div>
                         </div>

@@ -15,4 +15,10 @@ export const menuData : Menu[] = [
         key: 'security',
         description: ''
     }
+    ,
+    {
+        title: 'Thống kê',
+        key: 'statics',
+        description: ''
+    }
 ] 

@@ -20,13 +20,13 @@ import { commonServices } from "@/app/services/common.services";
 import { AuthContext } from "@/app/providers/AuthProvider";
 import { FreelancerInfo } from "@/app/types/authentication.types";
 import JobItem from "@/app/freelancer/my-job/components/AppliedJobs/JobItem";
-import { Select } from "@/app/components/ui/select";
 import { clientServices } from "@/app/services/client.services";
 import { ClientPostList } from "@/app/types/client.types";
 import { isEmpty } from "lodash";
 import { Skeleton } from "@/app/components/ui/skeleton";
 import { useToast } from "@/app/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { Select } from "antd";
 
 interface ICreateInvite {
   freelancer: FreelancerInfo;
@@ -47,7 +47,7 @@ const InviteFreelancerForm = ({ freelancer, onClose }: ICreateInvite) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [posts, setPosts] = useState<ClientPostList>([]);
   const [isGettingPosts, setIsGettingPosts] = useState<boolean>(false);
-  const [idJob, setIdJob] = useState<number>(posts[0]?.id || 0);
+  const [idJob, setIdJob] = useState<number | string>(posts[0]?.id || 0);
   const { toast } = useToast();
   useEffect(() => {
     const fecthPosts = async (data: any) => {
@@ -83,7 +83,11 @@ const InviteFreelancerForm = ({ freelancer, onClose }: ICreateInvite) => {
     setIdJob(Number(postId));
     // ...
   };
-  
+
+  // const handleChangeJob = (value: string) => {
+  //   setIdJob?.(value);
+  // };
+
   const sendNotification = async (data: any) => {
     try {
       // setIsGettingPosts(true);
@@ -104,13 +108,13 @@ const InviteFreelancerForm = ({ freelancer, onClose }: ICreateInvite) => {
       job_id: idJob,
       freelancer_id: freelancer.id,
       mail_invite: data.mail_invite,
-    }
+    };
     const res = await clientServices.sendInviteWorkToFreelancer(dataSubmit);
     try {
       setLoading(true);
       if (res.status === 200) {
         sendNotification({
-          title:  `Lời mời làm việc từ ${user?.username} 😍`,
+          title: `Lời mời làm việc từ ${user?.username} 😍`,
           message: data.mail_invite,
           linkable: `/job/${idJob}`,
           smail: 1,
@@ -197,6 +201,20 @@ const InviteFreelancerForm = ({ freelancer, onClose }: ICreateInvite) => {
                   ))
                 )}
               </select>
+              {/* {isGettingPosts ? (
+                <Skeleton className="h-8" />
+              ) : (
+                <Select
+                  size="large"
+                  placeholder="Công việc"
+                  onChange={handleChangeJob}
+                  // style={{ width: 280 }}
+                  options={posts.map((post) => ({
+                    label: post.title,
+                    value: post.id,
+                  }))}
+                />
+              )} */}
             </div>
             <div className="grid grid-cols-1 gap-x-1">
               <FormField

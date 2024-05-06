@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm, SubmitHandler, SubmitErrorHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Textarea } from "@/app/components/ui/textarea";
+// import { Textarea } from "@/app/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -12,22 +12,21 @@ import {
   FormLabel,
   FormMessage,
 } from "@/app/components/ui/form";
-import { Input } from "@/app/components/ui/input";
+import { Input } from "antd";
 import { Button } from "@/app/components/ui/button";
-import { useAddress, useMetamask, useContract } from "@thirdweb-dev/react";
+import { useContract } from "@thirdweb-dev/react";
 import { useStateContext } from "@/context";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { commonServices } from "@/app/services/common.services";
 import { AuthContext } from "@/app/providers/AuthProvider";
-import { Applied } from "@/app/types/client.types";
-import SignaturePad from "@/app/freelancer/info-contract/[job_id]/SignaturePad";
-import { appConfig } from "@/app/configs/app.config";
+import { Nominee } from "@/app/types/client.types";
 import { clientServices } from "@/app/services/client.services";
 import PolicyViews from "./PolicyViews";
-import { Button as ButtonAnt, Checkbox, CheckboxProps, Modal } from "antd";
+import { Button as ButtonAnt, Checkbox, Modal } from "antd";
 import SignaturePadSimple from "./SignaturePad";
 import InputOtp from "./InputOtp";
 // import Link from "next/link";
+const Textarea = Input.TextArea;
 
 const CreateFormContractSchema = yup.object({
   title: yup.string().required(""),
@@ -44,7 +43,7 @@ interface ICreateFormContract {
   handleCreateAccount: (data: SignUpSubmitValue) => void;
 }
 interface ICreateContract {
-  infoApply: Applied;
+  nominee: Nominee;
 }
 const inputContainerStyle = {
   display: "inline-block",
@@ -64,7 +63,7 @@ const inputStyle = {
   outline: "none",
 };
 
-const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
+const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
   const [loading, setLoading] = useState(false);
   const user = useContext(AuthContext);
   const [contractFile, setContractFile] = useState(null);
@@ -113,7 +112,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
     }
   };
 
-  console.log("infoAppli", infoApply);
+  console.log("infoAppli", nominee);
 
   useEffect(() => {
     if (imgSignature) {
@@ -145,8 +144,8 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
           data.description,
           imgSignature,
           data.bids,
-          infoApply.job_id,
-          infoApply.freelancer_id,
+          nominee.job_id,
+          nominee.freelancer_id,
           user.user?.id,
         ]);
 
@@ -157,14 +156,14 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
             data.description,
             imgSignature,
             data.bids,
-            infoApply.job_id,
-            infoApply.freelancer_id,
+            nominee.job_id,
+            nominee.freelancer_id,
             user.user?.id,
           ],
           { value: data.bids.toString() }
         );
         // gọi cho bên kia biết là chấp nhận freelancer này.
-        clientServices.confirmJob(infoApply.id);
+        clientServices.confirmJob(nominee.id);
         setLoading(false);
         console.log(
           "responseContract",
@@ -172,8 +171,8 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
           data.description,
           imgSignature,
           data.bids,
-          infoApply.job_id,
-          infoApply.freelancer_id,
+          nominee.job_id,
+          nominee.freelancer_id,
           user.user?.id
         );
         //send notification
@@ -181,11 +180,11 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
         sendNotification({
           title: `Create contract ${data.title} success`,
           message: `${data.description}`,
-          linkable: `info-contract/${infoApply.job_id}`,
+          linkable: `/info-contract/${nominee.job_id}`,
           smail: 1,
           imagefile: null,
           user_type: "freelancer",
-          user_id: infoApply.freelancer_id,
+          user_id: nominee.freelancer_id,
         });
       } catch (err) {
         console.error("contract call failure", err);
@@ -203,11 +202,6 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
   return (
     <>
       <div className="">
-        {/* <div className="my-6">
-          <h1 className="text-4xl -tracking-[1px] font-medium text-center">
-            Điền thông tin hợp đồng
-          </h1>
-        </div> */}
         <Form {...form}>
           <form className="" onSubmit={form.handleSubmit(onSubmit, onError)}>
             <div className="grid grid-cols-2 gap-x-2">
@@ -219,6 +213,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
                     <FormLabel>Title</FormLabel>
                     <FormControl>
                       <Input
+                        size="large"
                         className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
                         placeholder="Title"
                         {...field}
@@ -236,6 +231,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ infoApply }) => {
                     <FormLabel>Số bids</FormLabel>
                     <FormControl>
                       <Input
+                        size="large"
                         type="number"
                         className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
                         placeholder="bids"

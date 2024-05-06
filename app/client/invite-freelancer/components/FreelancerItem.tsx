@@ -2,11 +2,12 @@
 import { Button } from "@/app/components/ui/button";
 import { Skeleton } from "@/app/components/ui/skeleton";
 import { FreelancerInfo } from "@/app/types/authentication.types";
-import { FileIcon } from "lucide-react";
+
 import Link from "next/link";
 import React from "react";
 import { format, compareAsc } from "date-fns";
 import InviteFreelancerDialog from "./dialog/InviteFreelancerDialog";
+import Image from "next/image";
 
 interface IFreelancerItem {
   freelancer: FreelancerInfo;
@@ -26,22 +27,24 @@ const FreelancerItem = ({ freelancer }: IFreelancerItem) => {
           <div className="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <div className="flex items-center content-center">
               <div className="mr-4">
-                <img
+                <Image
                   src={
-                    freelancer.avatar_url
-                      ? freelancer.avatar_url.toString()
+                    freelancer?.avatar_url
+                      ? freelancer?.avatar_url.toString()
                       : "/images/others/unknown_avatar.png"
                   }
                   alt="avatar"
                   className="w-[150px] h-[150px] rounded-full"
+                  width={150}
+                  height={150}
                 />
               </div>
               <div>
                 <p className="mb-3 font-bold text-gray-500 dark:text-gray-400">
-                  {freelancer.username}
+                  {freelancer?.username}
                 </p>
                 <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
-                  {freelancer.email || "Chưa cập nhật email"}
+                  {freelancer?.email || "Chưa cập nhật email"}
                 </p>
                 <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
                   {freelancer.phone_num || "Chưa cập nhật số điện thoại"}
@@ -56,7 +59,12 @@ const FreelancerItem = ({ freelancer }: IFreelancerItem) => {
               </p>
               <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
                 <strong>Ngày sinh: </strong>
-                <span>{format(freelancer.date_of_birth, "dd/MM/yyyy")}</span>
+
+                <span>
+                  {" "}
+                  {freelancer?.date_of_birth &&
+                    format(freelancer.date_of_birth, "dd/MM/yyyy")}
+                </span>
               </p>
               <p className="mb-3 font-normal text-gray-500 dark:text-gray-400">
                 <strong>Địa chỉ: </strong>

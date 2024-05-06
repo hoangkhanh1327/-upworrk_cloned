@@ -17,6 +17,7 @@ interface IAuthContext {
   logout: () => void;
   setUser?: (data: ClientInfo | FreelancerInfo) => void;
   loading: boolean;
+  reLoadData?: any;
 }
 
 interface IAuthProvider {
@@ -170,6 +171,16 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
     }
   };
 
+  const reLoadData = async (user_type:string) => {
+    if (user_type === "client") {
+      const { data } = await loginServices.getUserInfo();
+      setUser(data);
+    } else if (user_type === "freelancer") {
+      const { data } = await loginServices.getFreelancerInfo();
+      setUser(data);
+    }
+  }
+
   const logout = () => {
     Cookies.remove("token");
     setUser(null);
@@ -186,6 +197,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
         logout,
         isAuthenticated: !!user,
         setUser,
+        reLoadData
       }}
     >
       {children}

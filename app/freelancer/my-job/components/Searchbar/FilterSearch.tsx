@@ -1,32 +1,16 @@
 import _ from 'lodash';
 import { Input } from '@/app/components/ui/input';
 import { Search } from 'lucide-react';
-import React, { useContext } from 'react';
-import {
-    SearchBarContext,
-    statusOpts,
-} from '../../context/MyJobSearchBarContext';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from '@/app/components/ui/select';
+import React, {  useContext } from 'react';
+import { SearchBarContext } from '../../context/MyJobSearchBarContext';
+import { Button } from 'antd';
 
-interface IFilterSearch {}
-
-const FilterSearch: React.FC<IFilterSearch> = ({}) => {
-    const { searchText, setSearchText, status, setStatus } =
-        useContext(SearchBarContext);
+const FilterSearch = () => {
+    const { searchText, setSearchText } = useContext(SearchBarContext);
 
     const setSearchDebounce = _.debounce((value) => {
         setSearchText?.(value);
     }, 1500);
-
-    const handleSelectStatus = (value: string) => {
-        setStatus?.(value);
-    };
 
     return (
         <div className='flex items-center relative py-6'>
@@ -46,26 +30,7 @@ const FilterSearch: React.FC<IFilterSearch> = ({}) => {
                     }}
                 />
             </label>
-            <div className='ml-3'>
-                <Select
-                    value={status}
-                    onValueChange={(value) => handleSelectStatus(value)}
-                >
-                    <SelectTrigger className='w-[250px] outline-none'>
-                        <SelectValue placeholder='Chọn trạng thái công việc' />
-                    </SelectTrigger>
-                    <SelectContent className='outline-none'>
-                        {statusOpts.map((opt) => (
-                            <SelectItem
-                                key={`status-option-${opt.value}`}
-                                value={opt.value?.toString()}
-                            >
-                                {opt.label}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
+            <Button size='large' className='bg-primary-foreground ml-4'> Tìm kiếm</Button>
         </div>
     );
 };

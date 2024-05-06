@@ -34,7 +34,7 @@ const LoginFormStep2: React.FC<ILoginFormStep2> = ({
                             autoFocus
                             ref={passwordRef}
                             type='password'
-                            className='w-full !border-0 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 '
+                            className='w-full !border-1 focus-visible:!ring-transparent focus-visible:!ring-offset-0 pl-12 pr-4 !py-2 '
                             onKeyDown={(e) => {
                                 if (e.key === 'Enter' || e.keyCode === 13) {
                                     passwordRef.current?.value &&

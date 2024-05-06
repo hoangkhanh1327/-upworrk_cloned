@@ -23,9 +23,9 @@ const FreelancerDashboardLayout = ({
                             : 'col-span-6'
                     )}
                 >
-                    <div className='mb-6'>
+                    {/* <div className='mb-6'>
                         <SubNav />
-                    </div>
+                    </div> */}
                     {children}
                 </div>
                 {pathname === '/freelancer/my-job' && (

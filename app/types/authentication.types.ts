@@ -34,6 +34,8 @@ export interface ClientInfo {
     created_at?: string;
     updated_at?: string;
     is_completed_profile: number | string;
+    intro?: string;
+    avatar?: File;
 }
 
 export interface FreelancerInfo {
@@ -77,6 +79,7 @@ export type BaseInfo = {
     expected_salary?: number | string;
     first_name: string;
     intro?: string;
+    introduce?: string;
     last_name: string;
     phone_num: string;
     position?: string;
@@ -99,12 +102,12 @@ export type Job = {
     min_proposals: string | number;
     status_apply: string;
     thumbnail: string;
-    title:  string;
+    title: string;
     updated_at: string;
 };
 
 export type FreelancerPreviewInfo = {
-    base_info: BaseInfo,
-    experience: Experience[]
-    job: Job[]
-}
+    base_info: BaseInfo;
+    experience: Experience[];
+    job: Job[];
+};

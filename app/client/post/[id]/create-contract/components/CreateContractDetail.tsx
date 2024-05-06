@@ -20,8 +20,7 @@ const CreateContractDetail = ({ postId }: ICreateContract) => {
     </>
   ) : (
       <section>
-        {post&&post?.applied[0]? <CreateFormContract infoApply={post?.applied[0]} />:<></>}
-     
+        {post&&post?.nominee? <CreateFormContract nominee={post?.nominee} />:<></>}
     </section>
   );
 };

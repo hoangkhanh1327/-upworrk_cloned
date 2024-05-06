@@ -11,6 +11,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/app/components/ui/form";
+import { Editor } from "@tinymce/tinymce-react";
 import { Input } from "@/app/components/ui/input";
 import { CreatePostContext } from "../../context/CreatePostContext";
 import { Textarea } from "@/app/components/ui/textarea";
@@ -65,8 +66,15 @@ const createPostSchema = yup.object({
     .required("Vui lòng chọn ít nhất 1 skill"),
 });
 
+interface SkillSubmit {
+  skill_id: number;
+  point: number;
+  name: string;
+}
+
 interface ICreatePostData {
   deadline: string;
+  skill: SkillSubmit[];
 }
 
 const FormCreateContainer = () => {
@@ -108,10 +116,18 @@ const FormCreateContainer = () => {
   };
 
   const handleCreatePost = async (data: ICreatePostData) => {
+    console.log("data", data);
+    const skilla: any[] = [];
+    (data.skill as SkillSubmit[]).forEach((s) => {
+      skilla.push(s.skill_id);
+    });
+    debugger;
+    console.log("skill", skilla.toString());
     try {
       setLoading(true);
       const res = await clientServices.createPost({
         ...data,
+        skill: skilla.toString(),
         deadline: format(data.deadline, "yyyy-MM-dd"),
       });
       if (res.status === 200) {
@@ -184,7 +200,35 @@ const FormCreateContainer = () => {
                         Viết mô tả ngắn cho công việc của bạn!
                       </FormLabel>
                       <FormControl>
-                        <Textarea rows={10} {...field} />
+                        {/* <Textarea rows={10} {...field} /> */}
+                        <Editor
+                          apiKey="fzcxmrnujn12zebeylcj8ku45qb2el9jt6zgbk37w0nlc36q"
+                          init={{
+                            plugins:
+                              "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown",
+                            toolbar:
+                              "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
+                            tinycomments_mode: "embedded",
+                            tinycomments_author: "Author name",
+                            // mergetags_list: [
+                            //   { value: "First.Name", title: "First Name" },
+                            //   { value: "Email", title: "Email" },
+                            // ],
+                            ai_request: (request: any, respondWith: any) =>
+                              respondWith.string(() =>
+                                Promise.reject(
+                                  "See docs to implement AI Assistant"
+                                )
+                              ),
+                          }}
+                          //initialValue="Nhập thông tin giới thiệu về bạn! Nội dung này sẽ được hiển thị trên trang cá nhân của bạn."
+                          // onEditorChange={(content: string) =>
+                          //   form.setFieldsValue({ desc: content })
+                          // }
+                          onEditorChange={(content: string) => {
+                            form.setValue("desc", content);
+                          }}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -343,7 +387,35 @@ const FormCreateContainer = () => {
                     <FormItem className="mb-6">
                       <FormLabel>Nội dung công việc</FormLabel>
                       <FormControl>
-                        <Textarea rows={10} {...field} />
+                        {/* <Textarea rows={10} {...field} /> */}
+                           <Editor
+                          apiKey="fzcxmrnujn12zebeylcj8ku45qb2el9jt6zgbk37w0nlc36q"
+                          init={{
+                            plugins:
+                              "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown",
+                            toolbar:
+                              "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat",
+                            tinycomments_mode: "embedded",
+                            tinycomments_author: "Author name",
+                            // mergetags_list: [
+                            //   { value: "First.Name", title: "First Name" },
+                            //   { value: "Email", title: "Email" },
+                            // ],
+                            ai_request: (request: any, respondWith: any) =>
+                              respondWith.string(() =>
+                                Promise.reject(
+                                  "See docs to implement AI Assistant"
+                                )
+                              ),
+                          }}
+                          //initialValue="Nhập thông tin giới thiệu về bạn! Nội dung này sẽ được hiển thị trên trang cá nhân của bạn."
+                          // onEditorChange={(content: string) =>
+                          //   form.setFieldsValue({ desc: content })
+                          // }
+                          onEditorChange={(content: string) => {
+                            form.setValue("content", content);
+                          }}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
