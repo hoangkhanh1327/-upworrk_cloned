@@ -26,6 +26,7 @@ import PolicyViews from "../../components/PolicyViews";
 import SignaturePadSimple from "../../components/SignaturePad";
 import constants from "@/app/utils/constants";
 import InputOtp from "../../components/InputOtp";
+import { appConfig } from "@/app/configs/app.config";
 // import Link from "next/link";
 const Textarea = Input.TextArea;
 
@@ -65,7 +66,7 @@ const CancelFormContract: React.FC<ICancelContract> = ({ nominee }) => {
     setChecked(e.target.checked);
   };
 
-  const { contract } = useContract(constants.ADDRESS_META_MASK);
+  const { contract } = useContract(appConfig.contractId);
   const { address, connect } = useStateContext();
   const form = useForm({
     resolver: yupResolver(CancelFormContractSchema),

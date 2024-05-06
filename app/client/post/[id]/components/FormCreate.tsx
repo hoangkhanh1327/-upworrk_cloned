@@ -25,6 +25,7 @@ import PolicyViews from "./PolicyViews";
 import { Button as ButtonAnt, Checkbox, Modal } from "antd";
 import SignaturePadSimple from "./SignaturePad";
 import InputOtp from "./InputOtp";
+import { appConfig } from "@/app/configs/app.config";
 // import Link from "next/link";
 const Textarea = Input.TextArea;
 
@@ -82,9 +83,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
     setChecked(e.target.checked);
   };
 
-  const { contract } = useContract(
-    "0x141F9921217A5e6f0f34341077d831482db29d00"
-  );
+  const { contract } = useContract(appConfig.contractId);
   const { address, connect } = useStateContext();
   console.log("address", address);
   const form = useForm({

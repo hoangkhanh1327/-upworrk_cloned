@@ -1,7 +1,10 @@
+import { appConfig } from '@/app/configs/app.config';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const BannerSection = () => {
+    console.log(appConfig.contractId);
+    
     return (
         <section className='mt-10 mb-20'>
             <div className='container'>
