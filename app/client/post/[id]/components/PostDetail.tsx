@@ -25,9 +25,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
   const [post, setPost] = useState<DetailClientPost | null>(null);
   const [reload, setReload] = useState(false);
   const [isSignContract, setIsSignContract] = useState(false);
-  const { contract } = useContract(
-    "0x12C33E9f080907dfF4BFaE4A841f4F2cA7E975eD"
-  );
+  const { contract } = useContract(appConfig.contractId);
   useEffect(() => {
     const fetchPostData = async (postId: string) => {
       setLoading(true);
@@ -251,7 +249,7 @@ const PostDetail: React.FC<IPostDetail> = ({ postId }) => {
                         >
                           <Link
                             target="_blank"
-                            href={`/client/show-freelancer-info/${post.nominee?.freelancer_id}`}
+                            href={`/show-detail-info/freelancer/${post.nominee?.freelancer_id}`}
                           >
                             Xem thông tin chi tiết
                           </Link>

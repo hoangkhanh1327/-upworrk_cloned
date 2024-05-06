@@ -5,5 +5,5 @@ interface IAppConfig {
 
 export const appConfig: IAppConfig = {
     apiUrl: process.env.NEXT_PUBLIC_APP_API_URL || '',
-    contractId:process.env.ID_CONTRACT||'',
+    contractId:process.env.NEXT_PUBLIC_APP_ID_CONTRACT||'',
 }  

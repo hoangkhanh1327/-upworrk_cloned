@@ -12,20 +12,22 @@ import {
   FormLabel,
   FormMessage,
 } from "@/app/components/ui/form";
-import { Input } from "antd";
+import { Input, Spin } from "antd";
 import { Button } from "@/app/components/ui/button";
 import { useContract } from "@thirdweb-dev/react";
 import { useStateContext } from "@/context";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { commonServices } from "@/app/services/common.services";
 import { AuthContext } from "@/app/providers/AuthProvider";
-import { Nominee } from "@/app/types/client.types";
+import { DetailClientPost, Nominee } from "@/app/types/client.types";
 import { clientServices } from "@/app/services/client.services";
 import PolicyViews from "./PolicyViews";
 import { Button as ButtonAnt, Checkbox, Modal } from "antd";
 import SignaturePadSimple from "./SignaturePad";
 import InputOtp from "./InputOtp";
 import { appConfig } from "@/app/configs/app.config";
+import { NotificationContext } from "@/app/providers/NotificationProvider";
+import { useRouter } from "next/navigation";
 // import Link from "next/link";
 const Textarea = Input.TextArea;
 
@@ -44,7 +46,7 @@ interface ICreateFormContract {
   handleCreateAccount: (data: SignUpSubmitValue) => void;
 }
 interface ICreateContract {
-  nominee: Nominee;
+  postDetail: DetailClientPost;
 }
 const inputContainerStyle = {
   display: "inline-block",
@@ -64,7 +66,7 @@ const inputStyle = {
   outline: "none",
 };
 
-const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
+const CreateFormContract: React.FC<ICreateContract> = ({ postDetail }) => {
   const [loading, setLoading] = useState(false);
   const user = useContext(AuthContext);
   const [contractFile, setContractFile] = useState(null);
@@ -72,7 +74,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
   const [acceptedPolicy, setAcceptedPolicy] = useState<boolean>(false);
   const [checked, setChecked] = useState(false);
   const [disabledPolicy, setDisabledPolicy] = useState(true);
-  4;
+  const nominee = postDetail.nominee;
   const [verify, setVerify] = useState(false);
 
   const toggleChecked = () => {
@@ -85,17 +87,34 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
 
   const { contract } = useContract(appConfig.contractId);
   const { address, connect } = useStateContext();
+  const { openNotificationWithIcon } = useContext(NotificationContext);
   console.log("address", address);
   const form = useForm({
     resolver: yupResolver(CreateFormContractSchema),
     defaultValues: {
-      title: "",
+      title: postDetail.title,
       description: "",
       // deadline: new Date(),
-      bids: 0,
+      bids: postDetail.bids,
       // signature: "",
     },
   });
+  const router = useRouter();
+  useEffect(() => {
+    
+    const checkData = async () => {
+      setLoading(true);
+      const data = await contract?.call("getJobInfoByCurrentJobId", [postDetail.id]);
+      setLoading(false);
+      if (data != undefined) { 
+        openNotificationWithIcon('warning',"Hợp đồng đã được tạo","Hợp đồng này đã được tạo. Vui lòng thao tác lại.")
+        router.push(`/client/post/${postDetail.id}`);
+      }
+    }
+   // checkData();
+    
+  },[])
+  
 
   const sendNotification = async (data: any) => {
     try {
@@ -111,7 +130,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
     }
   };
 
-  console.log("infoAppli", nominee);
+  console.log("infoAppli", postDetail);
 
   useEffect(() => {
     if (imgSignature) {
@@ -143,8 +162,8 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
           data.description,
           imgSignature,
           data.bids,
-          nominee.job_id,
-          nominee.freelancer_id,
+          nominee?.job_id,
+          nominee?.freelancer_id,
           user.user?.id,
         ]);
 
@@ -155,14 +174,16 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
             data.description,
             imgSignature,
             data.bids,
-            nominee.job_id,
-            nominee.freelancer_id,
+            nominee?.job_id,
+            nominee?.freelancer_id,
             user.user?.id,
           ],
           { value: data.bids.toString() }
         );
+        console.log("->", appConfig, responseContract);
+
         // gọi cho bên kia biết là chấp nhận freelancer này.
-        clientServices.confirmJob(nominee.id);
+        //clientServices.confirmJob(nominee.id);
         setLoading(false);
         console.log(
           "responseContract",
@@ -170,8 +191,8 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
           data.description,
           imgSignature,
           data.bids,
-          nominee.job_id,
-          nominee.freelancer_id,
+          nominee?.job_id,
+          nominee?.freelancer_id,
           user.user?.id
         );
         //send notification
@@ -179,14 +200,18 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
         sendNotification({
           title: `Create contract ${data.title} success`,
           message: `${data.description}`,
-          linkable: `/info-contract/${nominee.job_id}`,
+          linkable: `/info-contract/${nominee?.job_id}`,
           smail: 1,
           imagefile: null,
           user_type: "freelancer",
-          user_id: nominee.freelancer_id,
+          user_id: nominee?.freelancer_id,
         });
+        openNotificationWithIcon("success", "Thành công", "Giao dịch thành công");
+        router.push(`/client/post/${postDetail.id}`);
       } catch (err) {
+        openNotificationWithIcon("error", "Thất bại", "Có lỗi khi thực hiện vui lòng thao tác lại.");
         console.error("contract call failure", err);
+        router.push(`/client/post/${postDetail.id}`);
       }
     } else {
       connect();
@@ -200,6 +225,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
 
   return (
     <>
+      {loading && <Spin fullscreen></Spin>}
       <div className="">
         <Form {...form}>
           <form className="" onSubmit={form.handleSubmit(onSubmit, onError)}>
@@ -230,6 +256,7 @@ const CreateFormContract: React.FC<ICreateContract> = ({ nominee }) => {
                     <FormLabel>Số bids</FormLabel>
                     <FormControl>
                       <Input
+                        disabled
                         size="large"
                         type="number"
                         className="border-2 border-solid border-[#e4ebe4] text-[#001e00] text-sm leading-[22px]  no-underline"
