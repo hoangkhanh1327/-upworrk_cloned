@@ -182,7 +182,7 @@ const FormCreateContainer = () => {
                   name="title"
                   render={({ field }) => (
                     <FormItem className="mb-6">
-                      <FormLabel>Write a title for your job post</FormLabel>
+                      <FormLabel>Tiêu đề công việc của bạn</FormLabel>
                       <FormControl>
                         <Input {...field} />
                       </FormControl>
