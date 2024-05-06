@@ -108,7 +108,7 @@ const FormCreateContainer = () => {
   const skills = form.watch("skill");
   const fileThumbnail = form.watch("thumbnail");
 
-  const onSubmit: SubmitHandler<ICreatePostData> = (data) =>
+  const onSubmit: SubmitHandler<any> = (data) =>
     handleCreatePost(data);
 
   const onError: SubmitErrorHandler<ICreatePostData> = (errors) => {
@@ -121,7 +121,6 @@ const FormCreateContainer = () => {
     (data.skill as SkillSubmit[]).forEach((s) => {
       skilla.push(s.skill_id);
     });
-    debugger;
     console.log("skill", skilla.toString());
     try {
       setLoading(true);
