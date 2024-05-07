@@ -16,6 +16,7 @@ import InputOtp from "@/app/client/post/[id]/components/InputOtp";
 import PolicyViews from "@/app/client/post/[id]/components/PolicyViews";
 import SignaturePadSimple from "@/app/client/post/[id]/components/SignaturePad";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { appConfig } from "@/app/configs/app.config";
 interface IContractDetail {
   params: {
     job_id: string;
@@ -42,9 +43,7 @@ const ContractDetail: React.FC<IContractDetail> = ({ params }) => {
   const { address, connect } = useStateContext();
   const [reload, setReload] = useState(false);
 
-  const { contract } = useContract(
-    "0x141F9921217A5e6f0f34341077d831482db29d00"
-  );
+  const { contract } = useContract(appConfig.contractId);
   const [contractFile, setContractFile] = useState<string | null>(null);
   const [imgSignature, setImgSignature] = useState<string | null>(null);
   type NotificationType = "success" | "info" | "warning" | "error";

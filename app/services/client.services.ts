@@ -121,6 +121,10 @@ const confirmStatus = async (params: ConfirmStatusRequest) => {
     }
   );
 };
+const recruitConfirm = async (id: number) => {
+  return ApiService.post<CommonResponse>(`/client/job/${id}/recruit-confirm`);
+}
+
 
 export const clientServices = {
   getPosts,
@@ -132,5 +136,6 @@ export const clientServices = {
   getListFreeLancer,
   sendInviteWorkToFreelancer,
   confirmStatus,
-  getDetailInfo
+  getDetailInfo,
+  recruitConfirm
 };

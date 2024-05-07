@@ -1,26 +1,28 @@
+import { appConfig } from '@/app/configs/app.config';
 import Image from 'next/image';
 import Link from 'next/link';
 
 const BannerSection = () => {
+    console.log(appConfig.contractId);
+    
     return (
         <section className='mt-10 mb-20'>
             <div className='container'>
                 <div className='grid grid-cols-12 gap-x-8'>
                     <div className='col-start-1 col-end-6'>
-                        <h1 className='text-[80px] leading-[80px] text-[#0cc0df] font-medium mb-3 -tracking-[2px] font-rza '>
-                            <span>How work should work</span>
+                        <h1 className='text-[40px] leading-[80px] text-[#0cc0df] font-medium mb-3 -tracking-[2px] font-rza '>
+                            <span>ITWORKS ỨNG DỤNG TÌM VIỆC CÔNG NGHỆ THÔNG TIN </span>
                         </h1>
                         <p className='text-[22px] leading-8 tracking-[.24px] text-[#5e6d55] mb-8 font-medium'>
-                            Forget the old rules. You can have the best people.
+                        IT Work cho phép người dùng dễ dàng duyệt và đăng bài viết tuyển dụng công việc, tạo điều kiện kết nối mượt mà giữa nhà tuyển dụng và freelancer.
                             <br />
-                            Right now. Right here.
                         </p>
                         <div>
                             <Link
                                 href={`#`}
                                 className='inline-block bg-[#108a00] hover:bg-[#108a00]/80  rounded-[10rem] px-6 text-base text-white leading-[calc(40px_-_1px)]'
                             >
-                                Get started
+                                Tạo tài khoản ngay
                             </Link>
                         </div>
                     </div>
@@ -28,23 +30,23 @@ const BannerSection = () => {
                         <Image
                             fill
                             alt='banner'
-                            src={`https://res.cloudinary.com/ITWork-cloud-acquisition-prod/image/upload/c_scale,w_440,h_300,f_auto,q_auto,dpr_2.0/brontes/hero/searching-talent@2x.png`}
+                            src={`https://timviecits.id.vn/storage/banner.webp`}
                         />
                     </div>
                 </div>
                 <div className='mt-[70px]'>
                     <p className='mb-3 text-[#9aaa97] text-base tracking-[.6px]'>
-                        Trusted by
+                        Đáng tin tưởng với <span>smart contract</span>
                     </p>
-                    <div className='grid grid-cols-12 gap-x-8'>
-                        <div className='relative h-10'>
+                    <div className='grid grid-cols-6 gap-x-2'>
+                        <div className='relative h-40'>
                             <Image
                                 alt='microsoft'
                                 fill
-                                src={`images/microsoft.svg`}
+                                src={`https://timviecits.id.vn/storage/tincay.png`}
                             />
                         </div>
-                        <div className='relative h-10'>
+                        {/* <div className='relative h-10'>
                             <Image
                                 alt='microsoft'
                                 fill
@@ -57,7 +59,7 @@ const BannerSection = () => {
                                 fill
                                 src={`images/bissell.svg`}
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
