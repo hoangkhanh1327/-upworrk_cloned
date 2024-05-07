@@ -1,20 +1,20 @@
 "use client";
 
-import { useAuth } from "@/app/providers/AuthProvider";
+import { Menu } from "@/app/(protected)/profile/configs/menuData";
 import { cn } from "@/lib/utils";
-import { useContext } from "react";
-import { Menu } from "../../configs/menuData";
-import { ProfileContext } from "../../context/ProfileContext";
+import { useRouter } from "next/navigation";
+import { useAdminMenu } from "../context/MenuContext";
 
-const SideMenu = ({ Menu }: { Menu: Menu[] }) => {
-  const { menu, setMenu } = useContext(ProfileContext);
-  const { user } = useAuth();
+interface AdminMenuProps {
+  Menu: Menu[];
+}
+
+function AdminMenu({ Menu }: AdminMenuProps) {
+  const { menu, setSelectedMenu } = useAdminMenu();
+
   return (
     <aside>
-      <h3 className='line-clamp-1 block text-ellipsis text-5xl font-medium mb-6 text-black'>
-        Cài đặt
-      </h3>
-      <div>
+      <div className='mt-4'>
         <ul className='relative p-0 m-0 mb-2 list-none block'>
           {Menu.map((menuItem, index) => {
             return (
@@ -26,7 +26,9 @@ const SideMenu = ({ Menu }: { Menu: Menu[] }) => {
                       ? "text-black"
                       : "text-primary-color before:top-1 before:h-[calc(100%_-_8px)] before:bg-primary-color"
                   )}
-                  onClick={() => setMenu?.(menuItem.key)}
+                  onClick={() => {
+                    setSelectedMenu(menuItem.key);
+                  }}
                 >
                   {menuItem.title}
                 </span>
@@ -37,6 +39,5 @@ const SideMenu = ({ Menu }: { Menu: Menu[] }) => {
       </div>
     </aside>
   );
-};
-
-export default SideMenu;
+}
+export default AdminMenu;

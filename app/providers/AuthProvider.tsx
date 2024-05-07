@@ -105,7 +105,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
         toast({
           title: "Thành công",
           description: "Đăng nhập thành công",
-        //   type: "success",
+          //   type: "success",
           className: cn(
             "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 text-white bg-green-500"
           ),
@@ -145,10 +145,12 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
           } else {
             router.push("/freelancer/dashboard");
           }
+        } else {
+          router.push("/admin");
         }
         setLoading(false);
       }
-    } else if(res.result === -1) {
+    } else if (res.result === -1) {
       toast({
         title: "Thất bại",
         description: res.message,
@@ -159,19 +161,19 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
       });
       setLoading(false);
     } else {
-        toast({
-            title: "Thất bại",
-            description: "Đăng nhập thất bại",
-            className: cn(
-            "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 text-white bg-red-500"
-            ),
-            duration: 2000,
-        });
-        setLoading(false);
+      toast({
+        title: "Thất bại",
+        description: "Đăng nhập thất bại",
+        className: cn(
+          "top-0 right-0 flex fixed md:max-w-[420px] md:top-4 md:right-4 text-white bg-red-500"
+        ),
+        duration: 2000,
+      });
+      setLoading(false);
     }
   };
 
-  const reLoadData = async (user_type:string) => {
+  const reLoadData = async (user_type: string) => {
     if (user_type === "client") {
       const { data } = await loginServices.getUserInfo();
       setUser(data);
@@ -179,7 +181,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
       const { data } = await loginServices.getFreelancerInfo();
       setUser(data);
     }
-  }
+  };
 
   const logout = () => {
     Cookies.remove("token");
@@ -197,7 +199,7 @@ const AuthProvider: FC<IAuthProvider> = ({ children }) => {
         logout,
         isAuthenticated: !!user,
         setUser,
-        reLoadData
+        reLoadData,
       }}
     >
       {children}
